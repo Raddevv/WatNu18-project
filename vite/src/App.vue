@@ -295,10 +295,10 @@ body {
 /* Hero Section */
 .hero {
   background: 
-    radial-gradient(ellipse at 20% 50%, rgba(155, 89, 182, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(52, 152, 219, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(237, 33, 124, 0.2) 0%, transparent 50%),
-    linear-gradient(135deg, #0f0015 0%, #1a0033 25%, #2C0735 50%, #1a001f 75%, #0d0013 100%);
+    radial-gradient(ellipse at 20% 50%, rgba(30, 100, 180, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(15, 150, 180, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(255, 122, 89, 0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #07111D 0%, #0D1B2A 25%, #0F1F3F 50%, #0A1524 75%, #050E1A 100%);
   color: #F6F4F3;
   padding: 6rem 2rem 2rem;
   text-align: center;
@@ -319,9 +319,9 @@ body {
   right: 0;
   height: 50%;
   background: 
-    radial-gradient(ellipse 600px 400px at 15% 30%, rgba(155, 89, 182, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse 500px 350px at 85% 20%, rgba(52, 152, 219, 0.25) 0%, transparent 50%),
-    radial-gradient(ellipse 450px 300px at 50% 50%, rgba(237, 33, 124, 0.15) 0%, transparent 50%);
+    radial-gradient(ellipse 600px 400px at 15% 30%, rgba(30, 100, 180, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 500px 350px at 85% 20%, rgba(15, 150, 180, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 450px 300px at 50% 50%, rgba(255, 122, 89, 0.1) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
@@ -411,32 +411,32 @@ body {
 }
 
 .watnu-text {
-  -webkit-text-stroke: 2px #ED217C;
+  -webkit-text-stroke: 2px #FF7A59;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  filter: drop-shadow(0 0 8px rgba(237, 33, 124, 0.3))
-          drop-shadow(0 0 16px rgba(237, 33, 124, 0.15));
+  filter: drop-shadow(0 0 8px rgba(255, 122, 89, 0.3))
+          drop-shadow(0 0 16px rgba(255, 122, 89, 0.15));
   animation: glow 3s ease-in-out infinite;
 }
 
 .number-18 {
-  background: linear-gradient(135deg, #ED217C 0%, #DC143C 100%);
+  background: linear-gradient(135deg, #FF7A59 0%, #FF6B42 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.3))
-          drop-shadow(0 0 16px rgba(237, 33, 124, 0.15));
+  filter: drop-shadow(0 0 8px rgba(255, 107, 66, 0.3))
+          drop-shadow(0 0 16px rgba(255, 122, 89, 0.15));
   animation: glow 3s ease-in-out infinite;
 }
 
 @keyframes glow {
   0%, 100% {
-    filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.3))
-            drop-shadow(0 0 16px rgba(237, 33, 124, 0.15));
+    filter: drop-shadow(0 0 8px rgba(255, 107, 66, 0.3))
+            drop-shadow(0 0 16px rgba(255, 122, 89, 0.15));
   }
   50% {
-    filter: drop-shadow(0 0 12px rgba(220, 20, 60, 0.4))
-            drop-shadow(0 0 24px rgba(237, 33, 124, 0.2));
+    filter: drop-shadow(0 0 12px rgba(255, 107, 66, 0.4))
+            drop-shadow(0 0 24px rgba(255, 122, 89, 0.2));
   }
 }
 
@@ -468,23 +468,23 @@ body {
 }
 
 .cta-btn {
-  background: linear-gradient(135deg, #ED217C 0%, #DC143C 100%);
+  background: linear-gradient(135deg, #FF7A59 0%, #FF6B42 100%);
   color: #F6F4F3;
-  border: 2px solid #ED217C;
+  border: 2px solid #FF7A59;
   padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(237, 33, 124, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 122, 89, 0.4);
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(220, 20, 60, 0.5);
+  box-shadow: 0 6px 25px rgba(255, 107, 66, 0.5);
   border-color: #F6F4F3;
-  background: linear-gradient(135deg, #DC143C 0%, #ED217C 100%);
+  background: linear-gradient(135deg, #FF6B42 0%, #FF7A59 100%);
 }
 
 /* Features Section */
@@ -511,9 +511,9 @@ body {
 
 /* Left Vertical Menu */
 .features-menu-vertical {
-  background: linear-gradient(180deg, #fff 0%, #fcf8fb 100%);
-  border-left: 5px solid #ED217C;
-  border-right: 1px solid rgba(237, 33, 124, 0.15);
+  background: linear-gradient(180deg, #fff 0%, #f8fbfc 100%);
+  border-left: 5px solid #FF7A59;
+  border-right: 1px solid rgba(255, 122, 89, 0.15);
   padding: 1rem 0;
 }
 
@@ -521,7 +521,7 @@ body {
   width: 100%;
   border: none;
   background: transparent;
-  color: #2C0735;
+  color: #0F1F3F;
   text-align: left;
   padding: 0.95rem 1.2rem;
   font-size: 0.95rem;
@@ -543,15 +543,15 @@ body {
 .feature-tab-vertical:nth-child(6) { animation-delay: 0.3s; }
 
 .feature-tab-vertical:hover {
-  background-color: rgba(237, 33, 124, 0.08);
-  border-left-color: #ED217C;
+  background-color: rgba(255, 122, 89, 0.08);
+  border-left-color: #FF7A59;
   transform: translateX(4px);
 }
 
 .feature-tab-vertical.active {
-  background: linear-gradient(90deg, rgba(237, 33, 124, 0.16), rgba(237, 33, 124, 0.05));
-  color: #DC143C;
-  border-left-color: #DC143C;
+  background: linear-gradient(90deg, rgba(255, 122, 89, 0.16), rgba(255, 122, 89, 0.05));
+  color: #FF6B42;
+  border-left-color: #FF6B42;
 }
 
 .feature-tab-vertical .feature-icon {
@@ -574,7 +574,7 @@ body {
 }
 
 .feature-detail h2 {
-  color: #DC143C;
+  color: #FF6B42;
   font-size: 2rem;
   margin: 0 0 1.5rem 0;
   font-weight: 700;
@@ -597,10 +597,10 @@ body {
   margin: 3rem auto;
   padding: 3.5rem 2.5rem;
   text-align: center;
-  background: linear-gradient(135deg, white 0%, rgba(246, 244, 243, 0.5) 100%);
+  background: linear-gradient(135deg, white 0%, rgba(248, 251, 252, 0.5) 100%);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid #ED217C;
+  border-left: 5px solid #FF7A59;
   animation: slideInFromBottom 0.8s ease;
   position: relative;
   overflow: hidden;
@@ -614,13 +614,13 @@ body {
   right: -50%;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(237, 33, 124, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 122, 89, 0.1) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
 
 .info-section h2 {
-  color: #DC143C;
+  color: #FF6B42;
   font-size: 2.2rem;
   margin-bottom: 1.5rem;
   font-weight: 700;
@@ -751,9 +751,9 @@ body {
   }
 
   .features-menu-vertical {
-    border-left: 4px solid #ED217C;
+    border-left: 4px solid #FF7A59;
     border-right: none;
-    border-bottom: 1px solid rgba(237, 33, 124, 0.2);
+    border-bottom: 1px solid rgba(255, 122, 89, 0.2);
     padding: 0.4rem 0;
   }
 

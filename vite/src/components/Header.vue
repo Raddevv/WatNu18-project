@@ -51,13 +51,13 @@
 
 <style scoped>
 .header {
-  background: linear-gradient(135deg, rgba(44, 7, 53, 0.95) 0%, rgba(26, 0, 33, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(15, 31, 63, 0.95) 0%, rgba(13, 27, 42, 0.98) 100%);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(237, 33, 124, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 122, 89, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 2px solid rgba(237, 33, 124, 0.3);
+  border-bottom: 2px solid rgba(255, 122, 89, 0.3);
 }
 
 .header-container {
@@ -83,12 +83,12 @@
 .logo-lines {
   width: 40px;
   height: 40px;
-  stroke: #ED217C;
+  stroke: #FF7A59;
   transition: all 0.3s ease;
 }
 
 .logo-lines:hover {
-  filter: drop-shadow(0 0 8px rgba(237, 33, 124, 0.5));
+  filter: drop-shadow(0 0 8px rgba(255, 122, 89, 0.5));
 }
 
 .logo-placeholder {
@@ -96,16 +96,16 @@
   font-size: 2rem;
   font-weight: bold;
   padding: 0.5rem 0.75rem;
-  background-color: rgba(237, 33, 124, 0.2);
+  background-color: rgba(255, 122, 89, 0.2);
   border-radius: 6px;
-  border: 2px solid #ED217C;
+  border: 2px solid #FF7A59;
   letter-spacing: 1px;
   transition: all 0.3s ease;
 }
 
 .logo-placeholder:hover {
-  background-color: rgba(237, 33, 124, 0.3);
-  box-shadow: 0 0 10px rgba(237, 33, 124, 0.4);
+  background-color: rgba(255, 122, 89, 0.3);
+  box-shadow: 0 0 10px rgba(255, 122, 89, 0.4);
 }
 
 .logo-image {
@@ -122,13 +122,13 @@
 }
 
 .header-title {
-  color: #cfb2b2;
+  color: #E8D4C0;
   text-indent: 12px;
   font-size: 2rem;
   font-weight: bold;
   margin: 0;
   letter-spacing: 2px;
-  text-shadow: 0 2px 10px rgba(237, 33, 124, 0.3);
+  text-shadow: 0 2px 10px rgba(255, 122, 89, 0.3);
 }
 
 /* Navigation sectie - aan de rechterkant */
@@ -145,10 +145,10 @@
 }
 
 .features-btn {
-  background-color: rgba(237, 33, 124, 0.2);
+  background-color: rgba(255, 122, 89, 0.2);
   color: #F6F4F3;
   padding: 0.75rem 1rem;
-  border: 2px solid #ED217C;
+  border: 2px solid #FF7A59;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2rem;
@@ -161,9 +161,9 @@
 }
 
 .features-btn:hover {
-  background-color: rgba(237, 33, 124, 0.3);
+  background-color: rgba(255, 122, 89, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
+  box-shadow: 0 4px 8px rgba(255, 122, 89, 0.4);
   border-color: #F6F4F3;
 }
 
@@ -181,7 +181,7 @@
   border-radius: 8px;
   margin-top: 0.5rem;
   overflow: hidden;
-  border: 2px solid #ED217C;
+  border: 2px solid #FF7A59;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -209,7 +209,7 @@
 }
 
 .features-dropdown a {
-  color: #2C0735;
+  color: #0F1F3F;
   padding: 1rem 1.5rem;
   text-decoration: none;
   display: block;
@@ -219,10 +219,10 @@
 }
 
 .features-dropdown a:hover {
-  background-color: rgba(237, 33, 124, 0.1);
-  border-left-color: #ED217C;
+  background-color: rgba(255, 122, 89, 0.1);
+  border-left-color: #FF7A59;
   padding-left: 2rem;
-  color: #ED217C;
+  color: #FF7A59;
 }
 
 /* Home button */
@@ -232,8 +232,8 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  background-color: rgba(237, 33, 124, 0.2);
-  border: 2px solid #ED217C;
+  background-color: rgba(255, 122, 89, 0.2);
+  border: 2px solid #FF7A59;
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
@@ -242,9 +242,9 @@
 }
 
 .home-btn:hover {
-  background-color: rgba(237, 33, 124, 0.3);
+  background-color: rgba(255, 122, 89, 0.3);
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
+  box-shadow: 0 4px 8px rgba(255, 122, 89, 0.4);
   border-color: #F6F4F3;
 }
 

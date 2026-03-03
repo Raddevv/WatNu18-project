@@ -68,11 +68,11 @@
 
 <style scoped>
 .footer {
-  background: linear-gradient(135deg, #2C0735 0%, #1a0420 100%);
+  background: linear-gradient(135deg, #0F1F3F 0%, #0A1524 100%);
   color: #F6F4F3;
   margin-top: 4rem;
   padding: 3rem 2rem 1rem;
-  border-top: 3px solid #ED217C;
+  border-top: 3px solid #FF7A59;
 }
 
 .footer-container {
@@ -92,7 +92,7 @@
 }
 
 .footer-section h3 {
-  color: #ED217C;
+  color: #FF7A59;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -121,7 +121,7 @@
 }
 
 .footer-section a:hover {
-  color: #ED217C;
+  color: #FF7A59;
   text-decoration: underline;
 }
 
@@ -138,10 +138,10 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(237, 33, 124, 0.1);
-  border: 2px solid #ED217C;
+  background-color: rgba(255, 122, 89, 0.1);
+  border: 2px solid #FF7A59;
   border-radius: 50%;
-  color: #ED217C;
+  color: #FF7A59;
   text-decoration: none;
   transition: all 0.3s ease;
   font-weight: bold;
@@ -149,10 +149,10 @@
 }
 
 .social-btn:hover {
-  background-color: #ED217C;
+  background-color: #FF7A59;
   color: #F6F4F3;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
+  box-shadow: 0 4px 8px rgba(255, 122, 89, 0.4);
 }
 
 /* Footer Divider */
@@ -191,7 +191,7 @@
 }
 
 .footer-links a:hover {
-  color: #ED217C;
+  color: #FF7A59;
 }
 
 .divider {
