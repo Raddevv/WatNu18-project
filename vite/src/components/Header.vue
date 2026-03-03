@@ -3,6 +3,7 @@
     <div class="header-container">
       <div class="logo-section">
         <div class="logo">
+<<<<<<< Updated upstream
           <svg class="logo-lines" viewBox="0 0 60 60" width="40" height="40">
             <path d="M 10 28 L 30 12 L 50 28 Z" fill="none" stroke="#00D9A3" stroke-width="2" stroke-linejoin="round"/>
             <circle cx="30" cy="12" r="3" fill="#00D9A3"/>
@@ -12,6 +13,9 @@
             <ellipse cx="30" cy="48" rx="8" ry="2" fill="none" stroke="#00D9A3" stroke-width="1.5"/>
             <text x="30" y="37" text-anchor="middle" font-size="8" fill="#00D9A3" font-weight="bold">$</text>
           </svg>
+=======
+          <img class="logo-image" src="../assets/img/plc.svg" alt="Watnu logo" />
+>>>>>>> Stashed changes
         </div>
       </div>
 
@@ -75,6 +79,13 @@
   flex: 0 0 auto;
 }
 
+.logo-image {
+  height: 50px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -115,14 +126,17 @@
   object-fit: contain;
 }
 
-/* Titel in het midden */
 .title-section {
   flex: 1;
   text-align: center;
 }
 
 .header-title {
+<<<<<<< Updated upstream
   color: #8bbe9d;
+=======
+  color: #E8D4C0;
+>>>>>>> Stashed changes
   text-indent: 12px;
   font-size: 2rem;
   font-weight: bold;
@@ -131,7 +145,6 @@
   text-shadow: 0 2px 10px rgba(0, 217, 163, 0.3);
 }
 
-/* Navigation sectie - aan de rechterkant */
 .nav-section {
   display: flex;
   align-items: center;
@@ -209,7 +222,11 @@
 }
 
 .features-dropdown a {
+<<<<<<< Updated upstream
   color: #0F1F3F;
+=======
+  color: #0D3B2F;
+>>>>>>> Stashed changes
   padding: 1rem 1.5rem;
   text-decoration: none;
   display: block;
