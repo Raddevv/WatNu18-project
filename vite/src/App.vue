@@ -20,14 +20,13 @@
 
       <section class="features">
         <div class="features-wrapper animate-on-scroll">
-          <!-- Left vertical menu -->
           <div class="features-menu-vertical">
             <button 
               class="feature-tab-vertical" 
               :class="{ active: selectedFeature === 0 }"
               @click="selectedFeature = 0"
             >
-              <span class="feature-icon">💰</span>
+              <span class="feature-icon">€</span>
               <span class="feature-name">Studiefinanciering</span>
             </button>
 
@@ -63,7 +62,7 @@
               :class="{ active: selectedFeature === 4 }"
               @click="selectedFeature = 4"
             >
-              <span class="feature-icon">❓</span>
+              <span class="feature-icon">¡</span>
               <span class="feature-name">FAQ</span>
             </button>
 

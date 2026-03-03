@@ -1,32 +1,25 @@
 <template>
   <header class="header">
     <div class="header-container">
-      <!-- Logo aan de linkerkant - SVG lijntjes -->
       <div class="logo-section">
         <div class="logo">
-          <svg class="logo-lines" viewBox="0 0 50 50" width="40" height="40">
-            <!-- Bolvormige top (lamp) -->
-            <circle cx="25" cy="18" r="12" fill="none" stroke="#ED217C" stroke-width="1.5"/>
-            <!-- Gloeidraad -->
-            <path d="M 20 18 Q 25 25 20 30" fill="none" stroke="#ED217C" stroke-width="1"/>
-            <!-- Fitting -->
-            <rect x="22" y="30" width="6" height="8" fill="none" stroke="#ED217C" stroke-width="1.5"/>
-            <!-- Schroefdraad -->
-            <line x1="20" y1="32" x2="30" y2="32" stroke="#ED217C" stroke-width="1"/>
-            <line x1="19" y1="34" x2="31" y2="34" stroke="#ED217C" stroke-width="1"/>
-            <line x1="20" y1="36" x2="30" y2="36" stroke="#ED217C" stroke-width="1"/>
+          <svg class="logo-lines" viewBox="0 0 60 60" width="40" height="40">
+            <path d="M 10 28 L 30 12 L 50 28 Z" fill="none" stroke="#ED217C" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="30" cy="12" r="3" fill="#ED217C"/>
+            <line x1="30" y1="15" x2="30" y2="24" stroke="#ED217C" stroke-width="1.5" stroke-dasharray="2,2"/>
+            <ellipse cx="30" cy="35" rx="10" ry="2.5" fill="none" stroke="#ED217C" stroke-width="1.5"/>
+            <ellipse cx="30" cy="42" rx="9" ry="2.2" fill="none" stroke="#ED217C" stroke-width="1.5"/>
+            <ellipse cx="30" cy="48" rx="8" ry="2" fill="none" stroke="#ED217C" stroke-width="1.5"/>
+            <text x="30" y="37" text-anchor="middle" font-size="8" fill="#ED217C" font-weight="bold">$</text>
           </svg>
         </div>
       </div>
 
-      <!-- Watnu titel in het midden -->
       <div class="title-section">
-        <h1 class="header-title">Watnu</h1>
+        <h1 class="header-title">placeholdertext</h1>
       </div>
 
-      <!-- Navigation aan de rechterkant -->
       <div class="nav-section">
-        <!-- Expandable menu voor features -->
         <div class="features-menu">
           <button class="features-btn" title="Alle onderdelen">
             <span class="features-icon">📚</span>
@@ -42,7 +35,6 @@
           </div>
         </div>
 
-        <!-- Home button - House icon made of lines -->
         <router-link to="/" class="home-btn" title="Terug naar home">
           <svg class="home-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -78,7 +70,6 @@
   gap: 1rem;
 }
 
-/* Logo sectie - meer naar links */
 .logo-section {
   flex-shrink: 0;
   flex: 0 0 auto;
@@ -131,7 +122,8 @@
 }
 
 .header-title {
-  color: #F6F4F3;
+  color: #cfb2b2;
+  text-indent: 12px;
   font-size: 2rem;
   font-weight: bold;
   margin: 0;
