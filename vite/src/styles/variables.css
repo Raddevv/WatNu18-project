@@ -1,0 +1,150 @@
+/*WatNu18 css color root*/
+
+:root {
+  --color-primary: #2c2c2c;
+  --color-primary-dark: #1f1f1f; 
+  --color-primary-light: #3c3c3c;  
+  --color-primary-lighter: #696969;   
+
+  --color-accent: #29d1ac;    
+  --color-accent-dark: #1693a0;       
+  --color-accent-light: #32bea0;   
+  --color-accent-lighter: #2cac91;
+
+  --color-accent-warm: #f97316;       
+  --color-accent-warm-dark: #ea580c;  
+  --color-accent-warm-light: #fed7aa; 
+
+  --color-success: #1e9972;           
+  --color-success-dark: #0e6311;    
+  --color-success-light: #d4ebda;    
+  
+  --color-warning: #d23838;            
+  --color-warning-dark: #a02929;      
+  --color-warning-light: #efe1e1;   
+  
+  --color-error: #dc2626;          
+  --color-error-dark: #b91c1c;     
+  --color-error-light: #fee2e2;     
+
+  --color-white: rgb(236, 241, 239);
+  --color-black: #000000;
+  
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  --font-family-base: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  --font-family-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.15);
+  
+  --shadow-focus: 0 0 0 3px rgba(30, 64, 175, 0.15); 
+
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  --transition-slowest: 500ms ease;
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 50;
+  --z-fixed: 1000;
+  --z-modal: 1200;
+  --z-tooltip: 1300;
+
+  /*  responsive breakpoints */
+  /* 640px, 768px, 1024px, 1280px */
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-primary-light {
+  background-color: var(--color-primary-lighter);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-success {
+  background-color: var(--color-success);
+}
+
+.rounded-md {
+  border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+  border-radius: var(--radius-lg);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}

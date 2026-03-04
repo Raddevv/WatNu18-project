@@ -3,20 +3,12 @@
     <div class="header-container">
       <div class="logo-section">
         <div class="logo">
-          <svg class="logo-lines" viewBox="0 0 60 60" width="40" height="40">
-            <path d="M 10 28 L 30 12 L 50 28 Z" fill="none" stroke="#ED217C" stroke-width="2" stroke-linejoin="round"/>
-            <circle cx="30" cy="12" r="3" fill="#ED217C"/>
-            <line x1="30" y1="15" x2="30" y2="24" stroke="#ED217C" stroke-width="1.5" stroke-dasharray="2,2"/>
-            <ellipse cx="30" cy="35" rx="10" ry="2.5" fill="none" stroke="#ED217C" stroke-width="1.5"/>
-            <ellipse cx="30" cy="42" rx="9" ry="2.2" fill="none" stroke="#ED217C" stroke-width="1.5"/>
-            <ellipse cx="30" cy="48" rx="8" ry="2" fill="none" stroke="#ED217C" stroke-width="1.5"/>
-            <text x="30" y="37" text-anchor="middle" font-size="8" fill="#ED217C" font-weight="bold">$</text>
-          </svg>
+          <image src="../assets/img/plc.svg" alt="Logo" class="logo-image" />
         </div>
       </div>
 
       <div class="title-section">
-        <h1 class="header-title">placeholdertext</h1>
+        <h1 class="header-title"></h1>
       </div>
 
       <div class="nav-section">
@@ -25,7 +17,7 @@
             <span class="features-icon">📚</span>
           </button>
           <div class="features-dropdown">
-            <a href="#about">Over Watnu</a>
+            <a href="#about">Over WatNu18</a>
             <a href="#studiefinancing">Studiefinanciering</a>
             <a href="#ov-kaart">OV-studentenkaart</a>
             <a href="#woonkosten">Woonkosten</a>
@@ -50,14 +42,17 @@
 </script>
 
 <style scoped>
+@import '../styles/variables.css';
+
 .header {
-  background: linear-gradient(135deg, rgba(44, 7, 53, 0.95) 0%, rgba(26, 0, 33, 0.98) 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(237, 33, 124, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 2px solid rgba(237, 33, 124, 0.3);
+  border-bottom: 3px solid var(--color-accent);
+  color: white;
 }
 
 .header-container {
@@ -83,29 +78,29 @@
 .logo-lines {
   width: 40px;
   height: 40px;
-  stroke: #ED217C;
+  stroke: var(--color-accent);
   transition: all 0.3s ease;
 }
 
 .logo-lines:hover {
-  filter: drop-shadow(0 0 8px rgba(237, 33, 124, 0.5));
+  filter: drop-shadow(0 0 8px rgba(8, 145, 178, 0.5));
 }
 
 .logo-placeholder {
-  color: #F6F4F3;
+  color: white;
   font-size: 2rem;
   font-weight: bold;
   padding: 0.5rem 0.75rem;
-  background-color: rgba(237, 33, 124, 0.2);
+  background-color: rgba(8, 145, 178, 0.2);
   border-radius: 6px;
-  border: 2px solid #ED217C;
+  border: 2px solid var(--color-accent);
   letter-spacing: 1px;
   transition: all 0.3s ease;
 }
 
 .logo-placeholder:hover {
-  background-color: rgba(237, 33, 124, 0.3);
-  box-shadow: 0 0 10px rgba(237, 33, 124, 0.4);
+  background-color: rgba(8, 145, 178, 0.3);
+  box-shadow: 0 0 10px rgba(8, 145, 178, 0.4);
 }
 
 .logo-image {
@@ -115,23 +110,21 @@
   object-fit: contain;
 }
 
-/* Titel in het midden */
 .title-section {
   flex: 1;
   text-align: center;
 }
 
 .header-title {
-  color: #cfb2b2;
+  color: rgba(255, 255, 255, 0.9);
   text-indent: 12px;
   font-size: 2rem;
   font-weight: bold;
   margin: 0;
   letter-spacing: 2px;
-  text-shadow: 0 2px 10px rgba(237, 33, 124, 0.3);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Navigation sectie - aan de rechterkant */
 .nav-section {
   display: flex;
   align-items: center;
@@ -139,16 +132,15 @@
   flex-shrink: 0;
 }
 
-/* Features menu */
 .features-menu {
   position: relative;
 }
 
 .features-btn {
-  background-color: rgba(237, 33, 124, 0.2);
-  color: #F6F4F3;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
   padding: 0.75rem 1rem;
-  border: 2px solid #ED217C;
+  border: 2px solid var(--color-accent);
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.2rem;
@@ -161,10 +153,11 @@
 }
 
 .features-btn:hover {
-  background-color: rgba(237, 33, 124, 0.3);
+  background-color: var(--color-accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
-  border-color: #F6F4F3;
+  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
+  border-color: white;
+  color: var(--color-primary);
 }
 
 .features-icon {
@@ -175,13 +168,13 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #F6F4F3;
+  background-color: white;
   min-width: 240px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin-top: 0.5rem;
   overflow: hidden;
-  border: 2px solid #ED217C;
+  border: 2px solid var(--color-accent);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -209,7 +202,7 @@
 }
 
 .features-dropdown a {
-  color: #2C0735;
+  color: var(--color-primary);
   padding: 1rem 1.5rem;
   text-decoration: none;
   display: block;
@@ -219,42 +212,41 @@
 }
 
 .features-dropdown a:hover {
-  background-color: rgba(237, 33, 124, 0.1);
-  border-left-color: #ED217C;
+  background-color: var(--color-primary-lighter);
+  border-left-color: var(--color-primary);
   padding-left: 2rem;
-  color: #ED217C;
+  color: var(--color-primary-dark);
 }
 
-/* Home button */
 .home-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 50px;
   height: 50px;
-  background-color: rgba(237, 33, 124, 0.2);
-  border: 2px solid #ED217C;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid white;
   border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s ease;
-  color: #F6F4F3;
+  color: white;
 }
 
 .home-btn:hover {
-  background-color: rgba(237, 33, 124, 0.3);
+  background-color: white;
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
-  border-color: #F6F4F3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: white;
+  color: var(--color-primary);
 }
 
 .home-icon {
   width: 24px;
   height: 24px;
-  stroke: #F6F4F3;
+  stroke: currentColor;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .header-container {
     padding: 0.5rem 1rem;
