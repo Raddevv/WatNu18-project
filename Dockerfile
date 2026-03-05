@@ -1,4 +1,4 @@
-FROM alpine:3.18
+FROM node:22-alpine
 RUN apk add --no-cache bash
 WORKDIR /workspace
 CMD ["/bin/sh"]
