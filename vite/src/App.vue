@@ -364,7 +364,7 @@ body {
   inset: 0;
   border-radius: var(--radius-full);
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: progressShine 2s linear infinite;
+  animation: progressShine 3.5s linear infinite;
 }
 
 @keyframes progressShine {
@@ -372,7 +372,7 @@ body {
     transform: translateX(-100%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(1000%);
   }
 }
 
