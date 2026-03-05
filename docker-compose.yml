@@ -1,0 +1,52 @@
+services:
+  # Vite dev server running in a Node container, non-default port 51730
+  vite:
+    image: node:22-alpine
+    container_name: watnu_vite
+    working_dir: /srv/vite
+    volumes:
+      - ./vite:/srv/vite:cached
+      - /srv/vite/node_modules
+    ports:
+      - "51730:51730"
+    command: sh -c "npm install --no-audit --no-fund --silent || true && npm run dev -- --host 0.0.0.0 --port 51730"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  # PHP-FPM application (example). Exposes non-default host port 9001 -> container 9000
+  app:
+    image: php:8.1-fpm
+    container_name: watnu_app
+    volumes:
+      - ./backend:/var/www/backend
+    ports:
+      - "9001:9000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=1
+
+  # Postgres DB on a non-standard host port 54320
+  db:
+    image: postgres:15
+    container_name: watnu_db
+    environment:
+      POSTGRES_USER: watnu
+      POSTGRES_PASSWORD: watnu_pass
+      POSTGRES_DB: watnu_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "54320:5432"
+
+  # Redis with non-default host port 16379
+  redis:
+    image: redis:7
+    container_name: watnu_redis
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  db_data:
+  redis_data:
