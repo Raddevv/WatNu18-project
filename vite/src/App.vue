@@ -474,7 +474,7 @@ body {
   background-color: var(--color-accent);
   background: linear-gradient(270deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
   color: white;
-  border: 2px solid var(--color-accent-light);
+  border: 2px solid transparent;
   border-radius: var(--radius-lg);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
@@ -585,27 +585,10 @@ body {
   overflow: hidden;
 }
 
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-accent), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
-}
-
 .feature-card:hover {
-  border-color: var(--color-accent);
-  box-shadow: 0 12px 32px rgba(41, 209, 172, 0.15);
+  border-color: var(--color-black);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   transform: translateY(-6px);
-}
-
-.feature-card:hover::before {
-  transform: scaleX(1);
 }
 
 .feature-card.completed {
@@ -614,25 +597,12 @@ body {
   position: relative;
 }
 
-.feature-card.completed::after {
+.feature-card.completed:after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--color-success), transparent);
-  border-radius: 0 12px 0;
-  animation: completedGlow 2s ease-in-out infinite;
-}
-
-@keyframes completedGlow {
-  0%, 100% {
-    box-shadow: inset -3px -3px 8px rgba(30, 153, 114, 0.2);
-  }
-  50% {
-    box-shadow: inset -3px -3px 12px rgba(30, 153, 114, 0.4);
-  }
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, transparent, rgba(30, 153, 114, 0.1), transparent);
 }
 
 .feature-header {
@@ -659,7 +629,7 @@ body {
 
 .feature-card:hover .feature-step {
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(41, 209, 172, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .feature-badge {
@@ -689,8 +659,8 @@ body {
 .feature-btn {
   width: 100%;
   padding: var(--spacing-md);
-  background-color: var(--color-primary-lighter);
-  color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-white);
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
@@ -701,30 +671,11 @@ body {
   overflow: hidden;
 }
 
-.feature-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: left var(--transition-base);
-}
-
 .feature-btn:hover {
-  background-color: var(--color-primary);
+  background-color: var(--color-black);
   color: white;
   box-shadow: 0 4px 16px rgba(44, 44, 44, 0.25);
 }
-
-.feature-btn:hover::after {
-  left: 100%;
-}
-
-/* ============================================================================
-   DETAILS SECTION (Expanded Content)
-   ============================================================================ */
 
 .details {
   background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-accent-lighter) 100%);
@@ -871,7 +822,6 @@ body {
   opacity: 0.6;
 }
 
-/* Quiz Result Feedback Styles */
 .quiz-result {
   margin-top: var(--spacing-lg);
   animation: slideUp 0.3s ease;
