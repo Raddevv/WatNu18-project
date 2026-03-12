@@ -1,15 +1,16 @@
 <template lang="html">
   <div id="app">
     <HeaderComponent/>
-    <HeroComponent/>
-    <FeaturesComponent/>
-    <FooterComponent/>
+<Hero />
+<Features />
+<Footer />
   </div>
 </template>
 
 <script>
-import HeaderComponent from './components/Header.vue';
-import HeroComponent from './components/Hero.vue';
-import FeaturesComponent from './components/Features.vue';
-import FooterComponent from './components/Footer.vue';
+import Header from './components/Header.vue';
+import Hero from './components/Hero.vue';
+import Features from './components/Features.vue';
+import Footer from './components/Footer.vue';
+
 </script>
