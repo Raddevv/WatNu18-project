@@ -75,13 +75,92 @@
 
       <section class="details" v-if="selectedFeature !== null">
         <div class="details-container">
-          <button class="close-btn" @click="selectedFeature = null">← Terug</button>
+          <button class="close-btn" @click="closeDetails">← Terug</button>
           
           <div class="details-content">
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
             
-            <div class="details-quiz" v-if="features[selectedFeature].quiz">
+            <div class="details-quiz" v-if="selectedFeature === 0">
+              <h3>Stap 1: Eerst de basischeck</h3>
+              <div class="quiz-question">
+                <p>{{ features[0].quiz.question }}</p>
+
+                <div class="quiz-options" v-if="!studyGateAttempted || !studyGateResult.isCorrect">
+                  <button
+                    class="quiz-option"
+                    v-for="(option, i) in features[0].quiz.options"
+                    :key="i"
+                    @click="submitStudyGateAnswer(i)"
+                    :class="{ selected: studyGateAnswer === i, disabled: studyGateAttempted }"
+                    :disabled="studyGateAttempted && !studyGateResult.isCorrect"
+                  >
+                    {{ option }}
+                  </button>
+                </div>
+
+                <div class="quiz-result" v-if="studyGateAttempted && studyGateResult">
+                  <div class="quiz-feedback" :class="studyGateResult.isCorrect ? 'correct' : 'incorrect'">
+                    <div class="feedback-icon">
+                      {{ studyGateResult.isCorrect ? '✓' : '✗' }}
+                    </div>
+                    <div class="feedback-text">
+                      <h4>{{ studyGateResult.isCorrect ? 'Correct beantwoord!' : 'Nog niet correct' }}</h4>
+                      <p>{{ studyGateResult.explanation }}</p>
+                    </div>
+                  </div>
+
+                  <button
+                    v-if="studyGateResult.isCorrect && !studyCalculatorStarted"
+                    class="quiz-action-btn continue"
+                    @click="startStudyCalculator"
+                  >
+                    Verder met berekening van jouw studiefinanciering
+                  </button>
+                  <button
+                    v-else-if="!studyGateResult.isCorrect"
+                    class="quiz-action-btn retry"
+                    @click="retryStudyGate"
+                  >
+                    Probeer opnieuw
+                  </button>
+                </div>
+              </div>
+
+              <div class="details-quiz study-calculator" v-if="studyCalculatorStarted">
+                <h3>Stap 2: Indicatieve berekening</h3>
+                <p class="study-intro">
+                  Dit is een schatting op basis van jouw antwoorden. Het eindbedrag van DUO kan afwijken.
+                </p>
+
+                <div class="study-question" v-for="question in studyQuestions" :key="question.id">
+                  <p class="study-question-title">{{ question.question }}</p>
+                  <div class="quiz-options">
+                    <button
+                      class="quiz-option"
+                      v-for="option in question.options"
+                      :key="option.value"
+                      @click="updateStudyAnswer(question.id, option.value)"
+                      :class="{ selected: studyAnswers[question.id] === option.value }"
+                    >
+                      {{ option.label }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="study-result" v-if="studyEstimate">
+                  <h4>Jouw geschatte maandbedrag</h4>
+                  <p class="study-range">
+                    {{ formatEuro(studyEstimate.min) }} - {{ formatEuro(studyEstimate.max) }}
+                  </p>
+                  <p class="study-note">
+                    Let op: deze berekening is indicatief en niet altijd 100% accuraat.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="details-quiz" v-else-if="features[selectedFeature].quiz">
               <h3>Controleer je kennis</h3>
               <div class="quiz-question">
                 <p>{{ features[selectedFeature].quiz.question }}</p>
@@ -161,6 +240,67 @@ const selectedFeature = ref(null)
 const currentQuizAnswer = ref(null)
 const quizResult = ref(null)
 const quizAttempted = ref(false)
+const studyGateAnswer = ref(null)
+const studyGateResult = ref(null)
+const studyGateAttempted = ref(false)
+const studyCalculatorStarted = ref(false)
+const studyAnswers = ref({
+  wonen: null,
+  opleiding: null,
+  aanvullend: null,
+  lening: null,
+  collegegeld: null
+})
+
+const studyQuestions = [
+  {
+    id: 'wonen',
+    question: 'Woon je thuis of uitwonend tijdens je studie?',
+    options: [
+      { value: 'thuis', label: 'Thuiswonend', amount: 140 },
+      { value: 'uitwonend', label: 'Uitwonend', amount: 360 }
+    ]
+  },
+  {
+    id: 'opleiding',
+    question: 'Volg je een mbo-bol opleiding?',
+    options: [
+      { value: 'mbo-bol', label: 'Ja, mbo-bol', amount: 130 },
+      { value: 'anders', label: 'Nee, bijvoorbeeld bbl', amount: 0 }
+    ]
+  },
+  {
+    id: 'aanvullend',
+    question: 'Verwacht je een aanvullende beurs?',
+    options: [
+      { value: 'ja', label: 'Ja, waarschijnlijk wel', amount: 230 },
+      { value: 'nee', label: 'Nee of ik weet het niet', amount: 0 }
+    ]
+  },
+  {
+    id: 'lening',
+    question: 'Wil je maandelijks lenen bij DUO?',
+    options: [
+      { value: 'geen', label: 'Nee, ik wil niet lenen', amount: 0 },
+      { value: 'klein', label: 'Ja, een klein bedrag', amount: 175 },
+      { value: 'groot', label: 'Ja, een groter bedrag', amount: 325 }
+    ]
+  },
+  {
+    id: 'collegegeld',
+    question: 'Wil je collegegeldkrediet aanvragen?',
+    options: [
+      { value: 'ja', label: 'Ja', amount: 190 },
+      { value: 'nee', label: 'Nee', amount: 0 }
+    ]
+  }
+]
+
+const euroFormatter = new Intl.NumberFormat('nl-NL', {
+  style: 'currency',
+  currency: 'EUR',
+  maximumFractionDigits: 0
+})
 
 const features = ref([
   {
@@ -230,10 +370,65 @@ const overallProgress = computed(() => {
   return Math.round((completedCount / features.value.length) * 100)
 })
 
+const studyEstimate = computed(() => {
+  const everyAnswerGiven = Object.values(studyAnswers.value).every(answer => answer !== null)
+  if (!everyAnswerGiven) return null
+
+  const total = studyQuestions.reduce((sum, question) => {
+    const selectedValue = studyAnswers.value[question.id]
+    const selectedOption = question.options.find(option => option.value === selectedValue)
+    return sum + (selectedOption?.amount || 0)
+  }, 0)
+
+  const center = Math.round(total / 10) * 10
+  return {
+    min: Math.max(0, center - 50),
+    max: center + 50
+  }
+})
+
 function selectFeature(index) {
   selectedFeature.value = selectedFeature.value === index ? null : index
   if (selectedFeature.value === null) {
     resetQuiz()
+    resetStudyFlow()
+  }
+}
+
+function closeDetails() {
+  selectedFeature.value = null
+  resetQuiz()
+  resetStudyFlow()
+}
+
+function submitStudyGateAnswer(answerIndex) {
+  const quiz = features.value[0].quiz
+  const isCorrect = answerIndex === quiz.correctAnswer
+
+  studyGateAnswer.value = answerIndex
+  studyGateAttempted.value = true
+  studyGateResult.value = {
+    isCorrect,
+    explanation: isCorrect
+      ? 'Top. Je kunt nu doorgaan met een indicatieve berekening.'
+      : quiz.explanation
+  }
+}
+
+function retryStudyGate() {
+  studyGateAnswer.value = null
+  studyGateResult.value = null
+  studyGateAttempted.value = false
+}
+
+function startStudyCalculator() {
+  studyCalculatorStarted.value = true
+}
+
+function updateStudyAnswer(questionId, answerValue) {
+  studyAnswers.value[questionId] = answerValue
+  if (studyEstimate.value) {
+    features.value[0].completed = true
   }
 }
 
@@ -263,6 +458,24 @@ function resetQuiz() {
 
 function retryQuiz() {
   resetQuiz()
+}
+
+function resetStudyFlow() {
+  studyGateAnswer.value = null
+  studyGateResult.value = null
+  studyGateAttempted.value = false
+  studyCalculatorStarted.value = false
+  studyAnswers.value = {
+    wonen: null,
+    opleiding: null,
+    aanvullend: null,
+    lening: null,
+    collegegeld: null
+  }
+}
+
+function formatEuro(amount) {
+  return euroFormatter.format(amount)
 }
 </script>
 
@@ -811,6 +1024,43 @@ body {
   margin-bottom: var(--spacing-lg);
 }
 
+.study-intro {
+  margin-bottom: var(--spacing-lg);
+}
+
+.study-question {
+  margin-bottom: var(--spacing-lg);
+}
+
+.study-question-title {
+  margin-bottom: var(--spacing-md);
+}
+
+.study-result {
+  margin-top: var(--spacing-xl);
+  background: white;
+  border: 2px solid var(--color-success);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+}
+
+.study-result h4 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.study-range {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success-dark);
+  margin-bottom: var(--spacing-sm);
+}
+
+.study-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
 .quiz-question p {
   font-size: var(--font-size-base);
   color: var(--color-gray-700);
@@ -965,10 +1215,25 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
+.quiz-action-btn.continue {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+.quiz-action-btn.continue:hover {
+  background-color: var(--color-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
 .quiz-action-btn.completed {
   background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
   color: white;
   cursor: default;
+}
+
+.study-calculator {
+  margin-top: var(--spacing-xl);
 }
 
 /* Responsive Quiz */
