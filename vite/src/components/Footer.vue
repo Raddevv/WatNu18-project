@@ -67,14 +67,12 @@
 </script>
 
 <style scoped>
-@import '../styles/variables.css';
-
 .footer {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: white;
+  background: linear-gradient(135deg, #2C0735 0%, #1a0420 100%);
+  color: #F6F4F3;
   margin-top: 4rem;
   padding: 3rem 2rem 1rem;
-  border-top: 3px solid var(--color-accent);
+  border-top: 3px solid #ED217C;
 }
 
 .footer-container {
@@ -94,7 +92,7 @@
 }
 
 .footer-section h3 {
-  color: var(--color-accent);
+  color: #ED217C;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -102,7 +100,7 @@
 
 .footer-section p {
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
+  color: #F6F4F3;
   font-size: 0.95rem;
   margin-bottom: 1rem;
 }
@@ -117,13 +115,13 @@
 }
 
 .footer-section a {
-  color: rgba(255, 255, 255, 0.9);
+  color: #F6F4F3;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .footer-section a:hover {
-  color: var(--color-accent);
+  color: #ED217C;
   text-decoration: underline;
 }
 
@@ -140,10 +138,10 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(8, 145, 178, 0.2);
-  border: 2px solid var(--color-accent);
+  background-color: rgba(237, 33, 124, 0.1);
+  border: 2px solid #ED217C;
   border-radius: 50%;
-  color: var(--color-accent);
+  color: #ED217C;
   text-decoration: none;
   transition: all 0.3s ease;
   font-weight: bold;
@@ -151,10 +149,10 @@
 }
 
 .social-btn:hover {
-  background-color: var(--color-accent);
-  color: white;
+  background-color: #ED217C;
+  color: #F6F4F3;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
+  box-shadow: 0 4px 8px rgba(237, 33, 124, 0.4);
 }
 
 /* Footer Divider */
@@ -172,7 +170,7 @@
 }
 
 .footer-bottom p {
-  color: rgba(255, 255, 255, 0.9);
+  color: #F6F4F3;
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -186,14 +184,14 @@
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.9);
+  color: #F6F4F3;
   font-size: 0.85rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: var(--color-accent);
+  color: #ED217C;
 }
 
 .divider {
