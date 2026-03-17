@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="logo-section">
         <div class="logo">
-          <image src="../assets/img/plc.svg" alt="Logo" class="logo-image" />
+          <image src="src/assets/img/... .svg" alt="LOGO" class="logo-image" />
         </div>
       </div>
 
@@ -14,7 +14,9 @@
       <div class="nav-section">
         <div class="features-menu">
           <button class="features-btn" title="Alle onderdelen">
-            <span class="features-icon">📚</span>
+            <span class="features-icon">
+              <image src="src/assets/img/bookicon.png" alt="Book Icon" />
+            </span>
           </button>
           <div class="features-dropdown">
             <a href="#about">Over WatNu18</a>
@@ -27,12 +29,11 @@
           </div>
         </div>
 
-        <router-link to="/" class="home-btn" title="Terug naar home">
-          <svg class="home-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-        </router-link>
+        <a href="/" class="home-btn" title="Terug naar home">
+          <span class="home-icon">
+            <image src="src/assets/img/hsicon.png" alt="Home Icon" />
+          </span>
+        </a>
       </div>
     </div>
   </header>
@@ -157,11 +158,13 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
   border-color: white;
-  color: var(--color-primary);
+  color: white;
 }
 
 .features-icon {
   font-size: 1.5rem;
+  rotate: 8deg;
+  scale: 0.1;
 }
 
 .features-dropdown {
@@ -169,6 +172,7 @@
   top: 100%;
   right: 0;
   background-color: white;
+  color: var(--color-primary);
   min-width: 240px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -212,10 +216,10 @@
 }
 
 .features-dropdown a:hover {
-  background-color: var(--color-primary-lighter);
-  border-left-color: var(--color-primary);
+  background-color: var(--color-primary);
+  border-left-color: var(--color-accent);
   padding-left: 2rem;
-  color: var(--color-primary-dark);
+  color: white;
 }
 
 .home-btn {
@@ -224,7 +228,7 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   border: 2px solid white;
   border-radius: 8px;
   cursor: pointer;
@@ -242,9 +246,9 @@
 }
 
 .home-icon {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
+  font-size: 1.5rem;
+  rotate: 8deg;
+  scale: 0.1;
 }
 
 @media (max-width: 768px) {

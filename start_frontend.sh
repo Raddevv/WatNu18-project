@@ -30,6 +30,7 @@ echo -e "${LIGHT_CYAN}>>> Pre-flight checks...${NC}"
 command -v docker >/dev/null || { echo -e "${RED}Docker not found${NC}"; exit 1; }
 [[ -f docker-compose.yml ]] || { echo -e "${RED}docker-compose.yml missing${NC}"; exit 1; }
 [[ -f Dockerfile ]] || { echo -e "${RED}Dockerfile missing${NC}"; exit 1; }
+[[ -f backend/.env ]] || { echo -e "${RED}backend/.env missing. Create it from backend/.env.example${NC}"; exit 1; }
 
 echo -e "${GREEN}>>> Pre-flight OK${NC}"
 
@@ -73,6 +74,7 @@ if $WATCH_MODE; then
 else
   echo -e "${GREEN}>>> Services starting...${NC}"
   echo -e "${CYAN}Vite (frontend): http://localhost:51730${NC}"
+  echo -e "${CYAN}Chatbot API (FastAPI): http://localhost:8000${NC}"
   echo -e "${CYAN}App (PHP-FPM): http://localhost:9001${NC}"
   echo -e "${CYAN}Postgres: localhost:54320${NC}"
   echo -e "${CYAN}Redis: localhost:16379${NC}"

@@ -130,17 +130,17 @@
         <h2>Waarom WatNu18?</h2>
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-icon">🎯</div>
+            <div class="info-icon"></div>
             <h3>Gericht</h3>
             <p>Speciaal gemaakt voor MBO-studenten. Geen overbodige informatie.</p>
           </div>
           <div class="info-card">
-            <div class="info-icon">✓</div>
+            <div class="info-icon"></div>
             <h3>Betrouwbaar</h3>
             <p>Alle informatie gebaseerd op officiële overheids- en organisatiedata.</p>
           </div>
           <div class="info-card">
-            <div class="info-icon">🚀</div>
+            <div class="info-icon"></div>
             <h3>Motiverend</h3>
             <p>Voltooi stappen, earn badges, voel je voorbereid.</p>
           </div>
@@ -149,12 +149,14 @@
     </main>
 
     <Footer />
+    <ChatWidget />
   </div>
 </template>
 
 <script setup>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import ChatWidget from './components/ChatWidget.vue'
 import { ref, computed } from 'vue'
 
 const selectedFeature = ref(null)
@@ -303,16 +305,16 @@ body {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
   padding: var(--spacing-2xl) var(--spacing-xl);
-  box-shadow: 0 8px 24px rgba(41, 209, 172, 0.15), var(--shadow-md);
+  box-shadow: 0 8px 24px var(--color-accent), var(--shadow-md);
   animation: bannerPulse 4s ease-in-out infinite;
 }
 
 @keyframes bannerPulse {
   0%, 100% {
-    box-shadow: 0 8px 24px rgba(41, 209, 172, 0.15), var(--shadow-md);
+    box-shadow: 0 8px 24px var(--color-accent-lighter), var(--shadow-md);
   }
   50% {
-    box-shadow: 0 8px 32px rgba(41, 209, 172, 0.25), var(--shadow-lg);
+    box-shadow: 0 8px 32px var(--color-accent-light), var(--shadow-lg);
   }
 }
 
@@ -354,7 +356,7 @@ body {
   background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
   border-radius: var(--radius-full);
   transition: width var(--transition-slowest);
-  box-shadow: 0 0 16px rgba(41, 209, 172, 0.4);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.4);
   position: relative;
 }
 
@@ -392,15 +394,15 @@ body {
   background-color: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(41, 209, 172, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   transition: all var(--transition-base);
 }
 
 .progress-item:hover {
-  background-color: rgba(41, 209, 172, 0.15);
+  background-color: rgba(57, 57, 57, 0.15);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(41, 209, 172, 0.2);
-  border-color: rgba(41, 209, 172, 0.4);
+  box-shadow: 0 4px 12px var(--color-primary);
+  border-color: var(--color-accent-dark);
 }
 
 .progress-item.done {
@@ -445,18 +447,6 @@ body {
   padding-bottom: var(--spacing-lg);
 }
 
-.hero-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-  border-radius: var(--radius-full);
-}
-
 .hero-subtitle {
   font-size: var(--font-size-lg);
   color: var(--color-gray-600);
@@ -472,15 +462,14 @@ body {
   display: inline-block;
   padding: var(--spacing-md) var(--spacing-2xl);
   background-color: var(--color-accent);
-  background: linear-gradient(270deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
   color: white;
-  border: 2px solid var(--color-accent-light);
+  border: 2px solid transparent;
   border-radius: var(--radius-lg);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-base);
-  box-shadow: 0 0 20px rgba(41, 209, 172, 0.4), var(--shadow-md);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4), var(--shadow-md);
   position: relative;
   overflow: hidden;
   animation: glowPulse 10s ease-in-out infinite;
@@ -488,10 +477,10 @@ body {
 
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(41, 209, 172, 0.4), var(--shadow-md);
+    box-shadow: 0 0 20px rgb(185, 185, 185), var(--shadow-md);
   }
   50% {
-    box-shadow: 0 0 30px rgba(41, 209, 172, 0.6), 0 0 40px rgba(41, 209, 172, 0.3), var(--shadow-lg);
+    box-shadow: 0 0 30px rrgb(43, 43, 43) 0 0 40px rgb(105, 105, 105), var(--shadow-lg);
   }
 }
 
@@ -543,18 +532,6 @@ body {
   padding-bottom: var(--spacing-lg);
 }
 
-.section-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
-  border-radius: var(--radius-full);
-}
-
 .section-header h2 {
   font-size: var(--font-size-4xl);
   color: var(--color-primary);
@@ -585,27 +562,10 @@ body {
   overflow: hidden;
 }
 
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-accent), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
-}
-
 .feature-card:hover {
-  border-color: var(--color-accent);
-  box-shadow: 0 12px 32px rgba(41, 209, 172, 0.15);
+  border-color: var(--color-black);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   transform: translateY(-6px);
-}
-
-.feature-card:hover::before {
-  transform: scaleX(1);
 }
 
 .feature-card.completed {
@@ -614,25 +574,12 @@ body {
   position: relative;
 }
 
-.feature-card.completed::after {
+.feature-card.completed:after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--color-success), transparent);
-  border-radius: 0 12px 0;
-  animation: completedGlow 2s ease-in-out infinite;
-}
-
-@keyframes completedGlow {
-  0%, 100% {
-    box-shadow: inset -3px -3px 8px rgba(30, 153, 114, 0.2);
-  }
-  50% {
-    box-shadow: inset -3px -3px 12px rgba(30, 153, 114, 0.4);
-  }
+  inset: 0;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, transparent, rgba(30, 153, 114, 0.1), transparent);
 }
 
 .feature-header {
@@ -659,7 +606,7 @@ body {
 
 .feature-card:hover .feature-step {
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(41, 209, 172, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .feature-badge {
@@ -689,8 +636,8 @@ body {
 .feature-btn {
   width: 100%;
   padding: var(--spacing-md);
-  background-color: var(--color-primary-lighter);
-  color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: var(--color-white);
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
@@ -701,30 +648,11 @@ body {
   overflow: hidden;
 }
 
-.feature-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: left var(--transition-base);
-}
-
 .feature-btn:hover {
-  background-color: var(--color-primary);
+  background-color: var(--color-black);
   color: white;
   box-shadow: 0 4px 16px rgba(44, 44, 44, 0.25);
 }
-
-.feature-btn:hover::after {
-  left: 100%;
-}
-
-/* ============================================================================
-   DETAILS SECTION (Expanded Content)
-   ============================================================================ */
 
 .details {
   background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-accent-lighter) 100%);
@@ -871,7 +799,6 @@ body {
   opacity: 0.6;
 }
 
-/* Quiz Result Feedback Styles */
 .quiz-result {
   margin-top: var(--spacing-lg);
   animation: slideUp 0.3s ease;
@@ -986,10 +913,6 @@ body {
   }
 }
 
-/* ============================================================================
-   INFO SECTION
-   ============================================================================ */
-
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
   background-color: var(--color-gray-50);
@@ -1014,7 +937,7 @@ body {
 .info-card {
   background: white;
   border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-sm);
   text-align: center;
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
@@ -1027,15 +950,15 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(41, 209, 172, 0.05), transparent);
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.05), transparent);
   opacity: 0;
   transition: opacity var(--transition-base);
 }
 
 .info-card:hover {
-  box-shadow: 0 16px 40px rgba(41, 209, 172, 0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
   transform: translateY(-6px);
-  border-color: rgba(41, 209, 172, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
 .info-card:hover::before {
@@ -1066,10 +989,6 @@ body {
   color: var(--color-gray-600);
   line-height: var(--line-height-relaxed);
 }
-
-/* ============================================================================
-   RESPONSIVE DESIGN
-   ============================================================================ */
 
 @media (max-width: 768px) {
   .hero-title {
