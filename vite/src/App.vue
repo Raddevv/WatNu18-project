@@ -149,12 +149,14 @@
     </main>
 
     <Footer />
+    <ChatWidget />
   </div>
 </template>
 
 <script setup>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import ChatWidget from './components/ChatWidget.vue'
 import { ref, computed } from 'vue'
 
 const selectedFeature = ref(null)

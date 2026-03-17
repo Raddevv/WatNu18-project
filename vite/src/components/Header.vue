@@ -29,11 +29,11 @@
           </div>
         </div>
 
-<router-link to="/" class="home-btn" title="Terug naar home">
-  <span class="home-icon">
-    <image src="src/assets/img/hsicon.png" alt="Home Icon" />
-  </span>
-</router-link>
+        <a href="/" class="home-btn" title="Terug naar home">
+          <span class="home-icon">
+            <image src="src/assets/img/hsicon.png" alt="Home Icon" />
+          </span>
+        </a>
       </div>
     </div>
   </header>
