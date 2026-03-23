@@ -2,7 +2,6 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-content">
-        <!-- Kolom 1: Over ons -->
         <div class="footer-section">
           <h3>Over Watnu</h3>
           <p>
@@ -11,7 +10,6 @@
           </p>
         </div>
 
-        <!-- Kolom 2: Handige Links -->
         <div class="footer-section">
           <h3>Handige Links</h3>
           <ul>
@@ -22,7 +20,6 @@
           </ul>
         </div>
 
-        <!-- Kolom 3: Contact -->
         <div class="footer-section">
           <h3>Contact</h3>
           <p>
@@ -32,7 +29,6 @@
           </p>
         </div>
 
-        <!-- Kolom 4: Socials -->
         <div class="footer-section">
           <h3>Volg ons</h3>
           <div class="social-links">
@@ -44,10 +40,8 @@
         </div>
       </div>
 
-      <!-- Divider -->
       <div class="footer-divider"></div>
 
-      <!-- Copyright -->
       <div class="footer-bottom">
         <p>&copy; 2026 Watnu. Alle rechten voorbehouden.</p>
         <div class="footer-links">
@@ -127,7 +121,6 @@
   text-decoration: underline;
 }
 
-/* Social Links */
 .social-links {
   display: flex;
   gap: 0.75rem;
@@ -140,10 +133,10 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(8, 145, 178, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
   border: 2px solid var(--color-accent);
   border-radius: 50%;
-  color: var(--color-accent);
+  color: white;
   text-decoration: none;
   transition: all 0.3s ease;
   font-weight: bold;
@@ -154,17 +147,15 @@
   background-color: var(--color-accent);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Footer Divider */
 .footer-divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.1);
   margin: 2rem 0;
 }
 
-/* Footer Bottom */
 .footer-bottom {
   text-align: center;
   padding: 1.5rem 0;
@@ -200,7 +191,6 @@
   color: rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer {
     padding: 2rem 1rem 1rem;

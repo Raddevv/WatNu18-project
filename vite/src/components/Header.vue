@@ -247,7 +247,6 @@
 
 .home-icon {
   font-size: 1.5rem;
-  rotate: 8deg;
   scale: 0.1;
 }
 

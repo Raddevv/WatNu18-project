@@ -96,8 +96,7 @@
                       selected: currentQuizAnswer === i,
                       disabled: quizAttempted 
                     }"
-                    :disabled="quizAttempted && !quizResult.isCorrect"
-                  >
+                    :disabled="quizAttempted && !quizResult.isCorrect">
                     {{ option }}
                   </button>
                 </div>

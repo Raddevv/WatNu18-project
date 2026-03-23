@@ -36,7 +36,6 @@ if APP_ENV == "dev":
         allow_headers=["*"],
     )
 
-
 store = TopQuestionsStore(FAQ_STORE_PATH)
 duo_amounts = DuoAmountsClient()
 
@@ -50,14 +49,14 @@ def _default_system_prompt(locale: str | None) -> str:
     # Keep it short + safe; don't make legal/financial guarantees.
     if (locale or "").lower().startswith("nl"):
         return (
-            "Je bent de behulpzame chatbot van WatNu18, een site voor MBO-studenten die 18 worden. "
+            "Je bent de behulpzame chatbot van WatNu18 genaamd Noa, een site voor MBO-studenten die 18 worden. "
             "Antwoord kort, duidelijk en praktisch in het Nederlands. "
             "Als iets afhangt van persoonlijke situatie of de regels kunnen wijzigen, zeg dat erbij en verwijs naar DUO/overheid. "
             "Vraag 1 verduidelijkende vraag als dat nodig is."
         )
     return (
-        "You are the helpful WatNu18 chatbot. Answer clearly and practically. "
-        "If rules can change or depend on the user's situation, say so and suggest official sources."
+        "You are the helpful WatNu18 chatbot named Noa. Answer clearly and practically. "
+        "If rules can change or depend on the user's situation, say so and suggest official sources. Always ask for someone's age to give correct information."
     )
 
 

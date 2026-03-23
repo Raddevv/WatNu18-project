@@ -34,5 +34,8 @@ backend/data/*.json
 .DS_Store
 Thumbs.db
 
+# ---
+TODO.md
+
 # --- Random local binaries ---
 curl.exe
