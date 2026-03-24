@@ -1,40 +1,32 @@
 <template>
   <div class="chat-root" :data-open="open ? 'true' : 'false'">
     <button v-if="!open" class="chat-fab" @click="openChat" aria-expanded="false">
-      <span>Chat</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      <span>Vraag Noa</span>
     </button>
-
-    <div v-if="open" class="chat-panel" role="dialog" aria-label="WatNu18 Chatbot">
+    <div v-if="open" class="chat-panel" role="dialog" aria-label="WatNu18 chatbot">
       <div class="chat-header">
         <div class="chat-title">
-          <div class="chat-name">Noa.</div>
-          <div class="chat-subtitle">Stel je vraag over studiefinanciering, OV, toeslagen, etc.</div>
+          <div class="chat-name">Noa <span class="badge">assistent</span></div>
+          <div class="chat-subtitle">Vraag alles over studiefinanciering, OV & toeslagen</div>
         </div>
         <div class="chat-actions">
-          <button class="chat-link-btn" @click="newChat" :disabled="streaming">
-            New chat
-          </button>
+          <button class="chat-icon-btn" @click="newChat" :disabled="streaming" title="Nieuw gesprek">⟳</button>
           <button class="chat-icon-btn" @click="open = false" aria-label="Sluiten">✕</button>
         </div>
       </div>
-
       <div class="chat-body" ref="scrollEl">
         <div v-if="topQuestions.length" class="topq">
-          <div class="topq-title">Top vragen</div>
+          <div class="topq-title">🔥 Populaire vragen</div>
           <div class="topq-list">
-            <button
-              v-for="q in topQuestions"
-              :key="q.id"
-              class="topq-item"
-              @click="askTopQuestion(q.question)"
-              :title="`${q.count}× gevraagd`"
-            >
+            <button v-for="q in topQuestions" :key="q.id" class="topq-item" @click="askTopQuestion(q.question)">
               <span class="topq-q">{{ q.question }}</span>
               <span class="topq-count">{{ q.count }}×</span>
             </button>
           </div>
         </div>
-
         <div class="msgs">
           <div v-for="(m, idx) in messages" :key="idx" class="msg" :data-role="m.role">
             <div class="bubble">
@@ -42,35 +34,22 @@
             </div>
           </div>
           <div v-if="streaming" class="msg" data-role="assistant">
-            <div class="bubble">
-              <div class="text">{{ draftAssistant || '...' }}</div>
+            <div class="bubble typing">
+              <div class="text">{{ draftAssistant || '⏳ Noa denkt na...' }}</div>
             </div>
           </div>
         </div>
       </div>
-
       <div class="chat-footer">
         <label class="log-toggle">
           <input type="checkbox" v-model="logToFaq" />
-          <span>Deze vraag anoniem toevoegen aan “Top vragen”</span>
+          <span>Anoniem toevoegen aan populaire vragen</span>
         </label>
-
         <form class="composer" @submit.prevent="send">
-          <input
-            v-model="input"
-            class="composer-input"
-            type="text"
-            placeholder="Typ je vraag…"
-            :disabled="streaming"
-            @keydown.enter.exact.prevent="send"
-          />
-          <button class="composer-send" type="submit" :disabled="streaming || !input.trim()">
-            Verstuur
-          </button>
+          <input v-model="input" class="composer-input" type="text" placeholder="Typ je vraag…" :disabled="streaming" />
+          <button class="composer-send" type="submit" :disabled="streaming || !input.trim()">Verstuur</button>
         </form>
-        <div class="hint">
-          Tip: noem je opleiding/woon-situatie als dat relevant is. Deel geen BSN of privégegevens.
-        </div>
+        <div class="hint">Tip: vermeld je opleiding of situatie. Deel nooit persoonlijke gegevens.</div>
       </div>
     </div>
   </div>
@@ -84,7 +63,6 @@ const input = ref('')
 const streaming = ref(false)
 const draftAssistant = ref('')
 const logToFaq = ref(false)
-
 const browserLocale = ref('nl-NL')
 
 function detectLocale() {
@@ -95,17 +73,10 @@ function detectLocale() {
 }
 
 function initialGreeting() {
-  const l = browserLocale.value.toLowerCase()
-return "Hoi! Ik ben Noa, de WatNu18 assistent. Stel mij gerust vragen over alles gerelateerd aan JOUW studiefinancering!"
+  return "Hoi! Ik ben Noa, jouw persoonlijke gids voor studiefinanciering, OV en alle regelingen als je 18 wordt. Stel me gerust alles!"
 }
 
-const messages = ref([
-  {
-    role: 'assistant',
-    content: initialGreeting()
-  }
-])
-
+const messages = ref([{ role: 'assistant', content: initialGreeting() }])
 const topQuestions = ref([])
 const scrollEl = ref(null)
 const activeController = ref(null)
@@ -128,9 +99,7 @@ async function loadTopQuestions() {
     if (!res.ok) return
     const data = await res.json()
     topQuestions.value = data.items || []
-  } catch {
-    // ignore
-  }
+  } catch { /* silent fail */ }
 }
 
 function askTopQuestion(q) {
@@ -143,21 +112,14 @@ function buildPayload(userText) {
     locale: browserLocale.value || 'nl-NL',
     log_to_faq: !!logToFaq.value,
     messages: [
-      ...messages.value.slice(-6).map((m) => ({ role: m.role, content: m.content })),
+      ...messages.value.slice(-6).map(m => ({ role: m.role, content: m.content })),
       { role: 'user', content: userText }
     ]
   }
 }
 
 function newChat() {
-  if (activeController.value) {
-    try {
-      activeController.value.abort()
-    } catch {
-      // ignore
-    }
-    activeController.value = null
-  }
+  if (activeController.value) activeController.value.abort()
   streaming.value = false
   draftAssistant.value = ''
   input.value = ''
@@ -169,11 +131,9 @@ function newChat() {
 async function send() {
   const text = input.value.trim()
   if (!text || streaming.value) return
-
   input.value = ''
   draftAssistant.value = ''
   streaming.value = true
-
   messages.value.push({ role: 'user', content: text })
   await nextTick(scrollToBottom)
 
@@ -186,35 +146,25 @@ async function send() {
       body: JSON.stringify(buildPayload(text)),
       signal: controller.signal
     })
-
-    if (!res.ok || !res.body) {
-      const errText = await res.text().catch(() => '')
-      throw new Error(errText || `HTTP ${res.status}`)
-    }
+    if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`)
 
     const reader = res.body.getReader()
     const decoder = new TextDecoder('utf-8')
     let buffer = ''
-
     while (true) {
       const { value, done } = await reader.read()
       if (done) break
       buffer += decoder.decode(value, { stream: true })
-
       const parts = buffer.split('\n\n')
       buffer = parts.pop() || ''
       for (const part of parts) {
         const lines = part.split('\n')
-        const eventLine = lines.find((l) => l.startsWith('event:'))
-        const dataLines = lines.filter((l) => l.startsWith('data:'))
-        const data = dataLines.map((l) => l.replace(/^data:\s?/, '')).join('\n')
+        const eventLine = lines.find(l => l.startsWith('event:'))
+        const dataLines = lines.filter(l => l.startsWith('data:'))
+        const data = dataLines.map(l => l.replace(/^data:\s?/, '')).join('\n')
         const event = eventLine ? eventLine.replace('event:', '').trim() : 'message'
-
-        if (event === 'error') {
-          throw new Error(data || 'Server error')
-        }
+        if (event === 'error') throw new Error(data || 'Server error')
         if (event === 'done') {
-          // finalize
           const finalText = (draftAssistant.value || '').trim()
           if (finalText) messages.value.push({ role: 'assistant', content: finalText })
           draftAssistant.value = ''
@@ -224,28 +174,18 @@ async function send() {
           await nextTick(scrollToBottom)
           return
         }
-        if (event === 'logged') {
-          continue
-        }
-        // default: token
+        if (event === 'logged') continue
         if (data) {
           draftAssistant.value += data
           await nextTick(scrollToBottom)
         }
       }
     }
-
     const finalText = (draftAssistant.value || '').trim()
     if (finalText) messages.value.push({ role: 'assistant', content: finalText })
   } catch (e) {
-    if (e?.name === 'AbortError') {
-      return
-    }
-    messages.value.push({
-      role: 'assistant',
-      content:
-        'Sorry — ik kan nu even geen antwoord ophalen. Als dit lokaal draait: start de backend en zet je API key of kies Ollama.'
-    })
+    if (e?.name === 'AbortError') return
+    messages.value.push({ role: 'assistant', content: '❌ Sorry, er ging iets mis. Probeer het later opnieuw.' })
   } finally {
     draftAssistant.value = ''
     streaming.value = false
@@ -256,244 +196,235 @@ async function send() {
 
 onMounted(() => {
   detectLocale()
-  if (messages.value.length === 1 && messages.value[0].role === 'assistant') {
-    messages.value[0].content = initialGreeting()
-  }
   loadTopQuestions()
 })
 </script>
 
 <style scoped>
+@import '../styles/variables.css';
+
 .chat-root {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 9999;
+  right: 24px;
+  bottom: 24px;
+  z-index: var(--z-fixed);
   font-family: var(--font-family-base);
 }
 
 .chat-fab {
-  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
   border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
-  color: white;
-  padding: 12px 16px;
-  border-radius: 999px;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-full);
   font-weight: var(--font-weight-semibold);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+  color: white;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.chat-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  background: var(--color-accent-dark);
 }
 
 .chat-panel {
   width: min(420px, calc(100vw - 32px));
-  height: min(640px, calc(100vh - 120px));
-  margin-bottom: 12px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: white;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  height: min(620px, calc(100vh - 100px));
+  background: var(--color-bg-lightest);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-200);
 }
 
 .chat-header {
-  padding: 14px 14px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-primary);
+  padding: var(--spacing-lg);
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  color: var(--color-bg-lightest);
 }
 
 .chat-name {
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.badge {
+  background: rgba(255,255,255,0.2);
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: normal;
 }
 
 .chat-subtitle {
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-600);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-300);
   margin-top: 2px;
-}
-
-.chat-icon-btn {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  color: var(--color-gray-600);
 }
 
 .chat-actions {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
-.chat-link-btn {
+.chat-icon-btn {
+  background: none;
   border: none;
-  background: transparent;
+  color: white;
+  font-size: 1.2rem;
   cursor: pointer;
-  color: var(--color-primary-light);
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-sm);
-  padding: 6px 8px;
-  border-radius: 10px;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
 }
 
-.chat-link-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.chat-link-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.chat-icon-btn:hover {
+  opacity: 1;
 }
 
 .chat-body {
   flex: 1;
-  padding: 12px;
-  overflow: auto;
-  background: linear-gradient(180deg, rgba(248, 250, 252, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  background: var(--color-bg-lightest);
 }
 
 .topq {
-  margin-bottom: 12px;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: rgba(255, 255, 255, 0.75);
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--color-gray-200);
 }
 
 .topq-title {
-  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-gray-700);
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
 }
 
 .topq-list {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .topq-item {
   text-align: left;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: white;
-  border-radius: 10px;
-  padding: 10px;
-  cursor: pointer;
+  background: var(--color-gray-50);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .topq-item:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.topq-q {
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-800);
-}
-
-.topq-count {
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
-  white-space: nowrap;
+  background: var(--color-gray-200);
+  transform: translateX(2px);
 }
 
 .msgs {
-  display: grid;
-  gap: 10px;
-}
-
-.msg {
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
 .msg[data-role='user'] {
+  display: flex;
   justify-content: flex-end;
 }
 
 .bubble {
   max-width: 85%;
-  border-radius: 14px;
-  padding: 10px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  background: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 20px;
+  background: var(--color-gray-300);
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--color-gray-200);
 }
 
 .msg[data-role='user'] .bubble {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: var(--color-primary);
   color: white;
-  border-color: rgba(255, 255, 255, 0.15);
+  border: none;
 }
 
 .text {
-  white-space: pre-wrap;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
+  white-space: pre-wrap;
 }
 
 .chat-footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 12px;
-  display: grid;
-  gap: 10px;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-gray-200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .log-toggle {
   display: flex;
-  gap: 10px;
   align-items: center;
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-700);
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
 }
 
 .composer {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
+  display: flex;
+  gap: var(--spacing-sm);
 }
 
 .composer-input {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 12px;
-  padding: 10px 12px;
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
   outline: none;
-  font-size: var(--font-size-base);
+  transition: border var(--transition-fast);
 }
 
 .composer-input:focus {
-  border-color: rgba(8, 145, 178, 0.6);
-  box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.15);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.2);
 }
 
 .composer-send {
-  border: none;
-  cursor: pointer;
-  border-radius: 12px;
-  padding: 10px 12px;
   background: var(--color-accent);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-full);
   color: white;
   font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--transition-fast);
 }
 
-.composer-send:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.composer-send:hover:not(:disabled) {
+  background: var(--color-accent-dark);
 }
 
 .hint {
   font-size: var(--font-size-xs);
   color: var(--color-gray-500);
+  text-align: center;
 }
 </style>
-

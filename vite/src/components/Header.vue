@@ -2,37 +2,39 @@
   <header class="header">
     <div class="header-container">
       <div class="logo-section">
-        <div class="logo">
-          <image src="src/assets/img/... .svg" alt="LOGO" class="logo-image" />
-        </div>
-      </div>
-
-      <div class="title-section">
-        <h1 class="header-title"></h1>
+        <a href="/" class="logo-link" aria-label="WatNu18 homepage">
+          <div class="logo-mark">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 20L20 8L32 20L20 32L8 20Z" stroke="var(--color-accent)" stroke-width="2" fill="none"/>
+              <circle cx="20" cy="20" r="4" fill="var(--color-accent)"/>
+            </svg>
+          </div>
+          <span class="logo-text">Wat<span>Nu</span>18</span>
+        </a>
       </div>
 
       <div class="nav-section">
         <div class="features-menu">
-          <button class="features-btn" title="Alle onderdelen">
-            <span class="features-icon">
-              <image src="src/assets/img/bookicon.png" alt="Book Icon" />
-            </span>
+          <button class="features-btn" aria-label="Menu">
+            <span>Informatie</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </button>
           <div class="features-dropdown">
-            <a href="#about">Over WatNu18</a>
-            <a href="#studiefinancing">Studiefinanciering</a>
-            <a href="#ov-kaart">OV-studentenkaart</a>
-            <a href="#woonkosten">Woonkosten</a>
-            <a href="#documenten">Documenten</a>
-            <a href="#faq">Veelgestelde Vragen</a>
-            <a href="#contact">Contact</a>
+            <a href="#studiefinanciering">📘 Studiefinanciering</a>
+            <a href="#ov-kaart">🚆 OV-studentenkaart</a>
+            <a href="#woonkosten">🏠 Woonkosten & toeslagen</a>
+            <a href="#verzekeringen">🛡️ Zorgverzekering</a>
+            <a href="#documenten">📄 Belangrijke documenten</a>
+            <a href="#faq">❓ Veelgestelde vragen</a>
           </div>
         </div>
-
-        <a href="/" class="home-btn" title="Terug naar home">
-          <span class="home-icon">
-            <image src="src/assets/img/hsicon.png" alt="Home Icon" />
-          </span>
+        <a href="/" class="home-btn" aria-label="Home">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9L12 3L21 9L21 19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V9Z"/>
+            <path d="M9 21V12H15V21"/>
+          </svg>
         </a>
       </div>
     </div>
@@ -40,6 +42,7 @@
 </template>
 
 <script setup>
+// No additional logic needed
 </script>
 
 <style scoped>
@@ -47,90 +50,70 @@
 
 .header {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: var(--z-sticky);
   border-bottom: 3px solid var(--color-accent);
-  color: white;
 }
 
 .header-container {
-  max-width: 1400px;
+  max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0.5rem 2rem;
+  padding: var(--spacing-md) var(--spacing-xl);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-md);
 }
 
 .logo-section {
   flex-shrink: 0;
-  flex: 0 0 auto;
 }
 
-.logo {
+.logo-link {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
 }
 
-.logo-lines {
+.logo-link:hover {
+  opacity: 0.9;
+}
+
+.logo-mark {
   width: 40px;
   height: 40px;
-  stroke: var(--color-accent);
-  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-base);
 }
 
-.logo-lines:hover {
-  filter: drop-shadow(0 0 8px rgba(8, 145, 178, 0.5));
+.logo-link:hover .logo-mark {
+  transform: scale(1.02);
 }
 
-.logo-placeholder {
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 0.5rem 0.75rem;
-  background-color: rgba(8, 145, 178, 0.2);
-  border-radius: 6px;
-  border: 2px solid var(--color-accent);
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+.logo-text {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  letter-spacing: -0.3px;
 }
 
-.logo-placeholder:hover {
-  background-color: rgba(8, 145, 178, 0.3);
-  box-shadow: 0 0 10px rgba(8, 145, 178, 0.4);
-}
-
-.logo-image {
-  height: 50px;
-  width: auto;
-  max-width: 200px;
-  object-fit: contain;
-}
-
-.title-section {
-  flex: 1;
-  text-align: center;
-}
-
-.header-title {
-  color: rgba(255, 255, 255, 0.9);
-  text-indent: 12px;
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+.logo-text span {
+  color: var(--color-accent);
+  font-weight: 800;
 }
 
 .nav-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-shrink: 0;
+  gap: var(--spacing-md);
 }
 
 .features-menu {
@@ -138,53 +121,42 @@
 }
 
 .features-btn {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--color-accent);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.2rem;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  width: 50px;
-  height: 50px;
+  gap: var(--spacing-xs);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  backdrop-filter: blur(4px);
 }
 
 .features-btn:hover {
-  background-color: var(--color-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
-  border-color: white;
-  color: white;
-}
-
-.features-icon {
-  font-size: 1.5rem;
-  rotate: 8deg;
-  scale: 0.1;
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
 }
 
 .features-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: white;
-  color: var(--color-primary);
-  min-width: 240px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  margin-top: 0.5rem;
+  background: var(--color-white);
+  min-width: 260px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  margin-top: var(--spacing-sm);
   overflow: hidden;
-  border: 2px solid var(--color-accent);
-  z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transform: translateY(-8px);
+  transition: all var(--transition-base);
   pointer-events: none;
+  border: 1px solid var(--color-gray-200);
 }
 
 .features-menu:hover .features-dropdown {
@@ -194,119 +166,56 @@
   pointer-events: auto;
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .features-dropdown a {
-  color: var(--color-primary);
-  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-gray-700);
   text-decoration: none;
-  display: block;
-  transition: all 0.3s ease;
-  border-left: 4px solid transparent;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  border-left: 3px solid transparent;
 }
 
 .features-dropdown a:hover {
-  background-color: var(--color-primary);
+  background: var(--color-gray-50);
   border-left-color: var(--color-accent);
-  padding-left: 2rem;
-  color: white;
+  padding-left: calc(var(--spacing-lg) + 4px);
 }
 
 .home-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 2px solid white;
-  border-radius: 8px;
-  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-base);
+  color: var(--color-white);
   text-decoration: none;
-  transition: all 0.3s ease;
-  color: white;
 }
 
 .home-btn:hover {
-  background-color: white;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-color: white;
-  color: var(--color-primary);
-}
-
-.home-icon {
-  font-size: 1.5rem;
-  scale: 0.1;
+  background: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 768px) {
   .header-container {
-    padding: 0.5rem 1rem;
-    gap: 0.5rem;
+    padding: var(--spacing-sm) var(--spacing-lg);
   }
-
-  .header-title {
-    font-size: 1.5rem;
+  .logo-text {
+    font-size: var(--font-size-lg);
   }
-
-  .logo-placeholder {
-    font-size: 1.5rem;
+  .features-btn span:first-child {
+    display: none;
   }
-
-  .logo-image {
-    height: 40px;
-  }
-
   .features-btn {
-    width: 45px;
-    height: 45px;
-  }
-
-  .home-btn {
-    width: 45px;
-    height: 45px;
-  }
-
-  .features-dropdown {
-    min-width: 200px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-container {
-    flex-wrap: wrap;
-    padding: 0.5rem;
-  }
-
-  .title-section {
-    order: 2;
-    flex-basis: 100%;
-    margin: 0.5rem 0;
-  }
-
-  .header-title {
-    font-size: 1.2rem;
-  }
-
-  .nav-section {
-    order: 3;
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  .logo-section {
-    order: 1;
+    padding: var(--spacing-sm);
   }
 }
 </style>
