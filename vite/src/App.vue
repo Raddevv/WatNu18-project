@@ -1,16 +1,23 @@
 <template>
+  <router-view />
   <div id="app">
-    <Header />
-    
+    <Header v-if="!route.meta.hideLayout" />
+
     <main class="main-content">
       <div class="progress-banner">
         <div class="progress-content">
           <div class="progress-text">
             <h3>Je voortgang</h3>
-            <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> om 18 te worden</p>
+            <p>
+              Je bent <strong>{{ overallProgress }}% voorbereid</strong> om 18
+              te worden
+            </p>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
+            <div
+              class="progress-fill"
+              :style="{ width: overallProgress + '%' }"
+            ></div>
           </div>
           <div class="progress-items">
             <div class="progress-item done">
@@ -39,12 +46,11 @@
 
       <section class="hero">
         <div class="hero-content">
-          <h1 class="hero-title">
-            Klaar voor je volgende stap?
-          </h1>
+          <h1 class="hero-title">Klaar voor je volgende stap?</h1>
           <p class="hero-subtitle">
-            Studiefinanciering, OV-kaart, verzekeringen — alles wat je moet weten als je 18 wordt. 
-            Gemaakt door MBO-studenten, voor MBO-studenten.
+            Studiefinanciering, OV-kaart, verzekeringen — alles wat je moet
+            weten als je 18 wordt. Gemaakt door MBO-studenten, voor
+            MBO-studenten.
           </p>
           <button class="cta-btn">Start je journey</button>
         </div>
@@ -58,10 +64,17 @@
           </div>
 
           <div class="features-grid">
-            <div class="feature-card" v-for="(feature, index) in features" :key="index" :class="{ completed: feature.completed }">
+            <div
+              class="feature-card"
+              v-for="(feature, index) in features"
+              :key="index"
+              :class="{ completed: feature.completed }"
+            >
               <div class="feature-header">
                 <span class="feature-step">{{ index + 1 }}</span>
-                <span class="feature-badge" v-if="feature.completed">✓ Voltooid</span>
+                <span class="feature-badge" v-if="feature.completed"
+                  >✓ Voltooid</span
+                >
               </div>
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
@@ -75,48 +88,71 @@
 
       <section class="details" v-if="selectedFeature !== null">
         <div class="details-container">
-          <button class="close-btn" @click="selectedFeature = null">← Terug</button>
-          
+          <button class="close-btn" @click="selectedFeature = null">
+            ← Terug
+          </button>
+
           <div class="details-content">
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
-            
+
             <div class="details-quiz" v-if="features[selectedFeature].quiz">
               <h3>Controleer je kennis</h3>
               <div class="quiz-question">
                 <p>{{ features[selectedFeature].quiz.question }}</p>
-                
-                <div class="quiz-options" v-if="!quizAttempted || !quizResult.isCorrect">
-                  <button 
-                    class="quiz-option" 
-                    v-for="(option, i) in features[selectedFeature].quiz.options" 
+
+                <div
+                  class="quiz-options"
+                  v-if="!quizAttempted || !quizResult.isCorrect"
+                >
+                  <button
+                    class="quiz-option"
+                    v-for="(option, i) in features[selectedFeature].quiz
+                      .options"
                     :key="i"
                     @click="submitQuizAnswer(i)"
-                    :class="{ 
+                    :class="{
                       selected: currentQuizAnswer === i,
-                      disabled: quizAttempted 
+                      disabled: quizAttempted,
                     }"
                     :disabled="quizAttempted && !quizResult.isCorrect"
                   >
                     {{ option }}
                   </button>
                 </div>
-                
+
                 <div class="quiz-result" v-if="quizAttempted && quizResult">
-                  <div class="quiz-feedback" :class="quizResult.isCorrect ? 'correct' : 'incorrect'">
+                  <div
+                    class="quiz-feedback"
+                    :class="quizResult.isCorrect ? 'correct' : 'incorrect'"
+                  >
                     <div class="feedback-icon">
-                      {{ quizResult.isCorrect ? '✓' : '✗' }}
+                      {{ quizResult.isCorrect ? "✓" : "✗" }}
                     </div>
                     <div class="feedback-text">
-                      <h4>{{ quizResult.isCorrect ? 'Correct beantwoord!' : 'Helaas, dit is niet correct' }}</h4>
+                      <h4>
+                        {{
+                          quizResult.isCorrect
+                            ? "Correct beantwoord!"
+                            : "Helaas, dit is niet correct"
+                        }}
+                      </h4>
                       <p>{{ quizResult.explanation }}</p>
                     </div>
                   </div>
-                  
-                  <button v-if="quizResult.isCorrect" class="quiz-action-btn completed" disabled>
+
+                  <button
+                    v-if="quizResult.isCorrect"
+                    class="quiz-action-btn completed"
+                    disabled
+                  >
                     ✓ Badge Unlocked!
                   </button>
-                  <button v-else class="quiz-action-btn retry" @click="retryQuiz">
+                  <button
+                    v-else
+                    class="quiz-action-btn retry"
+                    @click="retryQuiz"
+                  >
                     Probeer opnieuw
                   </button>
                 </div>
@@ -132,12 +168,17 @@
           <div class="info-card">
             <div class="info-icon">🎯</div>
             <h3>Gericht</h3>
-            <p>Speciaal gemaakt voor MBO-studenten. Geen overbodige informatie.</p>
+            <p>
+              Speciaal gemaakt voor MBO-studenten. Geen overbodige informatie.
+            </p>
           </div>
           <div class="info-card">
             <div class="info-icon">✓</div>
             <h3>Betrouwbaar</h3>
-            <p>Alle informatie gebaseerd op officiële overheids- en organisatiedata.</p>
+            <p>
+              Alle informatie gebaseerd op officiële overheids- en
+              organisatiedata.
+            </p>
           </div>
           <div class="info-card">
             <div class="info-icon">🚀</div>
@@ -153,121 +194,145 @@
 </template>
 
 <script setup>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-import { ref, computed } from 'vue'
+import { useRoute } from "vue-router";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import { ref, computed } from "vue";
 
-const selectedFeature = ref(null)
-const currentQuizAnswer = ref(null)
-const quizResult = ref(null)
-const quizAttempted = ref(false)
+const route = useRoute();
+const selectedFeature = ref(null);
+const currentQuizAnswer = ref(null);
+const quizResult = ref(null);
+const quizAttempted = ref(false);
 
 const features = ref([
   {
-    title: 'Studiefinanciering',
-    description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
-    longDescription: 'Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen als je 18 bent en aan een erkende onderwijsinstelling studeert. Dit kan bestaan uit gift of lening. Met studiefinanciering kun je je studiemateriaal kopen, je huisvesting betalen, en andere kosten dekken.',
+    title: "Studiefinanciering",
+    description: "Begrijp hoe DUO werkt en wat je kunt aanvragen.",
+    longDescription:
+      "Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen als je 18 bent en aan een erkende onderwijsinstelling studeert. Dit kan bestaan uit gift of lening. Met studiefinanciering kun je je studiemateriaal kopen, je huisvesting betalen, en andere kosten dekken.",
     completed: true,
     quiz: {
-      question: 'Wanneer kun je studiefinanciering aanvragen?',
+      question: "Wanneer kun je studiefinanciering aanvragen?",
       correctAnswer: 1,
-      options: ['Als je 16 bent', 'Als je 18 bent', 'Als je 21 bent'],
-      explanation: 'Correct! Je kunt studiefinanciering aanvragen wanneer je 18 bent en een erkende opleiding volgt.'
-    }
+      options: ["Als je 16 bent", "Als je 18 bent", "Als je 21 bent"],
+      explanation:
+        "Correct! Je kunt studiefinanciering aanvragen wanneer je 18 bent en een erkende opleiding volgt.",
+    },
   },
   {
-    title: 'OV-Studentenkaart',
-    description: 'Reis voordelig met openbaar vervoer.',
-    longDescription: 'De OV-studentenkaart geeft je korting op je reiskosten. Perfect voor dagelijks pendelen naar school. Als fulltime student krijg je korting op je OV-reis. Controleer altijd je rechten op stoptreinen.nl.',
+    title: "OV-Studentenkaart",
+    description: "Reis voordelig met openbaar vervoer.",
+    longDescription:
+      "De OV-studentenkaart geeft je korting op je reiskosten. Perfect voor dagelijks pendelen naar school. Als fulltime student krijg je korting op je OV-reis. Controleer altijd je rechten op stoptreinen.nl.",
     completed: false,
     quiz: {
-      question: 'Welke korting krijg je maximaal met de OV-studentenkaart?',
+      question: "Welke korting krijg je maximaal met de OV-studentenkaart?",
       correctAnswer: 2,
-      options: ['25% korting', '30% korting', '40% korting'],
-      explanation: 'Correct! Met een geldig studentenkaart krijg je maximaal 40% korting op reizen buiten de filerijden.'
-    }
+      options: ["25% korting", "30% korting", "40% korting"],
+      explanation:
+        "Correct! Met een geldig studentenkaart krijg je maximaal 40% korting op reizen buiten de filerijden.",
+    },
   },
   {
-    title: 'Zorgverzekering',
-    description: 'Verzeker jezelf tegen onvoorziene kosten.',
-    longDescription: 'Zorgverzekering is verplicht in Nederland. Kies een passende polis en check je inkomsten. Als je inkomsten laag zijn, kun je zorgtoeslag aanvragen. Controleer jaarlijks of je verzekering nog goed voor je is.',
+    title: "Zorgverzekering",
+    description: "Verzeker jezelf tegen onvoorziene kosten.",
+    longDescription:
+      "Zorgverzekering is verplicht in Nederland. Kies een passende polis en check je inkomsten. Als je inkomsten laag zijn, kun je zorgtoeslag aanvragen. Controleer jaarlijks of je verzekering nog goed voor je is.",
     completed: false,
     quiz: {
-      question: 'Is zorgverzekering verplicht in Nederland?',
+      question: "Is zorgverzekering verplicht in Nederland?",
       correctAnswer: 0,
-      options: ['Ja, iedereen moet verzekerd zijn', 'Nee, het is optioneel', 'Ja, maar alleen voor werkenden'],
-      explanation: 'Correct! Zorgverzekering is verplicht voor iedereen in Nederland die hier woont of werkt.'
-    }
+      options: [
+        "Ja, iedereen moet verzekerd zijn",
+        "Nee, het is optioneel",
+        "Ja, maar alleen voor werkenden",
+      ],
+      explanation:
+        "Correct! Zorgverzekering is verplicht voor iedereen in Nederland die hier woont of werkt.",
+    },
   },
   {
-    title: 'Woonkosten',
-    description: 'Begrip energiekosten, huur en toeslag.',
-    longDescription: 'Woonkosten zijn een groot deel van je budget. Leer hoe je dit insteelt en waar toeslag mogelijk is. Energiekosten kunnen variëren per seizoen. Met huurtoeslag kun je je huur gedeeltelijk terugkrijgen.',
+    title: "Woonkosten",
+    description: "Begrip energiekosten, huur en toeslag.",
+    longDescription:
+      "Woonkosten zijn een groot deel van je budget. Leer hoe je dit insteelt en waar toeslag mogelijk is. Energiekosten kunnen variëren per seizoen. Met huurtoeslag kun je je huur gedeeltelijk terugkrijgen.",
     completed: false,
     quiz: {
-      question: 'Kan je huurtoeslag aanvragen als student?',
+      question: "Kan je huurtoeslag aanvragen als student?",
       correctAnswer: 0,
-      options: ['Ja, mits je voldoet aan bepaalde voorwaarden', 'Nee, alleen voor ouders', 'Ja, iedereen krijgt het'],
-      explanation: 'Correct! Als student kun je huurtoeslag aanvragen als je voldoet aan de inkomsteneis en huurmin.'
-    }
+      options: [
+        "Ja, mits je voldoet aan bepaalde voorwaarden",
+        "Nee, alleen voor ouders",
+        "Ja, iedereen krijgt het",
+      ],
+      explanation:
+        "Correct! Als student kun je huurtoeslag aanvragen als je voldoet aan de inkomsteneis en huurmin.",
+    },
   },
   {
-    title: 'Documenten',
-    description: 'Zet alles op papier wat je nodig hebt.',
-    longDescription: 'Van aanvraagformulieren tot contracten — zet alles goed op papier. Bewaar kopieën van je belangrijkste documenten. Een echte origineel document ben je altijd beter uit. Maak digitale backups van je documenten.',
+    title: "Documenten",
+    description: "Zet alles op papier wat je nodig hebt.",
+    longDescription:
+      "Van aanvraagformulieren tot contracten — zet alles goed op papier. Bewaar kopieën van je belangrijkste documenten. Een echte origineel document ben je altijd beter uit. Maak digitale backups van je documenten.",
     completed: false,
     quiz: {
-      question: 'Welke documenten zijn essentieel wanneer je 18 bent?',
+      question: "Welke documenten zijn essentieel wanneer je 18 bent?",
       correctAnswer: 2,
-      options: ['Alleen je ID', 'Je paspoort', 'ID, huiscontract, en bankrekeninggegevens'],
-      explanation: 'Correct! Je hebt je ID, een huiscontract, en bankrekeninggegevens nodig voor veel officiële zaken.'
-    }
-  }
-])
+      options: [
+        "Alleen je ID",
+        "Je paspoort",
+        "ID, huiscontract, en bankrekeninggegevens",
+      ],
+      explanation:
+        "Correct! Je hebt je ID, een huiscontract, en bankrekeninggegevens nodig voor veel officiële zaken.",
+    },
+  },
+]);
 
 const overallProgress = computed(() => {
-  const completedCount = features.value.filter(f => f.completed).length
-  return Math.round((completedCount / features.value.length) * 100)
-})
+  const completedCount = features.value.filter((f) => f.completed).length;
+  return Math.round((completedCount / features.value.length) * 100);
+});
 
 function selectFeature(index) {
-  selectedFeature.value = selectedFeature.value === index ? null : index
+  selectedFeature.value = selectedFeature.value === index ? null : index;
   if (selectedFeature.value === null) {
-    resetQuiz()
+    resetQuiz();
   }
 }
 
 function submitQuizAnswer(answerIndex) {
-  if (!features.value[selectedFeature.value].quiz) return
-  
-  currentQuizAnswer.value = answerIndex
-  const quiz = features.value[selectedFeature.value].quiz
-  const isCorrect = answerIndex === quiz.correctAnswer
-  
-  quizAttempted.value = true
+  if (!features.value[selectedFeature.value].quiz) return;
+
+  currentQuizAnswer.value = answerIndex;
+  const quiz = features.value[selectedFeature.value].quiz;
+  const isCorrect = answerIndex === quiz.correctAnswer;
+
+  quizAttempted.value = true;
   quizResult.value = {
     isCorrect,
-    explanation: quiz.explanation
-  }
-  
+    explanation: quiz.explanation,
+  };
+
   if (isCorrect) {
-    features.value[selectedFeature.value].completed = true
+    features.value[selectedFeature.value].completed = true;
   }
 }
 
 function resetQuiz() {
-  currentQuizAnswer.value = null
-  quizResult.value = null
-  quizAttempted.value = false
+  currentQuizAnswer.value = null;
+  quizResult.value = null;
+  quizAttempted.value = false;
 }
 
 function retryQuiz() {
-  resetQuiz()
+  resetQuiz();
 }
 </script>
 
 <style>
-@import './styles/variables.css';
+@import "./styles/variables.css";
 
 * {
   margin: 0;
@@ -300,19 +365,30 @@ body {
 }
 
 .progress-banner {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   color: white;
   padding: var(--spacing-2xl) var(--spacing-xl);
-  box-shadow: 0 8px 24px rgba(41, 209, 172, 0.15), var(--shadow-md);
+  box-shadow:
+    0 8px 24px rgba(41, 209, 172, 0.15),
+    var(--shadow-md);
   animation: bannerPulse 4s ease-in-out infinite;
 }
 
 @keyframes bannerPulse {
-  0%, 100% {
-    box-shadow: 0 8px 24px rgba(41, 209, 172, 0.15), var(--shadow-md);
+  0%,
+  100% {
+    box-shadow:
+      0 8px 24px rgba(41, 209, 172, 0.15),
+      var(--shadow-md);
   }
   50% {
-    box-shadow: 0 8px 32px rgba(41, 209, 172, 0.25), var(--shadow-lg);
+    box-shadow:
+      0 8px 32px rgba(41, 209, 172, 0.25),
+      var(--shadow-lg);
   }
 }
 
@@ -351,7 +427,11 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    var(--color-accent-light) 100%
+  );
   border-radius: var(--radius-full);
   transition: width var(--transition-slowest);
   box-shadow: 0 0 16px rgba(41, 209, 172, 0.4);
@@ -359,11 +439,16 @@ body {
 }
 
 .progress-fill::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   animation: progressShine 3.5s linear infinite;
 }
 
@@ -424,8 +509,13 @@ body {
 }
 
 .hero {
-  background: linear-gradient(135deg, var(--color-white) 0%, var(--color-gray-50) 100%);
-  padding: var(--spacing-3xl) var(--spacing-xl) calc(var(--spacing-3xl) * 1.5) var(--spacing-xl);
+  background: linear-gradient(
+    135deg,
+    var(--color-white) 0%,
+    var(--color-gray-50) 100%
+  );
+  padding: var(--spacing-3xl) var(--spacing-xl) calc(var(--spacing-3xl) * 1.5)
+    var(--spacing-xl);
   text-align: center;
 }
 
@@ -446,14 +536,19 @@ body {
 }
 
 .hero-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
   border-radius: var(--radius-full);
 }
 
@@ -472,7 +567,11 @@ body {
   display: inline-block;
   padding: var(--spacing-md) var(--spacing-2xl);
   background-color: var(--color-accent);
-  background: linear-gradient(270deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  background: linear-gradient(
+    270deg,
+    var(--color-accent) 0%,
+    var(--color-accent-dark) 100%
+  );
   color: white;
   border: 2px solid var(--color-accent-light);
   border-radius: var(--radius-lg);
@@ -480,36 +579,52 @@ body {
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-base);
-  box-shadow: 0 0 20px rgba(41, 209, 172, 0.4), var(--shadow-md);
+  box-shadow:
+    0 0 20px rgba(41, 209, 172, 0.4),
+    var(--shadow-md);
   position: relative;
   overflow: hidden;
   animation: glowPulse 10s ease-in-out infinite;
 }
 
 @keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(41, 209, 172, 0.4), var(--shadow-md);
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(41, 209, 172, 0.4),
+      var(--shadow-md);
   }
   50% {
-    box-shadow: 0 0 30px rgba(41, 209, 172, 0.6), 0 0 40px rgba(41, 209, 172, 0.3), var(--shadow-lg);
+    box-shadow:
+      0 0 30px rgba(41, 209, 172, 0.6),
+      0 0 40px rgba(41, 209, 172, 0.3),
+      var(--shadow-lg);
   }
 }
 
 .cta-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(.5deg, transparent 40%, rgba(255, 255, 255, 0.45) 50%, transparent 60%);
+  background: linear-gradient(
+    0.5deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 60%
+  );
   border-radius: var(--radius-lg);
-  animation: glintSweep 2.1s linear infinite; 
+  animation: glintSweep 2.1s linear infinite;
 }
 
 .cta-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 40px rgba(8, 145, 178, 0.7), 0 0 60px rgba(8, 145, 178, 0.4), var(--shadow-lg);
+  box-shadow:
+    0 0 40px rgba(8, 145, 178, 0.7),
+    0 0 60px rgba(8, 145, 178, 0.4),
+    var(--shadow-lg);
   border-color: white;
 }
 
@@ -544,14 +659,19 @@ body {
 }
 
 .section-header::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent),
+    transparent
+  );
   border-radius: var(--radius-full);
 }
 
@@ -586,7 +706,7 @@ body {
 }
 
 .feature-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -610,12 +730,16 @@ body {
 
 .feature-card.completed {
   border-color: var(--color-success);
-  background: linear-gradient(135deg, white 0%, var(--color-success-light) 100%);
+  background: linear-gradient(
+    135deg,
+    white 0%,
+    var(--color-success-light) 100%
+  );
   position: relative;
 }
 
 .feature-card.completed::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -627,7 +751,8 @@ body {
 }
 
 @keyframes completedGlow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: inset -3px -3px 8px rgba(30, 153, 114, 0.2);
   }
   50% {
@@ -648,7 +773,11 @@ body {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   color: white;
   border-radius: var(--radius-full);
   font-size: var(--font-size-xl);
@@ -702,7 +831,7 @@ body {
 }
 
 .feature-btn::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -727,7 +856,11 @@ body {
    ============================================================================ */
 
 .details {
-  background: linear-gradient(135deg, var(--color-primary-lighter) 0%, var(--color-accent-lighter) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-lighter) 0%,
+    var(--color-accent-lighter) 100%
+  );
   padding: var(--spacing-3xl) var(--spacing-xl);
   border-top: 4px solid var(--color-primary);
 }
@@ -780,7 +913,7 @@ body {
 }
 
 .details-content h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -838,13 +971,18 @@ body {
 }
 
 .quiz-option::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(41, 209, 172, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(41, 209, 172, 0.1),
+    transparent
+  );
   transition: left var(--transition-base);
 }
 
@@ -861,7 +999,11 @@ body {
 
 .quiz-option.selected {
   border-color: var(--color-accent);
-  background: linear-gradient(135deg, rgba(41, 209, 172, 0.1) 0%, rgba(41, 209, 172, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(41, 209, 172, 0.1) 0%,
+    rgba(41, 209, 172, 0.05) 100%
+  );
   font-weight: var(--font-weight-semibold);
   box-shadow: 0 4px 12px rgba(41, 209, 172, 0.2);
 }
@@ -900,12 +1042,20 @@ body {
 
 .quiz-feedback.correct {
   border-color: var(--color-success);
-  background: linear-gradient(135deg, white 0%, var(--color-success-light) 100%);
+  background: linear-gradient(
+    135deg,
+    white 0%,
+    var(--color-success-light) 100%
+  );
 }
 
 .quiz-feedback.incorrect {
   border-color: var(--color-warning);
-  background: linear-gradient(135deg, white 0%, var(--color-warning-light) 100%);
+  background: linear-gradient(
+    135deg,
+    white 0%,
+    var(--color-warning-light) 100%
+  );
 }
 
 .feedback-icon {
@@ -966,7 +1116,11 @@ body {
 }
 
 .quiz-action-btn.completed {
-  background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-success) 0%,
+    var(--color-success-dark) 100%
+  );
   color: white;
   cursor: default;
 }
@@ -1024,10 +1178,15 @@ body {
 }
 
 .info-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(41, 209, 172, 0.05), transparent);
+  background: linear-gradient(
+    135deg,
+    transparent,
+    rgba(41, 209, 172, 0.05),
+    transparent
+  );
   opacity: 0;
   transition: opacity var(--transition-base);
 }

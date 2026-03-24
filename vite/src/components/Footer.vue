@@ -6,8 +6,9 @@
         <div class="footer-section">
           <h3>Over Watnu</h3>
           <p>
-            Watnu helpt MBO studenten begrijpen hoe studiefinanciering, OV-studentenkaarten 
-            en andere zaken werken als je 18 word. We maken het ingewikkelde simpel!
+            Watnu helpt MBO studenten begrijpen hoe studiefinanciering,
+            OV-studentenkaarten en andere zaken werken als je 18 word. We maken
+            het ingewikkelde simpel!
           </p>
         </div>
 
@@ -26,8 +27,10 @@
         <div class="footer-section">
           <h3>Contact</h3>
           <p>
-            <strong>Email:</strong> <a href="mailto:info@watnu.nl">info@watnu.nl</a><br>
-            <strong>Telefoon:</strong> <a href="tel:+31612345678">+31 6 12 345 678</a><br>
+            <strong>Email:</strong>
+            <a href="mailto:info@watnu.nl">info@watnu.nl</a><br />
+            <strong>Telefoon:</strong>
+            <a href="tel:+31612345678">+31 6 12 345 678</a><br />
             <strong>Adres:</strong> Nederland
           </p>
         </div>
@@ -65,12 +68,15 @@
 <script setup>
 // Footer component logic kan hier worden toegevoegd
 </script>
-
 <style scoped>
-@import '../styles/variables.css';
+@import "../styles/variables.css";
 
 .footer {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   color: white;
   margin-top: 4rem;
   padding: 3rem 2rem 1rem;
