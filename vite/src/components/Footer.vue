@@ -1,249 +1,177 @@
 <template>
   <footer class="footer">
     <div class="footer-container">
-      <div class="footer-content">
-        <!-- Kolom 1: Over ons -->
-        <div class="footer-section">
-          <h3>Over Watnu</h3>
-          <p>
-            Watnu helpt MBO studenten begrijpen hoe studiefinanciering, OV-studentenkaarten 
-            en andere zaken werken als je 18 word. We maken het ingewikkelde simpel!
-          </p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">Wat<span>Nu</span>18</div>
+          <p>Helpt MBO-studenten grip te krijgen op studiefinanciering, OV, verzekeringen en meer — precies als je 18 wordt.</p>
         </div>
-
-        <!-- Kolom 2: Handige Links -->
-        <div class="footer-section">
-          <h3>Handige Links</h3>
+        <div class="footer-links-group">
+          <h4>Informatie</h4>
           <ul>
-            <li><a href="#studiefinancing">Studiefinanciering</a></li>
+            <li><a href="#studiefinanciering">Studiefinanciering</a></li>
             <li><a href="#ov-kaart">OV-studentenkaart</a></li>
-            <li><a href="#woonkosten">Woonkosten</a></li>
-            <li><a href="#faq">Veelgestelde Vragen</a></li>
+            <li><a href="#woonkosten">Woonkosten & huurtoeslag</a></li>
+            <li><a href="#zorgverzekering">Zorgverzekering</a></li>
+            <li><a href="#documenten">Documenten checklist</a></li>
           </ul>
         </div>
-
-        <!-- Kolom 3: Contact -->
-        <div class="footer-section">
-          <h3>Contact</h3>
-          <p>
-            <strong>Email:</strong> <a href="mailto:info@watnu.nl">info@watnu.nl</a><br>
-            <strong>Telefoon:</strong> <a href="tel:+31612345678">+31 6 12 345 678</a><br>
-            <strong>Adres:</strong> Nederland
-          </p>
+        <div class="footer-links-group">
+          <h4>Help & contact</h4>
+          <ul>
+            <li><a href="mailto:info@watnu.nl">info@watnu.nl</a></li>
+            <li><a href="tel:+31612345678">+31 6 12 345 678</a></li>
+            <li><a href="#faq">Veelgestelde vragen</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+          </ul>
         </div>
-
-        <!-- Kolom 4: Socials -->
-        <div class="footer-section">
-          <h3>Volg ons</h3>
-          <div class="social-links">
-            <a href="#facebook" class="social-btn" title="Facebook">f</a>
-            <a href="#instagram" class="social-btn" title="Instagram">📷</a>
-            <a href="#linkedin" class="social-btn" title="LinkedIn">in</a>
-            <a href="#twitter" class="social-btn" title="Twitter">𝕏</a>
+        <div class="footer-social">
+          <h4>Volg ons</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram"><span>📷</span></a>
+            <a href="#" aria-label="LinkedIn"><span>in</span></a>
+            <a href="#" aria-label="X"><span>𝕏</span></a>
+            <a href="#" aria-label="TikTok"><span>♫</span></a>
           </div>
         </div>
       </div>
-
-      <!-- Divider -->
-      <div class="footer-divider"></div>
-
-      <!-- Copyright -->
       <div class="footer-bottom">
-        <p>&copy; 2026 Watnu. Alle rechten voorbehouden.</p>
-        <div class="footer-links">
+        <p>&copy; 2026 WatNu18 — gemaakt voor MBO'ers, door MBO'ers</p>
+        <div class="legal-links">
           <a href="#privacy">Privacybeleid</a>
-          <span class="divider">|</span>
+          <span>•</span>
           <a href="#terms">Gebruiksvoorwaarden</a>
-          <span class="divider">|</span>
-          <a href="#cookies">Cookiebeleid</a>
+          <span>•</span>
+          <a href="#cookies">Cookievoorkeuren</a>
         </div>
       </div>
     </div>
   </footer>
 </template>
 
-<script setup>
-// Footer component logic kan hier worden toegevoegd
-</script>
-
 <style scoped>
 @import '../styles/variables.css';
 
 .footer {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: white;
-  margin-top: 4rem;
-  padding: 3rem 2rem 1rem;
-  border-top: 3px solid var(--color-accent);
+  background: linear-gradient(135deg, var(--color-gray-900) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-white);
+  margin-top: var(--spacing-4xl);
+  padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-2xl);
+  border-top: 4px solid var(--color-accent);
 }
 
 .footer-container {
-  max-width: 1200px;
+  max-width: var(--container-width);
   margin: 0 auto;
 }
 
-.footer-content {
+.footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-2xl);
+  margin-bottom: var(--spacing-3xl);
 }
 
-.footer-section {
-  padding: 0 1rem;
+.footer-brand .footer-logo {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.3px;
 }
 
-.footer-section h3 {
+.footer-brand .footer-logo span {
   color: var(--color-accent);
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
 }
 
-.footer-section p {
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
+.footer-brand p {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: rgba(255,255,255,0.7);
+  max-width: 260px;
 }
 
-.footer-section ul {
+.footer-links-group h4 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-accent-light);
+}
+
+.footer-links-group ul {
   list-style: none;
   padding: 0;
 }
 
-.footer-section ul li {
-  margin-bottom: 0.5rem;
+.footer-links-group li {
+  margin-bottom: var(--spacing-sm);
 }
 
-.footer-section a {
-  color: rgba(255, 255, 255, 0.9);
+.footer-links-group a {
+  color: rgba(255,255,255,0.7);
   text-decoration: none;
-  transition: all 0.3s ease;
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
 }
 
-.footer-section a:hover {
+.footer-links-group a:hover {
   color: var(--color-accent);
   text-decoration: underline;
 }
 
-/* Social Links */
-.social-links {
+.social-icons {
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: var(--spacing-md);
 }
 
-.social-btn {
-  display: inline-flex;
+.social-icons a {
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: rgba(8, 145, 178, 0.2);
-  border: 2px solid var(--color-accent);
-  border-radius: 50%;
-  color: var(--color-accent);
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-full);
+  font-size: 1.2rem;
+  transition: all var(--transition-base);
   text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.social-btn:hover {
-  background-color: var(--color-accent);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
 }
 
-/* Footer Divider */
-.footer-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 2rem 0;
+.social-icons a:hover {
+  background: var(--color-accent);
+  transform: translateY(-3px);
 }
 
-/* Footer Bottom */
 .footer-bottom {
   text-align: center;
-  padding: 1.5rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: var(--font-size-xs);
+  color: rgba(255,255,255,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
-.footer-bottom p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.footer-links {
+.legal-links {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  align-items: center;
+  gap: var(--spacing-sm);
   flex-wrap: wrap;
 }
 
-.footer-links a {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.85rem;
+.legal-links a {
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
-.footer-links a:hover {
+.legal-links a:hover {
   color: var(--color-accent);
 }
 
-.divider {
-  color: rgba(255, 255, 255, 0.2);
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-  .footer {
-    padding: 2rem 1rem 1rem;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .footer-section {
-    padding: 0;
-  }
-
-  .footer-bottom {
-    padding: 1rem 0;
-  }
-
-  .footer-links {
-    gap: 0.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer {
-    padding: 1.5rem 0.5rem 0.5rem;
-  }
-
-  .footer-section h3 {
-    font-size: 1rem;
-  }
-
-  .footer-section p {
-    font-size: 0.85rem;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .divider {
-    display: none;
+  .footer-grid {
+    gap: var(--spacing-xl);
   }
 }
 </style>
