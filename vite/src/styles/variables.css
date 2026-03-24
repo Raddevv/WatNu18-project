@@ -1,0 +1,101 @@
+/* WatNu18 css color root */
+:root {
+  --color-primary: #1F2937;
+  --color-primary-dark: #111827;
+  --color-primary-light: #374151;
+  --color-primary-lighter: #4B5563;
+  --color-bg: #fdffdf;
+  --color-bg-light:#ffffff;
+  --color-bg-lighter: #fdfcef;
+  --color-bg-lightest: #fefefe;
+  --color-accent: #345995;
+  --color-accent-dark: #2b4c80;
+  --color-accent-light: #496da5;
+  --color-accent-lighter: #6a89bc;
+  --color-cta: #3F784C;
+  --color-cta-dark: #3F784C;
+  --color-cta-light: #3F784C;
+  --color-success: #15803D;
+  --color-success-dark: #166534;
+  --color-success-light: #D4EDDA;
+  --color-warning: #D97706;
+  --color-warning-dark: #B45309;
+  --color-warning-light: #FEF3C7;
+  --color-error: #DC2626;
+  --color-error-dark: #B91C1C;
+  --color-error-light: #FEF2F2;
+  --color-white: #ffffff;
+  --color-black: #111827;
+  --color-gray-50: #161616;
+  --color-gray-100: #F1F5F9;
+  --color-gray-200: #E2E8F0;
+  --color-gray-300: #CBD5E1;
+  --color-gray-400: #94A3B8;
+  --color-gray-500: #64748B;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1E293B;
+  --color-gray-900: #0F172A;
+  --font-family-base: 'Inter', system-ui, -apple-system, 'Noto Sans', sans-serif;
+  --font-family-mono: 'Roboto Mono', monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --spacing-xxs: 0.125rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 2.5rem;
+  --spacing-3xl: 3rem;
+  --spacing-4xl: 4rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-focus: 0 0 0 0.25rem rgb(5 150 105 / 0.5);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 50;
+  --z-fixed: 1000;
+  --z-modal: 1200;
+  --z-tooltip: 1300;
+  --container-width: 1140px;
+}
+
+.text-primary { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.text-success { color: var(--color-success); }
+.text-error { color: var(--color-error); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-light { background-color: var(--color-primary-lighter); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-success { background-color: var(--color-success); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }

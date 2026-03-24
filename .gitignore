@@ -1,0 +1,41 @@
+# --- Secrets / local env ---
+.env
+.env.*
+backend/.env
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+backend/.venv/
+
+# --- Node/Vite ---
+node_modules/
+vite/node_modules/
+dist/
+vite/dist/
+.vite/
+
+# --- Docker/dev markers ---
+.docker_built
+.frontend_done
+.laravel_done
+
+# --- Local data/cache ---
+backend/data/*.json
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+
+# ---
+TODO.md
+
+# --- Random local binaries ---
+curl.exe
