@@ -7,7 +7,7 @@
         <div class="progress-content">
           <div class="progress-text">
             <h3>Jouw 18e jaar checklist</h3>
-            <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> — blijf zo doorgaan!</p>
+            <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
@@ -25,7 +25,7 @@
       <section class="hero">
         <div class="hero-content">
           <h1 class="hero-title">Van 17 naar 18<br><span>Alles geregeld?</span></h1>
-          <p class="hero-subtitle">Studiefinanciering, OV, zorgtoeslag, huurtoeslag — WatNu18 geeft je stap voor stap duidelijkheid. Gemaakt door MBO'ers, voor MBO'ers.</p>
+          <p class="hero-subtitle">Studiefinanciering, OV, zorgtoeslag, huurtoeslag, WatNu18 geeft je stap voor stap duidelijkheid. Gemaakt door MBO'ers, voor MBO'ers.</p>
           <button class="cta-btn" @click="scrollToFeatures">Start je journey →</button>
         </div>
       </section>
@@ -464,7 +464,7 @@ body {
 }
 
 .details {
-  background: var(--color-gray-100);
+  background: var(--color-bg-lighter);
   padding: var(--spacing-3xl) var(--spacing-xl);
   border-radius: var(--radius-xl);
   margin: var(--spacing-2xl) 0;
@@ -489,7 +489,7 @@ body {
 }
 
 .details-quiz {
-  background: var(--color-gray-50);
+  background: var(--color-gray-200);
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
   margin-top: var(--spacing-xl);
