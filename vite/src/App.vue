@@ -21,7 +21,6 @@
         </div>
       </div>
 
-      <!-- Hero -->
       <section class="hero">
         <div class="hero-content">
           <h1 class="hero-title">Van 17 naar 18<br><span>Alles geregeld?</span></h1>
@@ -30,7 +29,6 @@
         </div>
       </section>
 
-      <!-- 5-Step Mission -->
       <section class="features" id="features">
         <div class="features-wrapper">
           <div class="section-header">
@@ -53,7 +51,6 @@
         </div>
       </section>
 
-      <!-- Detail panel with quiz -->
       <section class="details" v-if="selectedFeature !== null">
         <div class="details-container">
           <button class="close-btn" @click="selectedFeature = null">← Terug naar overzicht</button>
