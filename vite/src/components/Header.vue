@@ -17,7 +17,6 @@
         <div class="features-menu">
           <button class="features-btn" aria-label="Menu">
 <svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-  <!-- Outer margins: 18px on all sides -->
   <line x1="18" y1="26" x2="54" y2="26" />
   <line x1="18" y1="36" x2="54" y2="36" />
   <line x1="18" y1="46" x2="54" y2="46" />
@@ -192,7 +191,7 @@
   align-items: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-md) var(--spacing-lg);
-  color: var(--color-gray-700);
+  color: var(--color-gray-600);
   text-decoration: none;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
