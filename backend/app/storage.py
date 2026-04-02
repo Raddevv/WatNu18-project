@@ -15,8 +15,6 @@ def _normalize_question(text: str) -> str:
 
 
 def _make_id(normalized_question: str) -> str:
-    # stable-ish, short, readable id without storing any user identifiers
-    # (not cryptographically secure; good enough for a school project)
     import hashlib
 
     h = hashlib.sha256(normalized_question.encode("utf-8")).hexdigest()

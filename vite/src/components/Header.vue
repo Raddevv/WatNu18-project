@@ -16,7 +16,12 @@
       <div class="nav-section">
         <div class="features-menu">
           <button class="features-btn" aria-label="Menu">
-            <span>Informatie</span>
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+  <!-- Outer margins: 18px on all sides -->
+  <line x1="18" y1="26" x2="54" y2="26" />
+  <line x1="18" y1="36" x2="54" y2="36" />
+  <line x1="18" y1="46" x2="54" y2="46" />
+</svg>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -42,7 +47,6 @@
 </template>
 
 <script setup>
-// No additional logic needed
 </script>
 
 <style scoped>
@@ -141,6 +145,23 @@
   transform: translateY(-1px);
 }
 
+.features-btn svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.features-btn svg:first-child {
+  width: 28px;
+  height: 28px;
+}
+
+.features-btn svg:last-child {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
 .features-dropdown {
   position: absolute;
   top: 100%;
@@ -180,7 +201,7 @@
 }
 
 .features-dropdown a:hover {
-  background: var(--color-gray-50);
+  background: var(--color-gray-300);
   border-left-color: var(--color-accent);
   padding-left: calc(var(--spacing-lg) + 4px);
 }
