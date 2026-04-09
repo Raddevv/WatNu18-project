@@ -10,7 +10,7 @@ NC='\033[0m'
 clear
 echo -e "${LIGHT_CYAN}==============================================${NC}"
 echo -e "${LIGHT_CYAN}  Watnu18 — Local Development (frontend + hooks) ${NC}"
-echo -e "${LIGHT_CYAN}  Script by alexljn ${NC}"
+echo -e "${LIGHT_CYAN}  Script by Zytex ${NC}"
 echo -e "${LIGHT_CYAN}==============================================${NC}"
 echo
 
