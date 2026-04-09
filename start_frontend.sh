@@ -10,7 +10,7 @@ NC='\033[0m'
 clear
 echo -e "${LIGHT_CYAN}==============================================${NC}"
 echo -e "${LIGHT_CYAN}  Watnu18 — Local Development (frontend + hooks) ${NC}"
-echo -e "${LIGHT_CYAN}  Script by alexljn ${NC}"
+echo -e "${LIGHT_CYAN}  Script by Zytex ${NC}"
 echo -e "${LIGHT_CYAN}==============================================${NC}"
 echo
 
@@ -31,8 +31,6 @@ command -v docker >/dev/null || { echo -e "${RED}Docker not found${NC}"; exit 1;
 [[ -f docker-compose.yml ]] || { echo -e "${RED}docker-compose.yml missing${NC}"; exit 1; }
 [[ -f Dockerfile ]] || { echo -e "${RED}Dockerfile missing${NC}"; exit 1; }
 [[ -f backend/.env ]] || echo -e "${RED}Warning: backend/.env missing. Create from backend/.env.example (Ollama configured by default)${NC}"
-
-[[ -d "vite" ]] && [[ ! -f "vite/.env" ]] && { echo -e "${LIGHT_CYAN}>>> Copying vite/.env.example to vite/.env${NC}"; cp vite/.env.example vite/.env; }
 
 echo -e "${GREEN}>>> Pre-flight OK${NC}"
 
