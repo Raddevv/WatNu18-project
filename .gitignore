@@ -16,6 +16,9 @@ __pycache__/
 backend/.venv/
 
 # --- Node/Vite ---
+vite/.env
+vite/.env.local
+vite/.env.*.local
 node_modules/
 vite/node_modules/
 dist/
