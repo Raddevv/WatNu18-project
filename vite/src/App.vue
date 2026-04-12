@@ -3,18 +3,17 @@
     <Header />
     <main class="main-content">
       <!-- Progress banner -->
-      <div class="progress-banner" :class="{ collapsed: isCollapsed }">
+      <div class="progress-banner">
         <div class="progress-content">
           <div class="progress-text">
             <h3>Jouw 18e jaar checklist</h3>
-            <p v-if="!isCollapsed">Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
-            <p class="progress-percent" v-else><strong>{{ overallProgress }}%</strong> voorbereid</p>
+            <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
           </div>
           <div class="progress-items">
-            <div v-for="(feat, idx) in visibleFeatures" :key="idx" class="progress-item" :class="{ done: feat.completed }">
+            <div v-for="(feat, idx) in features" :key="idx" class="progress-item" :class="{ done: feat.completed }">
               <span class="icon">{{ feat.completed ? '✓' : idx+1 }}</span>
               <span class="label">{{ feat.titleShort }}</span>
             </div>
@@ -30,28 +29,6 @@
         </div>
       </section>
 
-      <!-- Waarom sectie: verplaatst boven features -->
-      <section class="info-section">
-        <h2>Waarom WatNu18?</h2>
-        <div class="info-grid">
-          <div class="info-card">
-            <div class="info-icon">🎯</div>
-            <h3>Speciaal voor MBO</h3>
-            <p>Geen overbodige info — alleen wat jij écht nodig hebt als MBO‑student.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-icon">📋</div>
-            <h3>Gebaseerd op DUO & overheid</h3>
-            <p>Alle informatie up‑to‑date en betrouwbaar, getoetst door experts.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-icon">🏆</div>
-            <h3>Motiverend & gamified</h3>
-            <p>Verdien badges, volg je voortgang en blijf gemotiveerd.</p>
-          </div>
-        </div>
-      </section>
-
       <section class="features" id="features">
         <div class="features-wrapper">
           <div class="section-header">
@@ -59,14 +36,14 @@
             <p>Voltooi elke missie, verdien badges en word helemaal klaar voor je 18e</p>
           </div>
           <div class="features-grid">
-            <div class="feature-card" v-for="(feature, index) in visibleFeatures" :key="index" :class="{ completed: feature.completed }">
+            <div class="feature-card" v-for="(feature, index) in features" :key="index" :class="{ completed: feature.completed }">
               <div class="feature-header">
                 <span class="feature-step">{{ index + 1 }}</span>
                 <span class="feature-badge" v-if="feature.completed">✓ Voltooid</span>
               </div>
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
-              <button class="feature-btn" @click="selectFeature(features.indexOf(feature))">
+              <button class="feature-btn" @click="selectFeature(index)">
                 {{ feature.completed ? 'Herbekijk' : 'Start missie' }}
               </button>
             </div>
@@ -112,7 +89,27 @@
         </div>
       </section>
 
-      
+      <!-- Why WatNu18 -->
+      <section class="info-section">
+        <h2>Waarom WatNu18?</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-icon">🎯</div>
+            <h3>Speciaal voor MBO</h3>
+            <p>Geen overbodige info — alleen wat jij écht nodig hebt als MBO‑student.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📋</div>
+            <h3>Gebaseerd op DUO & overheid</h3>
+            <p>Alle informatie up‑to‑date en betrouwbaar, getoetst door experts.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">🏆</div>
+            <h3>Motiverend & gamified</h3>
+            <p>Verdien badges, volg je voortgang en blijf gemotiveerd.</p>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
     <ChatWidget />
@@ -123,7 +120,7 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import ChatWidget from './components/ChatWidget.vue'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed } from 'vue'
 
 const selectedFeature = ref(null)
 const currentQuizAnswer = ref(null)
@@ -136,8 +133,7 @@ const features = ref([
     titleShort: 'DUO',
     description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
     longDescription: 'Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt. Het bestaat uit een prestatiebeurs (gift) en eventueel een aanvullende beurs. Vul op tijd je aanvraag in via Mijn DUO.',
-    completed: false,
-    locked: true,
+    completed: true,
     quiz: {
       question: 'Wanneer kun je studiefinanciering aanvragen?',
       correctAnswer: 1,
@@ -199,12 +195,6 @@ const features = ref([
   }
 ])
 
-// compute which features to show in the progress banner / features grid
-const visibleFeatures = computed(() => {
-  const anyUnlockedCompleted = features.value.some(f => f.completed && !f.locked)
-  return features.value.filter(f => !f.locked || f.completed || anyUnlockedCompleted)
-})
-
 const overallProgress = computed(() => {
   const completedCount = features.value.filter(f => f.completed).length
   return Math.round((completedCount / features.value.length) * 100)
@@ -240,102 +230,10 @@ function resetQuiz() {
 function retryQuiz() {
   resetQuiz()
 }
-
-// sticky / collapse behaviour with rAF + hysteresis to prevent jitter
-const isCollapsed = ref(false)
-const collapseThreshold = ref(120)
-let ticking = false
-
-function handleScroll() {
-  const y = window.scrollY || window.pageYOffset
-  // hysteresis: expand when below (threshold - 20), collapse when above threshold
-  if (y > collapseThreshold.value && !isCollapsed.value) {
-    isCollapsed.value = true
-  } else if (y < collapseThreshold.value - 20 && isCollapsed.value) {
-    isCollapsed.value = false
-  }
-}
-
-function onScroll() {
-  if (!ticking) {
-    ticking = true
-    requestAnimationFrame(() => {
-      handleScroll()
-      ticking = false
-    })
-  }
-}
-
-let io = null
-onMounted(() => {
-  const headerEl = document.querySelector('header')
-  const headerH = headerEl?.offsetHeight || 64
-  const gap = 15
-  // set CSS variable so CSS can position the banner under the header
-  document.documentElement.style.setProperty('--progress-top', (headerH + gap) + 'px')
-  // set collapse threshold dynamically (header + some buffer)
-  collapseThreshold.value = headerH + 40
-
-  // improved scroll listener
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-
-  // initial entrance animations: show hero title first
-  const heroTitle = document.querySelector('.hero-title')
-  if (heroTitle) {
-    // small delay so it feels like an entrance
-    setTimeout(() => heroTitle.classList.add('animate-in'), 80)
-    setTimeout(() => document.querySelector('.hero-subtitle')?.classList.add('animate-in'), 220)
-    setTimeout(() => document.querySelector('.cta-btn')?.classList.add('animate-in'), 360)
-  }
-
-  // IntersectionObserver to reveal elements when they enter viewport
-  io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view')
-        // unobserve if we only want one-time reveal
-        io.unobserve(entry.target)
-      }
-    })
-  }, { threshold: 0.12 })
-
-  // observe common sections/cards
-  document.querySelectorAll('.feature-card, .info-card, .section-header, .details-container, .progress-items .progress-item').forEach(el => io.observe(el))
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
-  if (io) io.disconnect()
-})
 </script>
 
 <style>
 @import './styles/variables.css';
-
-/* Animations */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-in { opacity: 0; animation: slideUp 560ms cubic-bezier(.2,.8,.2,1) forwards; }
-
-.in-view { opacity: 1; transform: none; }
-
-/* default hidden state for revealable elements */
-.feature-card, .info-card, .section-header, .details-container, .progress-items .progress-item, .hero-title, .hero-subtitle, .cta-btn {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.feature-card.in-view, .info-card.in-view, .section-header.in-view, .details-container.in-view, .progress-items .progress-item.in-view {
-  animation: slideUp 420ms ease forwards;
-}
-
-.hero-title.animate-in, .hero-subtitle.animate-in, .cta-btn.animate-in {
-  animation: slideUp 480ms ease forwards;
-}
 
 * {
   margin: 0;
@@ -369,48 +267,13 @@ body {
   width: 100%;
 }
 
-.progress-content {
-  max-width: var(--container-width);
-  width: calc(100% - (var(--spacing-xl) * 2));
-  margin: 0 auto;
-  padding: 0 var(--spacing-md);
-}
-
-
 .progress-banner {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   border-radius: var(--radius-xl);
   padding: var(--spacing-xl) var(--spacing-2xl);
-  margin: var(--spacing-2xl) auto; /* center horizontally */
+  margin: var(--spacing-2xl) 0;
   color: white;
   box-shadow: var(--shadow-lg);
-  position: sticky;
-  top: var(--progress-top, 64px); /* computed from header height + gap */
-  z-index: 40; /* below header (header uses --z-sticky == 50) */
-  transition: padding 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
-  min-height: 100px; /* default tall banner */
-  display: flex;
-  align-items: center;
-  max-width: var(--container-width);
-  width: calc(100% - (var(--spacing-xl) * 2));
-}
-
-
-.progress-banner.collapsed {
-  padding: calc(var(--spacing-xs)) var(--spacing-md);
-  transform: translateY(0) scale(0.975);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-  min-height: 48px; /* collapsed height */
-  align-items: center;
-}
-
-.progress-banner:not(.collapsed):hover {
-  transform: translateY(-2px) scale(1.01);
-}
-
-.progress-banner.collapsed:hover {
-  transform: translateY(-1px) scale(1.02);
-  padding: var(--spacing-sm) var(--spacing-lg);
 }
 
 .progress-text h3 {
@@ -436,32 +299,6 @@ body {
   background: var(--color-accent);
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
-}
-
-.progress-banner.collapsed .progress-bar {
-  height: 4px;
-}
-
-.progress-banner.collapsed .progress-text h3 {
-  font-size: 0.875rem;
-}
-
-/* hide the task chips when collapsed but keep the percent visible */
-.progress-banner.collapsed .progress-items {
-  display: none;
-}
-
-.progress-banner.collapsed .progress-text {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-  width: 100%;
-}
-
-.progress-percent {
-  font-size: 1rem;
-  font-weight: 700;
 }
 
 .progress-items {
