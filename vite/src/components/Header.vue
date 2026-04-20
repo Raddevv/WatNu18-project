@@ -4,9 +4,20 @@
       <div class="logo-section">
         <a href="/" class="logo-link" aria-label="WatNu18 homepage">
           <div class="logo-mark">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8 20L20 8L32 20L20 32L8 20Z" stroke="var(--color-accent)" stroke-width="2" fill="none"/>
-              <circle cx="20" cy="20" r="4" fill="var(--color-accent)"/>
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8 20L20 8L32 20L20 32L8 20Z"
+                stroke="var(--color-accent)"
+                stroke-width="2"
+                fill="none"
+              />
+              <circle cx="20" cy="20" r="4" fill="var(--color-accent)" />
             </svg>
           </div>
           <span class="logo-text">Wat<span>Nu</span>18</span>
@@ -16,12 +27,27 @@
       <div class="nav-section">
         <div class="features-menu">
           <button class="features-btn" aria-label="Menu">
-<svg width="72" height="72" viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
-  <line x1="18" y1="26" x2="54" y2="26" />
-  <line x1="18" y1="36" x2="54" y2="36" />
-  <line x1="18" y1="46" x2="54" y2="46" />
-</svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              width="72"
+              height="72"
+              viewBox="0 0 72 72"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+            >
+              <line x1="18" y1="26" x2="54" y2="26" />
+              <line x1="18" y1="36" x2="54" y2="36" />
+              <line x1="18" y1="46" x2="54" y2="46" />
+            </svg>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
@@ -34,10 +60,22 @@
             <a href="#faq">❓ Veelgestelde vragen</a>
           </div>
         </div>
+        <a href="/vragen" class="faq-nav-btn" aria-label="Veelgestelde vragen">
+          FAQ
+        </a>
         <a href="/" class="home-btn" aria-label="Home">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9L12 3L21 9L21 19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V9Z"/>
-            <path d="M9 21V12H15V21"/>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M3 9L12 3L21 9L21 19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V9Z"
+            />
+            <path d="M9 21V12H15V21" />
           </svg>
         </a>
       </div>
@@ -45,14 +83,17 @@
   </header>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style scoped>
-@import '../styles/variables.css';
+@import "../styles/variables.css";
 
 .header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
@@ -92,7 +133,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   transition: transform var(--transition-base);
 }
@@ -124,7 +165,7 @@
 }
 
 .features-btn {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-full);
@@ -140,7 +181,7 @@
 }
 
 .features-btn:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
 }
 
@@ -205,13 +246,31 @@
   padding-left: calc(var(--spacing-lg) + 4px);
 }
 
+.faq-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  padding: 0.45rem 0.8rem;
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--transition-fast);
+}
+
+.faq-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 .home-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 42px;
   height: 42px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-full);
   transition: all var(--transition-base);
   color: var(--color-white);
