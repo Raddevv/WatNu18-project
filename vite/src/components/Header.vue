@@ -53,12 +53,11 @@
 @import '../styles/variables.css';
 
 .header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background-color: var(--color-primary);
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  border-bottom: 3px solid var(--color-accent);
 }
 
 .header-container {

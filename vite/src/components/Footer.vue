@@ -58,9 +58,24 @@
   margin-top: var(--spacing-4xl);
   padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-2xl);
   border-top: 4px solid var(--color-accent);
+  overflow: hidden;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: radial-gradient(ellipse at 20% top, rgba(43, 103, 199, 0.08), transparent 60%);
+  pointer-events: none;
 }
 
 .footer-container {
+  position: relative;
+  z-index: 2;
   max-width: var(--container-width);
   margin: 0 auto;
 }
