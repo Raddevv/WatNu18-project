@@ -7,34 +7,6 @@
       </p>
     </header>
 
-    <main class="buttons-area">
-      <div class="bg-gif" aria-hidden="true"></div>
-      <div class="buttons-grid">
-        <button
-          v-for="(item, i) in items"
-          :key="item.id"
-          :class="{ active: activeIndex === i }"
-          @click="openItem(item, i)"
-          @mouseenter="hoverIndex = i"
-          @mouseleave="hoverIndex = null"
-          :aria-pressed="activeIndex === i"
-          ref="setButtonRef"
-          type="button"
-        >
-          <span>{{ item.title }}</span>
-
-          <transition name="fade">
-            <img
-              v-if="hoverIndex === i"
-              :src="item.hoverImg"
-              alt="Extra illustratie bij {{ item.title }}"
-              class="hover-preview"
-            />
-          </transition>
-        </button>
-      </div>
-    </main>
-
     <transition name="modal-fade">
       <div v-if="selectedItem" class="modal-overlay" @click.self="closeModal">
         <article class="modal-box">
@@ -58,37 +30,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
-const items = [
-  {
-    id: 1,
-    title: "Hoe werkt deze app?",
-    text: "Deze app laat je FAQ-items lezen en toont game-achtige interacties met toetsenbord en popups.",
-    hoverImg: "https://i.imgur.com/4Z5B4o4.png",
-    dialogImg: "https://i.imgur.com/8YwH2YJ.png",
-  },
-  {
-    id: 2,
-    title: "Waar komt de GIF vandaan?",
-    text: "De achtergrond-GIF is gecentreerd en fix, zodat hij blijft while scrollen.",
-    hoverImg: "https://i.imgur.com/uZ0e1b7.png",
-    dialogImg: "https://i.imgur.com/vCv8JIB.png",
-  },
-  {
-    id: 3,
-    title: "Is het toetsenbord ondersteund?",
-    text: "Ja: pijl-links/rechts/omhoog/omlaag en WASD selecteren, spatie opent een dialog.",
-    hoverImg: "https://i.imgur.com/4jh3voR.png",
-    dialogImg: "https://i.imgur.com/SU8YWRt.png",
-  },
-  {
-    id: 4,
-    title: "Kan ik dit uitbreiden?",
-    text: "Je kunt extra knoppen, links of rich content toevoegen in de array `items` met bijbehorende afbeeldingen.",
-    hoverImg: "https://i.imgur.com/Iw2N9ES.png",
-    dialogImg: "https://i.imgur.com/xu4YqN4.png",
-  },
-];
 
 const selectedItem = ref(null);
 const hoverIndex = ref(null);
@@ -165,24 +106,6 @@ onBeforeUnmount(() => {
   );
   overflow-x: hidden;
   outline: none;
-}
-
-.bg-gif {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 45vw;
-  height: 45vw;
-  max-width: 600px;
-  max-height: 600px;
-  transform: translate(-50%, -50%);
-  background-image: url("https://media.giphy.com/media/Ll22OhMLAlVDb8UQWe/giphy.gif");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: -1;
 }
 
 header {

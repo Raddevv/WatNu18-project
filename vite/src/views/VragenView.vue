@@ -1,7 +1,6 @@
 <template>
+  <div class="gif-background" aria-hidden="true"></div>
   <div class="vragen-view">
-    <div class="gif-background" aria-hidden="true"></div>
-
     <h1>Dit zijn de meest gestelde vragen</h1>
 
     <div class="questions-grid" role="list">
@@ -183,28 +182,12 @@ onUnmounted(() => {
     #020205 100%
   );
   padding: 4rem 1.5rem 2rem;
-  overflow: hidden;
+  overflow: visible;
   min-height: calc(100vh - 110px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 10;
-}
-
-.gif-background {
-  position: fixed;
-  top: 60%;
-  left: 50%;
-  width: 550px;
-  height: 550px;
-  transform: translate(-50%, -50%);
-  background-image: url("https://cdn.pixabay.com/animation/2024/03/23/11/38/11-38-47-787_512.gif");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 5;
+  z-index: 1;
 }
 
 h1 {
