@@ -1,23 +1,23 @@
 /* WatNu18 css color root */
 :root {
-  --color-primary: #0c1a12;
-  --color-primary-dark: #08130d;
-  --color-primary-light: #2e493a;
+  --color-primary: #102417;
+  --color-primary-dark: #0a170f;
+  --color-primary-light: #355643;
   --color-primary-lighter: #698977;
   --color-bg: #b3b4e7;
   --color-bg-light:#c3c4e6;
   --color-bg-lighter: #cbcbe2;
   --color-bg-lightest: #f7f7ff;
-  --color-accent: #ffd66f;
-  --color-accent-dark: #dfb549;
+  --color-accent: #ffcf5a;
+  --color-accent-dark: #dcae3d;
   --color-accent-light: #fff7e4;
-  --color-accent-alt: #42a7a5;
-  --color-accent-alt-1: #f7c547;
+  --color-accent-alt: #4ab58e;
+  --color-accent-alt-1: #f5cf66;
   --color-accent-alt-2: #39793f;
-  --color-cta: #3f7863;
-  --color-cta-dark: #3f7863;
-  --color-cta-light: #3f7863;
-  --color-success: #3f7863;
+  --color-cta: #4a9a76;
+  --color-cta-dark: #337456;
+  --color-cta-light: #68b38f;
+  --color-success: #378a66;
   --color-success-dark: #376957;
   --color-success-light: #a4cebf;
   --color-warning-dark: #e68134;
