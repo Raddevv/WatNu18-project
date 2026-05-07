@@ -72,8 +72,11 @@
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
             <div class="detail-faq">
-              <h3>Veelgestelde vragen over deze stap</h3>
-              <div class="faq-list">
+              <button class="faq-toggle-btn" @click="expandedFaqs = !expandedFaqs">
+                <h3>Veelgestelde vragen over deze stap</h3>
+                <span class="toggle-arrow" :class="{ expanded: expandedFaqs }">▼</span>
+              </button>
+              <div class="faq-list" v-if="expandedFaqs">
                 <div class="faq-item" v-for="(faq, faqIndex) in features[selectedFeature].faqs" :key="faqIndex">
                   <h4>{{ faq.question }}</h4>
                   <p>{{ faq.answer }}</p>
@@ -162,6 +165,7 @@ const currentQuizAnswer = ref(null)
 const quizResult = ref(null)
 const quizAttempted = ref(false)
 const featureRail = ref(null)
+const expandedFaqs = ref(false)
 const PROGRESS_STORAGE_KEY = 'watnu18_feature_progress_v1'
 
 const features = ref([
@@ -285,6 +289,7 @@ function scrollToFeatures() {
 
 function selectFeature(index) {
   selectedFeature.value = index
+  expandedFaqs.value = false
   resetQuiz()
   nextTick(() => {
     document.querySelector('.details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -302,7 +307,7 @@ function submitQuizAnswer(answerIndex) {
     features.value[selectedFeature.value].completed = true
     setTimeout(() => {
       selectedFeature.value = null
-    }, 2000)
+    }, 5000)
   }
 }
 
@@ -789,10 +794,64 @@ body::after {
   margin-top: var(--spacing-xl);
 }
 
+.faq-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: var(--spacing-md);
+  transition: color 0.2s;
+}
+
+.faq-toggle-btn:hover {
+  color: var(--color-accent);
+}
+
+.faq-toggle-btn h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  text-align: left;
+}
+
+.toggle-arrow {
+  display: inline-flex;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  color: var(--color-primary);
+  margin-left: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.toggle-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.toggle-arrow:hover {
+  color: var(--color-accent);
+}
+
 .faq-list {
   display: grid;
   gap: var(--spacing-md);
   margin-top: var(--spacing-sm);
+  animation: expandCollapse 0.3s ease forwards;
+}
+
+@keyframes expandCollapse {
+  from {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    overflow: visible;
+  }
 }
 
 .faq-item {
