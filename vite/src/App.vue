@@ -58,7 +58,7 @@
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
             <div class="details-quiz" v-if="features[selectedFeature].quiz">
-              <h3>🧠 Check je kennis</h3>
+              <h3>Check je kennis</h3>
               <div class="quiz-question">
                 <p>{{ features[selectedFeature].quiz.question }}</p>
                 <div class="quiz-options" v-if="!quizAttempted || !quizResult.isCorrect">
@@ -70,14 +70,14 @@
                 </div>
                 <div class="quiz-result" v-if="quizAttempted && quizResult">
                   <div class="quiz-feedback" :class="quizResult.isCorrect ? 'correct' : 'incorrect'">
-                    <div class="feedback-icon">{{ quizResult.isCorrect ? '🎉' : '🔄' }}</div>
+                    <div class="feedback-icon">{{ quizResult.isCorrect ? '' : '' }}</div>
                     <div class="feedback-text">
                       <h4>{{ quizResult.isCorrect ? 'Goed gedaan!' : 'Niet helemaal' }}</h4>
                       <p>{{ quizResult.explanation }}</p>
                     </div>
                   </div>
                   <button v-if="quizResult.isCorrect" class="quiz-action-btn completed" disabled>
-                    ✨ Badge verdiend
+                    Badge verdiend
                   </button>
                   <button v-else class="quiz-action-btn retry" @click="retryQuiz">
                     Opnieuw proberen
@@ -230,6 +230,7 @@ function resetQuiz() {
 function retryQuiz() {
   resetQuiz()
 }
+
 </script>
 
 <style>
@@ -249,8 +250,47 @@ body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
-  color: var(--color-gray-900);
-  background: var(--color-bg-lighter);
+  color: var(--color-gray-100);
+  background-color: var(--color-black);
+  background-image:
+    radial-gradient(120% 90% at 8% 4%, rgba(25, 68, 49, 0.5) 0%, transparent 48%),
+    radial-gradient(70% 65% at 88% 14%, rgba(96, 113, 101, 0.8) 0%, transparent 52%),
+    radial-gradient(90% 80% at 50% 100%, rgba(20, 39, 24, 0.7) 0%, transparent 55%),
+    radial-gradient(50% 70% at 50% 50%, rgba(44, 78, 58, 0.7) 0%, transparent 55%),
+    linear-gradient(180deg, #0f2d0b 0%, #0f290f 45%, #152a1a 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(34, 255, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 6%) 0 1px, transparent 1px);
+  background-size: 56px 56px, 56px 56px, 112px 112px;
+  background-position: center, center, 28px 28px;
+  opacity: 0.35;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 14% 24%, rgb(81, 109, 90) 0 150px, transparent 170px),
+    radial-gradient(circle at 70% 84%, #3b653f 0 180px, transparent 205px),
+    radial-gradient(circle at 22% 28%, rgba(40, 92, 68, 0.28) 0%, transparent 34%),
+    radial-gradient(circle at 78% 72%, rgba(50, 91, 62, 0.22) 0%, transparent 32%);
+  opacity: 0.5;
+  animation: ambientGlow 1s ease-in-out infinite alternate;
 }
 
 #app {
@@ -259,20 +299,49 @@ body {
   min-height: 100vh;
 }
 
+@keyframes fillCard {
+  from {
+    background: white;
+  }
+  to {
+    background: var(--color-accent-alt-1);
+  }
+}
+
+@keyframes fillCardB {
+  from {
+    background: var(--color-bg-lightest);
+  }
+  to {
+    background: var(--color-accent-alt-1);
+  }
+}
+
+@keyframes ambientGlow {
+  0% {
+    transform: translate3d(-0.15%, -0.345%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0.15%, 0.345%, 0) scale(1.06);
+  }
+}
+
 .main-content {
   flex: 1;
-  max-width: var(--container-width);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 var(--spacing-xl);
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 }
 
 .progress-banner {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--color-white);
   padding: var(--spacing-xl) var(--spacing-2xl);
-  margin: var(--spacing-2xl) 0;
-  color: white;
+  color: var(--color-primary);
   box-shadow: var(--shadow-lg);
 }
 
@@ -288,7 +357,7 @@ body {
 
 .progress-bar {
   height: 8px;
-  background: rgba(255,255,255,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-full);
   overflow: hidden;
   margin-bottom: var(--spacing-lg);
@@ -296,7 +365,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: var(--color-accent);
+  background: var(--color-accent-alt);
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }
@@ -312,7 +381,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  background: rgba(255,255,255,0.1);
+  background: rgba(0, 0, 0, 0.1);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
@@ -335,13 +404,13 @@ body {
 }
 
 .hero {
-  padding: var(--spacing-3xl) 0 var(--spacing-4xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl);
 }
 
 .hero-title {
   font-size: var(--font-size-5xl);
   font-weight: 800;
-  color: var(--color-primary);
+  color: var(--color-white);
   line-height: 1.2;
   margin-bottom: var(--spacing-lg);
 }
@@ -352,8 +421,8 @@ body {
 
 .hero-subtitle {
   font-size: var(--font-size-lg);
-  color: var(--color-gray-600);
-  max-width: 600px;
+  color: var(--color-gray-300);
+  max-width: 640px;
   margin-bottom: var(--spacing-2xl);
 }
 
@@ -370,15 +439,20 @@ body {
 }
 
 .cta-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(1px);
   box-shadow: var(--shadow-lg);
 }
 
+.features-wrapper {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
 .features {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg-lighter);
-  border-radius: var(--radius-xl);
-  margin: var(--spacing-2xl) 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
 }
 
 .section-header {
@@ -388,33 +462,42 @@ body {
 
 .section-header h2 {
   font-size: var(--font-size-3xl);
-  color: var(--color-primary);
+  color: var(--color-white);
   margin-bottom: var(--spacing-sm);
+}
+
+.section-header p {
+  color: rgb(255 255 255 / 92%);
+  max-width: 740px;
+  margin: 0 auto;
+  font-size: var(--font-size-lg);
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--spacing-xl);
 }
 
 .feature-card {
-  background: var(--color-bg-lightest);
-  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  color: var(--color-gray-800);
+  border-radius: var(--radius-sm);
   padding: var(--spacing-xl);
-  border: 0.5px inset var(--color-bg);
+  border: 1px solid #000000;
   transition: all 0.25s;
+  box-shadow: var(--shadow-sm);
 }
 
 .feature-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-accent);
+  animation: fillCardB 0.4s ease both;
 }
 
 .feature-card.completed {
-  border-left: 4px solid var(--color-success);
-  background: linear-gradient(145deg, white, var(--color-success-light));
+  border-left: 10px solid var(--color-success);
 }
 
 .feature-step {
@@ -434,7 +517,8 @@ body {
   background: var(--color-success);
   font-size: var(--font-size-xs);
   padding: 2px 8px;
-  border-radius: var(--radius-full);
+  border-top-right-radius: var(--radius-full);
+  border-bottom-right-radius: var(--radius-full);
   color: white;
 }
 
@@ -457,23 +541,25 @@ body {
 }
 
 .feature-btn:hover {
-  background: var(--color-primary-light);
+  background: var(--color-primary-dark);
 }
 
 .details {
-  background: var(--color-bg-lighter);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  color: var(--color-primary);
   padding: var(--spacing-3xl) var(--spacing-xl);
-  border-radius: var(--radius-xl);
-  margin: var(--spacing-2xl) 0;
+  margin: 0;
 }
 
 .details-container {
   max-width: 800px;
   margin: 0 auto;
-  background: white;
-  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
   padding: var(--spacing-2xl);
-  box-shadow: var(--shadow-lg);
 }
 
 .close-btn {
@@ -486,9 +572,10 @@ body {
 }
 
 .details-quiz {
-  background: var(--color-gray-200);
+  background: var(--color-gray-100);
   padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
+  color: var(--color-primary);
+  border-radius: var(--radius-xs);
   margin-top: var(--spacing-xl);
 }
 
@@ -496,17 +583,18 @@ body {
   display: block;
   width: 100%;
   text-align: left;
-  background: white;
-  border: 1px solid var(--color-gray-300);
+  background: var(--color-gray-200);
   padding: var(--spacing-sm) var(--spacing-md);
   margin-bottom: var(--spacing-sm);
+  border: solid 0.5px;
+  border-color: var(--color-gray-300);
   border-radius: var(--radius-md);
   cursor: pointer;
+  color: var(--color-primary);
   transition: all 0.2s;
 }
 
 .quiz-option:hover:not(:disabled) {
-  border-color: var(--color-accent);
   background: var(--color-accent-light);
 }
 
@@ -520,12 +608,14 @@ body {
 
 .quiz-feedback.correct {
   background: var(--color-success-light);
+  color: var(--color-primary);
   border-left: 4px solid var(--color-success);
 }
 
 .quiz-feedback.incorrect {
   background: var(--color-warning-light);
-  border-left: 4px solid var(--color-warning);
+  color: var(--color-primary);
+  border-left: 4px solid var(--color-warning-dark);
 }
 
 .feedback-icon {
@@ -535,6 +625,7 @@ body {
 .quiz-action-btn {
   width: 100%;
   padding: var(--spacing-sm);
+  color: var(--color-primary);
   border: none;
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-semibold);
@@ -543,17 +634,20 @@ body {
 
 .quiz-action-btn.retry {
   background: var(--color-warning);
-  color: white;
+  color: var(--color-primary);
 }
 
 .quiz-action-btn.completed {
   background: var(--color-success);
-  color: white;
+  color: var(--color-primary);
   cursor: default;
 }
 
 .info-section {
-  padding: var(--spacing-3xl) 0;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-gray-200);
 }
 
 .info-section h2 {
@@ -581,6 +675,8 @@ body {
 .info-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+  background: var(--color-accent-alt-1);
+  animation: fillCard 0.4s ease both;
 }
 
 .info-icon {
@@ -591,7 +687,21 @@ body {
 @media (max-width: 768px) {
   .main-content {
     padding: 0 var(--spacing-md);
+    gap: var(--spacing-lg);
   }
+
+  .progress-banner,
+  .hero,
+  .details,
+  .info-section {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  .features-wrapper {
+    padding: var(--spacing-3xl) var(--spacing-md);
+  }
+
   .hero-title {
     font-size: var(--font-size-3xl);
   }

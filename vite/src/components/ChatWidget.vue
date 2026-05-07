@@ -9,7 +9,7 @@
     <div v-if="open" class="chat-panel" role="dialog" aria-label="WatNu18 chatbot">
       <div class="chat-header">
         <div class="chat-title">
-          <div class="chat-name">Noa <span class="badge">assistent</span></div>
+          <div class="chat-name">Noa<span class="badge">assistent</span></div>
           <div class="chat-subtitle">Vraag alles over studiefinanciering, OV & toeslagen</div>
         </div>
         <div class="chat-actions">
@@ -19,7 +19,7 @@
       </div>
       <div class="chat-body" ref="scrollEl">
         <div v-if="topQuestions.length" class="topq">
-          <div class="topq-title">🔥 Populaire vragen</div>
+          <div class="topq-title">Populaire vragen</div>
           <div class="topq-list">
             <button v-for="q in topQuestions" :key="q.id" class="topq-item" @click="askTopQuestion(q.question)">
               <span class="topq-q">{{ q.question }}</span>
@@ -30,7 +30,10 @@
         <div class="msgs">
           <div v-for="(m, idx) in messages" :key="idx" class="msg" :data-role="m.role">
             <div class="bubble">
-              <div class="text" v-text="m.content"></div>
+              <div class="text" v-html="formatMessage(m.content)"></div>
+              <div v-if="extractSources(m.content)" class="sources">
+                <div v-html="extractSources(m.content)"></div>
+              </div>
             </div>
           </div>
           <div v-if="streaming" class="msg" data-role="assistant">
@@ -198,6 +201,44 @@ onMounted(() => {
   detectLocale()
   loadTopQuestions()
 })
+
+function formatMarkdown(text) {
+  // Parse markdown-achtige syntax: **bold**, *italic*, ***bold+italic***
+  // Zorg ervoor dat we ***bold+italic*** voor ***italic+bold*** doen
+  let result = text
+  
+  // Bold + Italic: ***text*** (drie sterretjes)
+  result = result.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+  
+  // Bold: **text** (twee sterretjes)
+  result = result.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  
+  // Italic: *text* (één sterretje)
+  result = result.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+  
+  return result
+}
+
+function extractSources(content) {
+  // Zoek naar "Sources:" of "Bronnen:" in het bericht
+  const sourcesMatch = content.match(/(?:Sources:|Bronnen:)([\s\S]*?)$/i)
+  if (!sourcesMatch) return null
+  
+  const sourcesText = sourcesMatch[1].trim()
+  if (!sourcesText) return null
+  
+  // Format de sources met markdown support
+  const formatted = formatMarkdown(sourcesText)
+  return `<div class="sources-text">${formatted}</div>`
+}
+
+function formatMessage(content) {
+  // Verwijder sources uit het bericht voor display
+  const cleanContent = content.replace(/\n*(?:Sources:|Bronnen:)[\s\S]*$/i, '').trim()
+  
+  // Apply markdown formatting
+  return formatMarkdown(cleanContent)
+}
 </script>
 
 <style scoped>
@@ -241,11 +282,11 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid var(--color-black);
 }
 
 .chat-header {
-  background: var(--color-primary);
+  background: var(--color-primary-dark);
   padding: var(--spacing-lg);
   display: flex;
   justify-content: space-between;
@@ -354,13 +395,13 @@ onMounted(() => {
   max-width: 85%;
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: 20px;
-  background: var(--color-gray-300);
+  background: var(--color-gray-700);
   box-shadow: var(--shadow-xs);
   border: 1px solid var(--color-gray-200);
 }
 
 .msg[data-role='user'] .bubble {
-  background: var(--color-primary);
+  background: var(--color-primary-dark);
   color: white;
   border: none;
 }
@@ -369,6 +410,30 @@ onMounted(() => {
   font-size: var(--font-size-sm);
   line-height: var(--line-height-normal);
   white-space: pre-wrap;
+}
+
+.text strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.text em {
+  font-style: italic;
+}
+
+.sources {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sources-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  line-height: var(--line-height-normal);
+}
+
+.msg[data-role='user'] .sources-text {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .chat-footer {
@@ -384,7 +449,7 @@ onMounted(() => {
   align-items: center;
   gap: var(--spacing-sm);
   font-size: var(--font-size-xs);
-  color: var(--color-gray-600);
+  color: var(--color-gray-900);
 }
 
 .composer {
@@ -408,7 +473,7 @@ onMounted(() => {
 }
 
 .composer-send {
-  background: var(--color-accent);
+  background: var(--color-accent-alt);
   border: none;
   padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-full);
@@ -424,7 +489,7 @@ onMounted(() => {
 
 .hint {
   font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
+  color: var(--color-accent-alt-1);
   text-align: center;
 }
 </style>
