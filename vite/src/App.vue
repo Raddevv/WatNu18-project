@@ -65,7 +65,7 @@
       </section>
     </section>
 
-      <section class="details" v-if="selectedFeature !== null">
+      <section class="details" v-if="selectedFeature !== null" @click.self="selectedFeature = null">
         <div class="details-container">
           <button class="close-btn" @click="selectedFeature = null">← Terug naar overzicht</button>
           <div class="details-content">
@@ -300,6 +300,9 @@ function submitQuizAnswer(answerIndex) {
   quizResult.value = { isCorrect, explanation: quiz.explanation }
   if (isCorrect) {
     features.value[selectedFeature.value].completed = true
+    setTimeout(() => {
+      selectedFeature.value = null
+    }, 2000)
   }
 }
 
@@ -718,12 +721,27 @@ body::after {
 }
 
 .details {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset: 0;
   z-index: var(--z-sticky);
   color: var(--color-primary);
   padding: var(--spacing-3xl) var(--spacing-xl);
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .details-container {
@@ -733,6 +751,21 @@ body::after {
   border-radius: var(--radius-md);
   color: var(--color-primary);
   padding: var(--spacing-2xl);
+  box-shadow: var(--shadow-2xl);
+  animation: slideUp 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .close-btn {
@@ -839,15 +872,15 @@ body::after {
 
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
+  /*background: var(--color-white);*/
+  /*border: 1px solid var(--color-gray-200);*/
 }
 
 .info-section h2 {
   text-align: center;
   font-size: var(--font-size-3xl);
   margin-bottom: var(--spacing-3xl);
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .info-grid {
@@ -857,11 +890,12 @@ body::after {
 }
 
 .info-card {
-  background: white;
+  background: var(--color-white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   text-align: center;
-  border: 1px solid var(--color-gray-200);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-800);
   transition: all 0.2s;
 }
 
