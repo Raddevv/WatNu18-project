@@ -21,10 +21,28 @@
         <div v-if="topQuestions.length" class="topq">
           <div class="topq-title">Populaire vragen</div>
           <div class="topq-list">
-            <button v-for="q in topQuestions" :key="q.id" class="topq-item" @click="askTopQuestion(q.question)">
-              <span class="topq-q">{{ q.question }}</span>
+            <button v-for="(q, qIndex) in topQuestions" :key="q.id" class="topq-item" @click="askTopQuestion(q.question)">
+              <div class="topq-main">
+                <span class="topq-rank">{{ qIndex + 1 }}</span>
+                <span class="topq-q">{{ q.question }}</span>
+              </div>
               <span class="topq-count">{{ q.count }}×</span>
             </button>
+            <p class="topq-note">
+              Vergelijkbare formuleringen worden samengevoegd zodat deze lijst de populairste onderwerpen toont.
+            </p>
+          </div>
+        </div>
+        <div v-else class="topq topq-empty">
+          <div class="topq-title">Populaire vragen</div>
+          <p>Nog geen data. Zet "anoniem toevoegen" aan om mee te helpen met deze lijst.</p>
+        </div>
+        <div class="topq-answers" v-if="topQuestions.length">
+          <h4>Snelle antwoorden uit de topvragen</h4>
+          <div class="topq-answer-card" v-for="item in topQuestions.slice(0, 3)" :key="`answer-${item.id}`">
+            <strong>{{ item.question }}</strong>
+            <p>{{ previewAnswer(item.answer) }}</p>
+            <button class="topq-ask-btn" @click="askTopQuestion(item.question)">Vraag hierover door</button>
           </div>
         </div>
         <div class="msgs">
@@ -53,6 +71,34 @@
           <button class="composer-send" type="submit" :disabled="streaming || !input.trim()">Verstuur</button>
         </form>
         <div class="hint">Tip: vermeld je opleiding of situatie. Deel nooit persoonlijke gegevens.</div>
+        <div v-if="isDev" class="debug-panel">
+          <button class="debug-toggle" @click="debugOpen = !debugOpen">
+            {{ debugOpen ? 'Debug clusters verbergen' : 'Debug clusters tonen' }}
+          </button>
+          <div v-if="debugOpen" class="debug-body">
+            <div class="debug-actions">
+              <button class="debug-refresh" @click="loadDebugClusters" :disabled="debugLoading">
+                {{ debugLoading ? 'Laden...' : 'Ververs clusters' }}
+              </button>
+              <span v-if="debugError" class="debug-error">{{ debugError }}</span>
+            </div>
+            <div class="debug-list" v-if="debugClusters.length">
+              <div class="debug-item" v-for="cluster in debugClusters" :key="cluster.id">
+                <h5>{{ cluster.canonical_question }} <span>({{ cluster.count }}×)</span></h5>
+                <p>
+                  Aliases:
+                  <span v-for="(alias, aliasIdx) in cluster.aliases.slice(0, 4)" :key="`${cluster.id}-${aliasIdx}`">
+                    "{{ alias.question }}" ({{ alias.count }}×)<span v-if="aliasIdx < Math.min(cluster.aliases.length, 4) - 1">, </span>
+                  </span>
+                </p>
+                <p v-if="cluster.recent_merges?.length">
+                  Laatste merge-score: {{ cluster.recent_merges[cluster.recent_merges.length - 1].score }}
+                </p>
+              </div>
+            </div>
+            <p v-else-if="!debugLoading" class="debug-empty">Nog geen clusterdata beschikbaar.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -67,6 +113,11 @@ const streaming = ref(false)
 const draftAssistant = ref('')
 const logToFaq = ref(false)
 const browserLocale = ref('nl-NL')
+const isDev = import.meta.env.DEV
+const debugOpen = ref(false)
+const debugLoading = ref(false)
+const debugError = ref('')
+const debugClusters = ref([])
 
 function detectLocale() {
   if (typeof window === 'undefined') return
@@ -105,9 +156,30 @@ async function loadTopQuestions() {
   } catch { /* silent fail */ }
 }
 
+async function loadDebugClusters() {
+  if (!isDev) return
+  debugLoading.value = true
+  debugError.value = ''
+  try {
+    const res = await fetch('/api/top-questions/debug?limit=10')
+    if (!res.ok) throw new Error('Debug endpoint niet beschikbaar')
+    const data = await res.json()
+    debugClusters.value = data.items || []
+  } catch (error) {
+    debugError.value = error instanceof Error ? error.message : 'Onbekende fout'
+  } finally {
+    debugLoading.value = false
+  }
+}
+
 function askTopQuestion(q) {
   input.value = q
   send()
+}
+
+function previewAnswer(answer) {
+  if (!answer) return 'Nog geen opgeslagen antwoord.'
+  return answer.length > 160 ? `${answer.slice(0, 157)}...` : answer
 }
 
 function buildPayload(userText) {
@@ -200,6 +272,7 @@ async function send() {
 onMounted(() => {
   detectLocale()
   loadTopQuestions()
+  if (isDev) loadDebugClusters()
 })
 
 function formatMarkdown(text) {
@@ -362,6 +435,25 @@ function formatMessage(content) {
   gap: var(--spacing-sm);
 }
 
+.topq-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.topq-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: var(--color-black);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
 .topq-item {
   text-align: left;
   background: var(--color-gray-50);
@@ -378,6 +470,49 @@ function formatMessage(content) {
 .topq-item:hover {
   background: var(--color-gray-200);
   transform: translateX(2px);
+}
+
+.topq-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  margin-top: var(--spacing-xs);
+}
+
+.topq-empty p {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+}
+
+.topq-answers {
+  display: grid;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.topq-answers h4 {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+}
+
+.topq-answer-card {
+  background: white;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+}
+
+.topq-answer-card p {
+  font-size: var(--font-size-xs);
+  margin: var(--spacing-xs) 0;
+}
+
+.topq-ask-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-primary-light);
+  font-size: var(--font-size-xs);
+  padding: 0;
+  cursor: pointer;
 }
 
 .msgs {
@@ -491,5 +626,74 @@ function formatMessage(content) {
   font-size: var(--font-size-xs);
   color: var(--color-accent-alt-1);
   text-align: center;
+}
+
+.debug-panel {
+  border-top: 1px dashed var(--color-gray-300);
+  padding-top: var(--spacing-sm);
+}
+
+.debug-toggle {
+  border: 1px solid var(--color-gray-300);
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+}
+
+.debug-body {
+  margin-top: var(--spacing-sm);
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.debug-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.debug-refresh {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-bg-lightest);
+  border-radius: var(--radius-sm);
+  padding: 5px 10px;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+}
+
+.debug-error {
+  color: var(--color-error);
+  font-size: var(--font-size-xs);
+}
+
+.debug-list {
+  display: grid;
+  gap: var(--spacing-sm);
+  max-height: 180px;
+  overflow: auto;
+}
+
+.debug-item {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  background: white;
+}
+
+.debug-item h5 {
+  margin-bottom: 4px;
+  font-size: var(--font-size-xs);
+}
+
+.debug-item h5 span {
+  color: var(--color-gray-600);
+}
+
+.debug-item p,
+.debug-empty {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-700);
 }
 </style>

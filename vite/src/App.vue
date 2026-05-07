@@ -9,6 +9,11 @@
             <h3>Jouw 18e jaar checklist</h3>
             <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
           </div>
+          <div class="journey-meta">
+            <div class="journey-pill">XP: {{ journeyPoints }}</div>
+            <div class="journey-pill">Badges: {{ completedCount }}/{{ features.length }}</div>
+            <div class="journey-pill">Volgende stap: {{ nextIncompleteTitle }}</div>
+          </div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
           </div>
@@ -29,20 +34,28 @@
         </div>
       </section>
 
+    <section class="lower-half" id="half">
       <section class="features" id="features">
         <div class="features-wrapper">
           <div class="section-header">
             <h2>Jouw 5‑stappen plan</h2>
             <p>Voltooi elke missie, verdien badges en word helemaal klaar voor je 18e</p>
           </div>
-          <div class="features-grid">
-            <div class="feature-card" v-for="(feature, index) in features" :key="index" :class="{ completed: feature.completed }">
+          <div class="feature-rail-controls" aria-hidden="true">
+            <button class="rail-btn" @click="scrollFeatureRail(-1)">←</button>
+            <button class="rail-btn" @click="scrollFeatureRail(1)">→</button>
+          </div>
+          <div class="features-grid" ref="featureRail">
+            <div class="feature-card" v-for="(feature, index) in features" :key="index" :id="feature.anchor" :class="{ completed: feature.completed }">
               <div class="feature-header">
                 <span class="feature-step">{{ index + 1 }}</span>
                 <span class="feature-badge" v-if="feature.completed">✓ Voltooid</span>
               </div>
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
+              <ul class="feature-highlights">
+                <li v-for="(tip, tipIndex) in feature.quickTips" :key="`${index}-${tipIndex}`">{{ tip }}</li>
+              </ul>
               <button class="feature-btn" @click="selectFeature(index)">
                 {{ feature.completed ? 'Herbekijk' : 'Start missie' }}
               </button>
@@ -50,6 +63,7 @@
           </div>
         </div>
       </section>
+    </section>
 
       <section class="details" v-if="selectedFeature !== null">
         <div class="details-container">
@@ -57,6 +71,15 @@
           <div class="details-content">
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
+            <div class="detail-faq">
+              <h3>Veelgestelde vragen over deze stap</h3>
+              <div class="faq-list">
+                <div class="faq-item" v-for="(faq, faqIndex) in features[selectedFeature].faqs" :key="faqIndex">
+                  <h4>{{ faq.question }}</h4>
+                  <p>{{ faq.answer }}</p>
+                </div>
+              </div>
+            </div>
             <div class="details-quiz" v-if="features[selectedFeature].quiz">
               <h3>Check je kennis</h3>
               <div class="quiz-question">
@@ -110,6 +133,18 @@
           </div>
         </div>
       </section>
+      <section class="faq-section" id="faq">
+        <div class="faq-section-inner">
+          <h2>Extra veelgestelde vragen</h2>
+          <p>Snelle antwoorden op vragen die je als eerstejaars vaak meteen wilt weten.</p>
+          <div class="faq-overview-grid">
+            <article class="faq-overview-card" v-for="(item, idx) in extraFaqs" :key="idx">
+              <h3>{{ item.question }}</h3>
+              <p>{{ item.answer }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
     <ChatWidget />
@@ -120,20 +155,28 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import ChatWidget from './components/ChatWidget.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
 
 const selectedFeature = ref(null)
 const currentQuizAnswer = ref(null)
 const quizResult = ref(null)
 const quizAttempted = ref(false)
+const featureRail = ref(null)
+const PROGRESS_STORAGE_KEY = 'watnu18_feature_progress_v1'
 
 const features = ref([
   {
     title: 'Studiefinanciering',
+    anchor: 'studiefinanciering',
     titleShort: 'DUO',
     description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
     longDescription: 'Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt. Het bestaat uit een prestatiebeurs (gift) en eventueel een aanvullende beurs. Vul op tijd je aanvraag in via Mijn DUO.',
     completed: true,
+    quickTips: ['Vraag op tijd aan via Mijn DUO', 'Check of je recht hebt op aanvullende beurs'],
+    faqs: [
+      { question: 'Hoe lang duurt een aanvraag bij DUO?', answer: 'Vaak enkele werkdagen, maar rond piekperiodes kan het langer duren. Vraag zo vroeg mogelijk aan.' },
+      { question: 'Moet ik elk jaar opnieuw aanvragen?', answer: 'Controleer je situatie elk schooljaar in Mijn DUO; wijzigingen in opleiding of woonstatus kunnen impact hebben.' }
+    ],
     quiz: {
       question: 'Wanneer kun je studiefinanciering aanvragen?',
       correctAnswer: 1,
@@ -143,10 +186,16 @@ const features = ref([
   },
   {
     title: 'OV-studentenkaart',
+    anchor: 'ov-kaart',
     titleShort: 'OV',
     description: 'Reis voordelig met trein, bus en metro.',
     longDescription: 'De OV-studentenkaart geeft je gratis of met korting reizen in het weekend of doordeweeks. Je kiest een product via DUO. Let op: je moet wel voldoen aan de voorwaarden (onder andere recht op studiefinanciering).',
     completed: false,
+    quickTips: ['Koppel je kaart op tijd aan je OV-chipkaart', 'Controleer of je week of weekend vrij wil'],
+    faqs: [
+      { question: 'Wanneer gaat mijn OV in?', answer: 'Meestal vanaf de eerstvolgende maand nadat je recht hebt en je product is opgehaald.' },
+      { question: 'Wat als ik vergeet stop te zetten?', answer: 'Dan kun je een boete krijgen. Zet je studentenreisproduct direct stop zodra je recht eindigt.' }
+    ],
     quiz: {
       question: 'Welke keuze kun je maken voor de OV-studentenkaart?',
       correctAnswer: 0,
@@ -156,10 +205,16 @@ const features = ref([
   },
   {
     title: 'Zorgverzekering & toeslagen',
+    anchor: 'zorgverzekering',
     titleShort: 'Zorg',
     description: 'Verplichte zorgverzekering + zorgtoeslag.',
     longDescription: 'In Nederland ben je verplicht een basiszorgverzekering af te sluiten. Als je 18 wordt, moet je zelf een polis regelen. Kom je in aanmerking voor zorgtoeslag? Check je inkomen en vraag het aan bij de Belastingdienst.',
     completed: false,
+    quickTips: ['Vergelijk premies en eigen risico', 'Vraag zorgtoeslag apart aan'],
+    faqs: [
+      { question: 'Heb ik direct een boete als ik niet op tijd verzeker?', answer: 'Niet direct, maar je hebt een beperkte periode. Daarna kun je een boete en naheffing krijgen.' },
+      { question: 'Kan ik zorgtoeslag met terugwerkende kracht aanvragen?', answer: 'In veel gevallen wel binnen hetzelfde kalenderjaar, maar wacht niet te lang.' }
+    ],
     quiz: {
       question: 'Is zorgtoeslag automatisch?',
       correctAnswer: 1,
@@ -169,10 +224,16 @@ const features = ref([
   },
   {
     title: 'Woonkosten & huurtoeslag',
+    anchor: 'woonkosten',
     titleShort: 'Wonen',
     description: 'Energiekosten, huur, en huurtoeslag.',
     longDescription: 'Woonkosten zijn vaak de grootste uitgave. Als je op kamers gaat of zelfstandig woont, kun je mogelijk huurtoeslag krijgen. De voorwaarden: je huurt een zelfstandige woning, bent 18+, en voldoet aan de inkomensgrens.',
     completed: false,
+    quickTips: ['Controleer of je woning zelfstandig is', 'Bereken totale kosten inclusief energie'],
+    faqs: [
+      { question: 'Kan ik huurtoeslag krijgen voor een gedeelde keuken?', answer: 'Vaak niet. Huurtoeslag is meestal voor zelfstandige woonruimte met eigen voorzieningen.' },
+      { question: 'Welke gegevens heb ik nodig voor aanvraag?', answer: 'Huurprijs, adresgegevens, inkomensinformatie en vaak je DigiD.' }
+    ],
     quiz: {
       question: 'Kan een MBO-student huurtoeslag krijgen?',
       correctAnswer: 0,
@@ -182,10 +243,16 @@ const features = ref([
   },
   {
     title: 'Belangrijke documenten',
+    anchor: 'documenten',
     titleShort: 'Papieren',
     description: 'ID, DigiD, bankrekening en meer.',
     longDescription: 'Zorg dat je een geldig ID‑bewijs hebt, een eigen bankrekening, je DigiD activeert, en je zaken zoals je BSN goed hebt vastgelegd. Bewaar kopieën digitaal en veilig.',
     completed: false,
+    quickTips: ['Leg al je documenten in 1 veilige map', 'Zorg dat je DigiD sms-controle aanzet'],
+    faqs: [
+      { question: 'Welke documenten moet ik nooit delen via chat?', answer: 'Deel geen BSN, volledige ID-foto of bankgegevens in openbare chats.' },
+      { question: 'Hoe bewaar ik kopieën veilig?', answer: 'Gebruik een beveiligde cloudmap of versleutelde opslag met sterke wachtwoorden.' }
+    ],
     quiz: {
       question: 'Welke documenten heb je minimaal nodig als je 18 wordt?',
       correctAnswer: 2,
@@ -195,9 +262,21 @@ const features = ref([
   }
 ])
 
+const extraFaqs = [
+  { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja. Let op je inkomsten en check actuele regels bij DUO, want grenzen en voorwaarden kunnen wijzigen.' },
+  { question: 'Moet ik zorgtoeslag terugbetalen als mijn inkomen stijgt?', answer: 'Dat kan. Pas je inkomen op tijd aan bij de Belastingdienst om verrassingen te voorkomen.' },
+  { question: 'Wat regel ik eerst als ik bijna 18 ben?', answer: 'Start met DigiD/ID, daarna DUO-aanvraag en zorgverzekering. Zo voorkom je dat je deadlines mist.' },
+  { question: 'Wat als mijn ouders me niet kunnen helpen met formulieren?', answer: 'Gebruik schoolbegeleiding, jongerenloket of duo.nl hulpmiddelen. Je hoeft het niet alleen te doen.' }
+]
+
+const completedCount = computed(() => features.value.filter(f => f.completed).length)
 const overallProgress = computed(() => {
-  const completedCount = features.value.filter(f => f.completed).length
-  return Math.round((completedCount / features.value.length) * 100)
+  return Math.round((completedCount.value / features.value.length) * 100)
+})
+const journeyPoints = computed(() => completedCount.value * 120)
+const nextIncompleteTitle = computed(() => {
+  const next = features.value.find(f => !f.completed)
+  return next ? next.titleShort : 'Alles afgerond'
 })
 
 function scrollToFeatures() {
@@ -207,6 +286,9 @@ function scrollToFeatures() {
 function selectFeature(index) {
   selectedFeature.value = index
   resetQuiz()
+  nextTick(() => {
+    document.querySelector('.details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
 }
 
 function submitQuizAnswer(answerIndex) {
@@ -230,6 +312,41 @@ function resetQuiz() {
 function retryQuiz() {
   resetQuiz()
 }
+
+function scrollFeatureRail(direction) {
+  if (!featureRail.value) return
+  const amount = Math.max(320, featureRail.value.clientWidth * 0.85)
+  featureRail.value.scrollBy({ left: direction * amount, behavior: 'smooth' })
+}
+
+function applySavedProgress() {
+  if (typeof window === 'undefined') return
+  const raw = window.localStorage.getItem(PROGRESS_STORAGE_KEY)
+  if (!raw) return
+  try {
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return
+    features.value = features.value.map((feature, idx) => ({
+      ...feature,
+      completed: Boolean(parsed[idx]),
+    }))
+  } catch {
+    // Ignore invalid localStorage payloads.
+  }
+}
+
+onMounted(() => {
+  applySavedProgress()
+})
+
+watch(
+  () => features.value.map(f => f.completed),
+  (progressState) => {
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progressState))
+  },
+  { deep: true }
+)
 
 </script>
 
@@ -293,6 +410,13 @@ body::after {
   animation: ambientGlow 1s ease-in-out infinite alternate;
 }
 
+.lower-half {
+  background: var(--color-gray-100);
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  height: 100%;
+  width: 100%;
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -353,6 +477,21 @@ body::after {
 .progress-text p {
   opacity: 0.9;
   margin-bottom: var(--spacing-md);
+}
+
+.journey-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.journey-pill {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
 }
 
 .progress-bar {
@@ -462,24 +601,27 @@ body::after {
 
 .section-header h2 {
   font-size: var(--font-size-3xl);
-  color: var(--color-white);
+  color: var(--color-black);
   margin-bottom: var(--spacing-sm);
+  font-weight: bolder;
 }
 
 .section-header p {
-  color: rgb(255 255 255 / 92%);
+  color: var(--color-gray-800);
   max-width: 740px;
   margin: 0 auto;
   font-size: var(--font-size-lg);
+  font-weight: bold;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--spacing-xl);
 }
 
 .feature-card {
+  grid-column: span 4;
   background: var(--color-white);
   color: var(--color-gray-800);
   border-radius: var(--radius-sm);
@@ -498,6 +640,26 @@ body::after {
 
 .feature-card.completed {
   border-left: 10px solid var(--color-success);
+}
+
+.feature-card:last-child:nth-child(odd) {
+  grid-column: 5 / span 4;
+}
+
+.feature-rail-controls {
+  display: none;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.rail-btn {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }
 
 .feature-step {
@@ -544,6 +706,17 @@ body::after {
   background: var(--color-primary-dark);
 }
 
+.feature-highlights {
+  margin: var(--spacing-sm) 0 0 var(--spacing-lg);
+  display: grid;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.feature-highlights li {
+  color: var(--color-gray-700);
+}
+
 .details {
   position: sticky;
   top: 0;
@@ -565,7 +738,7 @@ body::after {
 .close-btn {
   background: none;
   border: none;
-  color: var(--color-accent);
+  color: var(--color-black);
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-lg);
   cursor: pointer;
@@ -577,6 +750,27 @@ body::after {
   color: var(--color-primary);
   border-radius: var(--radius-xs);
   margin-top: var(--spacing-xl);
+}
+
+.detail-faq {
+  margin-top: var(--spacing-xl);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+}
+
+.faq-item {
+  background: var(--color-bg-lightest);
+  border: 1px solid var(--color-gray-200);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.faq-item h4 {
+  margin-bottom: var(--spacing-xs);
 }
 
 .quiz-option {
@@ -646,7 +840,6 @@ body::after {
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
   background: var(--color-white);
-  border-radius: var(--radius-xl);
   border: 1px solid var(--color-gray-200);
 }
 
@@ -684,6 +877,55 @@ body::after {
   margin-bottom: var(--spacing-md);
 }
 
+.faq-section {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+}
+
+.faq-section-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  color: var(--color-white);
+}
+
+.faq-section-inner > p {
+  color: var(--color-gray-300);
+  margin: var(--spacing-sm) 0 var(--spacing-xl);
+}
+
+.faq-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.faq-overview-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 992px) {
+  .feature-rail-controls {
+    display: flex;
+  }
+
+  .features-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .feature-card,
+  .feature-card:last-child:nth-child(odd) {
+    min-width: min(360px, 82vw);
+    scroll-snap-align: start;
+  }
+}
+
 @media (max-width: 768px) {
   .main-content {
     padding: 0 var(--spacing-md);
@@ -710,7 +952,15 @@ body::after {
     align-items: stretch;
   }
   .features-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    gap: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+  }
+
+  .feature-card,
+  .feature-card:last-child:nth-child(odd) {
+    min-width: 88vw;
   }
 }
 </style>

@@ -9,6 +9,7 @@
         <div class="footer-links-group">
           <h4>Informatie</h4>
           <ul>
+            <li><a href="#features">Jouw 5-stappen plan</a></li>
             <li><a href="#studiefinanciering">Studiefinanciering</a></li>
             <li><a href="#ov-kaart">OV-studentenkaart</a></li>
             <li><a href="#woonkosten">Woonkosten & huurtoeslag</a></li>

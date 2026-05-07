@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import os
-import pathlib
-import sys
 from typing import AsyncIterator
 
 from dotenv import load_dotenv
@@ -38,8 +36,10 @@ if APP_ENV == "dev":
         allow_headers=["*"],
     )
 
+
 store = TopQuestionsStore(FAQ_STORE_PATH)
 duo_amounts = DuoAmountsClient()
+
 
 @app.get("/api/health")
 def health() -> dict:
@@ -47,29 +47,22 @@ def health() -> dict:
 
 
 def _default_system_prompt(locale: str | None) -> str:
+    # Keep it short + safe; don't make legal/financial guarantees.
     if (locale or "").lower().startswith("nl"):
         return (
-            "Je bent de behulpzame chatbot van WatNu18 genaamd Noa, een site voor MBO-studenten die 18 worden. "
+            "Je bent de behulpzame chatbot van WatNu18, een site voor MBO-studenten die 18 worden. "
             "Antwoord kort, duidelijk en praktisch in het Nederlands. "
             "Als iets afhangt van persoonlijke situatie of de regels kunnen wijzigen, zeg dat erbij en verwijs naar DUO/overheid. "
-            "Vraag 1 verduidelijkende vraag als dat nodig is. "
-            "Je mag **bold** en *italic* text gebruiken. "
-            "Voeg altijd aan het einde van je antwoord 'Sources: ...' toe met de bronnen die je hebt gebruikt."
+            "Vraag 1 verduidelijkende vraag als dat nodig is."
         )
     return (
-        "You are the helpful WatNu18 chatbot named Noa. Answer clearly and practically in Dutch. "
-        "If rules can change or depend on the user's situation, say so and suggest official sources. "
-        "Always ask for someone's age to give correct information. "
-        "Try to implement direct actions where relevant (e.g. 'You can apply for this grant on the DUO website: https://www.duo.nl/particulier/studiefinanciering-aanvragen/aanvragen.jsp'). "
-        "If someone asks for amounts, provide the latest official DUO amounts (if relevant; cite DUO as source). "
-        "Always answer in Dutch, even if the question is in English or another language. "
-        "You can use **bold** and *italic* text. "
-        "Always end your response with 'Sources: ...' listing the sources you used."
+        "You are the helpful WatNu18 chatbot. Answer clearly and practically. "
+        "If rules can change or depend on the user's situation, say so and suggest official sources."
     )
-
 
 @app.post("/api/chat")
 async def chat(req: ChatRequest):
+    # Ensure we always include our system prompt (prepend if needed).
     messages = list(req.messages)
     if not messages or messages[0].role != "system":
         from .models import ChatMessage
@@ -80,6 +73,8 @@ async def chat(req: ChatRequest):
     if not user_question:
         raise HTTPException(status_code=400, detail="Missing user question.")
 
+    # Lightweight "official facts" injection for common DUO amount questions.
+    # (Keeps things simple without full tool-calling.)
     ql = user_question.lower()
     amount_keywords = [
         "bedrag",
@@ -108,8 +103,7 @@ async def chat(req: ChatRequest):
             )
             messages = [ChatMessage(role="system", content=facts_msg)] + messages
         except Exception:
-            # als DUO tijdelijk niet bereikbaar is, willen we de hele chatbot niet laten falen. We loggen de fout en gaan door zonder de feiten toe te voegen.
-            logging.error("DUO FAIL.", exc_info=True)
+            # If DUO is temporarily unreachable, proceed without it.
             pass
 
     async def sse() -> AsyncIterator[bytes]:
@@ -157,9 +151,15 @@ def top_questions(limit: int = 10):
     }
 
 
+@app.get("/api/top-questions/debug")
+def top_questions_debug(limit: int = 10):
+    return {"items": store.debug_clusters(limit=limit)}
+
+
 @app.get("/api/top-questions/{item_id}")
 def get_top_question(item_id: str):
     item = store.get(item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Not found.")
     return {"id": item.id, "question": item.question, "answer": item.answer, "count": item.count}
+

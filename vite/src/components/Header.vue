@@ -27,10 +27,11 @@
             </svg>
           </button>
           <div class="features-dropdown">
+            <a href="#features">🗺️ Jouw stappenplan</a>
             <a href="#studiefinanciering">📘 Studiefinanciering</a>
             <a href="#ov-kaart">🚆 OV-studentenkaart</a>
+            <a href="#zorgverzekering">🛡️ Zorgverzekering</a>
             <a href="#woonkosten">🏠 Woonkosten & toeslagen</a>
-            <a href="#verzekeringen">🛡️ Zorgverzekering</a>
             <a href="#documenten">📄 Belangrijke documenten</a>
             <a href="#faq">❓ Veelgestelde vragen</a>
           </div>
