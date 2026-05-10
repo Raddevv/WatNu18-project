@@ -415,7 +415,7 @@ body::after {
     radial-gradient(circle at 22% 28%, rgba(40, 92, 68, 0.28) 0%, transparent 34%),
     radial-gradient(circle at 78% 72%, rgba(50, 91, 62, 0.22) 0%, transparent 32%);
   opacity: 0.5;
-  animation: ambientGlow 1s ease-in-out infinite alternate;
+  animation: ambientGlow 155s ease-in-out infinite alternate;
 }
 
 .lower-half {
