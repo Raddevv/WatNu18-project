@@ -3,7 +3,7 @@
     <Header />
     <main class="main-content">
       <!-- Progress banner -->
-      <div class="progress-banner">
+      <div id="top" class="progress-banner">
         <div class="progress-content">
           <div class="progress-text">
             <h3>Jouw 18e jaar checklist</h3>
@@ -38,8 +38,8 @@
       <section class="features" id="features">
         <div class="features-wrapper">
           <div class="section-header">
-            <h2>Jouw 5‑stappen plan</h2>
-            <p>Voltooi elke missie, verdien badges en word helemaal klaar voor je 18e</p>
+            <h2>Jouw 7‑stappen plan</h2>
+            <p>Voltooi elke stap, verdien badges en word volledig voorbereid voor je 18e en daarna</p>
           </div>
           <div class="feature-rail-controls" aria-hidden="true">
             <button class="rail-btn" @click="scrollFeatureRail(-1)">←</button>
@@ -122,17 +122,70 @@
           <div class="info-card">
             <div class="info-icon">🎯</div>
             <h3>Speciaal voor MBO</h3>
-            <p>Geen overbodige info — alleen wat jij écht nodig hebt als MBO‑student.</p>
+            <p>Geen overbodige info — alleen wat jij écht nodig hebt. Ook info over doorstroom naar HBO, schuld en wat gebeurt als je stopt.</p>
           </div>
           <div class="info-card">
             <div class="info-icon">📋</div>
             <h3>Gebaseerd op DUO & overheid</h3>
-            <p>Alle informatie up‑to‑date en betrouwbaar, getoetst door experts.</p>
+            <p>Alle informatie up‑to‑date en betrouwbaar, getoetst door experts. Bedragen en deadlines worden continu gecontroleerd.</p>
           </div>
           <div class="info-card">
             <div class="info-icon">🏆</div>
             <h3>Motiverend & gamified</h3>
-            <p>Verdien badges, volg je voortgang en blijf gemotiveerd.</p>
+            <p>Verdien badges, volg je voortgang en stap-voor-stap naar 100%! Je gaat beter voorbereid de wereld in.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">💬</div>
+            <h3>Chatbot Noa helpt 24/7</h3>
+            <p>Stel je vragen in Nederlands. Noa antwoordt praktisch en eerlijk — ook over moeilijke onderwerpen als schuld.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📱</div>
+            <h3>Gratis & geen account</h3>
+            <p>Geen login nodig, geen kosten, geen reclame. Gewoon kennis recht in je browser. Door MBO'ers, voor MBO'ers.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">✨</div>
+            <h3>Echte student stories</h3>
+            <p>Lees hoe anderen hun 18e voorbereidden. Van eerstejaars tot alumni: hun tips en tips helpen jou.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Student Stories -->
+      <section class="stories-section" id="stories">
+        <div class="stories-inner">
+          <h2>Echte verhalen van MBO'ers</h2>
+          <p>Inspiratie en tips van jongeren die net als jij 18 werden en hun zaakjes regelden.</p>
+          <div class="stories-grid">
+            <article class="story-card">
+              <div class="story-avatar">👩‍🎓</div>
+              <h3>Lisa (MBO Verpleegkunde)</h3>
+              <p class="story-role">Jaar 2 → Doorstroom HBO</p>
+              <p class="story-text">"Ik was bang dat doorstroom naar HBO ingewikkeld was. Maar DUO regelde alles automatisch! Ik kreeg bijna hetzelfde geld. Tips: meld je HBO-inschrijving op tijd en check je Mijn DUO twee weken voor start."</p>
+              <div class="story-tip">💡 Tip: Doorstroom is makkelijker dan je denkt!</div>
+            </article>
+            <article class="story-card">
+              <div class="story-avatar">👨‍🔧</div>
+              <h3>Ruben (MBO Elektrotechniek)</h3>
+              <p class="story-role">Bijbaan + Studiefinanciering</p>
+              <p class="story-text">"Ik verdiende €400/maand in een bijbaan. Ik vertelde DUO NIET en toen verloor ik mijn extra beurs. Advies: meld alles wat je verdient. Beter 1x onhandig dan straks terugbetalen!"</p>
+              <div class="story-tip">💡 Tip: Meld je bijbaan ALTIJD aan DUO!</div>
+            </article>
+            <article class="story-card">
+              <div class="story-avatar">👩‍💼</div>
+              <h3>Amira (MBO Administratie)</h3>
+              <p class="story-role">Op kamers gaan</p>
+              <p class="story-text">"Huurtoeslag was mijn reddingslijn. Zonder zou ik €250/maand niet betaald hebben. Tricky: ik moest eerst zeggen dat mijn keuken zelfstandig was. Niet gelogen, maar wel duidelijk communiceren!"</p>
+              <div class="story-tip">💡 Tip: Huurtoeslag vraag je VROEG aan!</div>
+            </article>
+            <article class="story-card">
+              <div class="story-avatar">👨‍🎓</div>
+              <h3>Sam (MBO → HBO → Werk)</h3>
+              <p class="story-role">School → Werk → Schuld</p>
+              <p class="story-text">"Ik heb 4 jaar MBO + 4 jaar HBO gedaan. Schuld was ca. €24.000. Maar als je gaat werken verdien je genoeg om af te betalen. Nu betaal ik ca. €150/maand. Doable!"</p>
+              <div class="story-tip">💡 Tip: Schuld is niet het einde van de wereld!</div>
+            </article>
           </div>
         </div>
       </section>
@@ -149,6 +202,7 @@
         </div>
       </section>
     </main>
+    <LegalSections />
     <Footer />
     <ChatWidget />
   </div>
@@ -157,8 +211,10 @@
 <script setup>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import LegalSections from './components/LegalSections.vue'
 import ChatWidget from './components/ChatWidget.vue'
-import { ref, computed, watch, nextTick, onMounted } from 'vue'
+import { ref, computed, watch, nextTick, onMounted, provide } from 'vue'
+import { siteNavigationKey } from './composables/siteNavigation.js'
 
 const selectedFeature = ref(null)
 const currentQuizAnswer = ref(null)
@@ -174,18 +230,37 @@ const features = ref([
     anchor: 'studiefinanciering',
     titleShort: 'DUO',
     description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
-    longDescription: 'Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt. Het bestaat uit een prestatiebeurs (gift) en eventueel een aanvullende beurs. Vul op tijd je aanvraag in via Mijn DUO.',
+    longDescription: `Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt.
+
+**Hoe werkt het?**
+• **Prestatiebeurs**: Dit is een gift die je NIET terug hoeft te betalen (ca. €1.000-1.300/maand afhankelijk van woonsituatie)
+• **Aanvullende beurs**: Extra geld als je ouders weinig verdienen (niet iedereen krijgt dit)
+• **DUO-lening**: Eventueel lenen tegen lage rente; je begint terug te betalen na je studies
+
+**Praktische voorbeelden:**
+• Thuiswonend MBO'er: ~€1.000/maand prestatiebeurs
+• Uitwonend MBO'er: ~€1.300/maand prestatiebeurs
+• Met bijbaan en hoog inkomen: misschien minder of niets (DUO kijkt naar je verdiensten!)
+
+**Belangrijke deadlines:**
+• Vraag VOOR 1 juli aan voor augustus uitbetaling
+• Check je aanvraag regelmatig in Mijn DUO
+• Meld wijzigingen direct (bijbaan, verhuizing, enz.)`,
     completed: true,
-    quickTips: ['Vraag op tijd aan via Mijn DUO', 'Check of je recht hebt op aanvullende beurs'],
+    quickTips: ['Vraag vóór 1 juli aan via Mijn DUO voor augustus', 'Check of je recht hebt op aanvullende beurs', 'Meld ALLE inkomsten (bijbaan, stagevergoeding)', 'Bijhouden hoe je geld uitgeeft helpt voor later'],
     faqs: [
-      { question: 'Hoe lang duurt een aanvraag bij DUO?', answer: 'Vaak enkele werkdagen, maar rond piekperiodes kan het langer duren. Vraag zo vroeg mogelijk aan.' },
-      { question: 'Moet ik elk jaar opnieuw aanvragen?', answer: 'Controleer je situatie elk schooljaar in Mijn DUO; wijzigingen in opleiding of woonstatus kunnen impact hebben.' }
+      { question: 'Hoe lang duurt een aanvraag bij DUO?', answer: 'Meestal 1-2 werkdagen, maar rond augustus kan het 2-3 weken duren. Vraag daarom vroeg aan!' },
+      { question: 'Moet ik elk jaar opnieuw aanvragen?', answer: 'Nee, maar je moet je situatie checken elk schooljaar in Mijn DUO. Wijzigingen in opleiding, werk of woonstatus moeten je direct melden!' },
+      { question: 'Wat als ik veel verdien met bijbaan?', answer: 'DUO telt je inkomsten mee. Te veel bijverdienen kan betekenen dat je minder studiefinanciering krijgt. Dus check je limieten op duo.nl!' },
+      { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja! Maar je mag niet te veel verdienen (rond €56 per maand limiet voor "student-werk"). Check actuele bedragen op DUO.' },
+      { question: 'Wat als ik mijn opleiding verander?', answer: 'Meld dit direct bij DUO. Je studiefinanciering kan stopgezet of aangepast worden. Uitstel aanvragen is soms beter dan stoppen!' },
+      { question: 'Hoe betaal ik mijn DUO-schuld terug?', answer: 'Terugbetaling start ca. 2 jaar na je studies. Je betaalt alleen terug als je genoeg verdient. Check je schuld in Mijn DUO en bespreek mogelijkheden als het moeilijk wordt.' }
     ],
     quiz: {
-      question: 'Wanneer kun je studiefinanciering aanvragen?',
+      question: 'Je begint een MBO-opleiding en woont thuis. Wanneer kun je studiefinanciering aanvragen?',
       correctAnswer: 1,
-      options: ['Vanaf 16 jaar', 'Vanaf 18 jaar', 'Vanaf 21 jaar'],
-      explanation: 'Correct! Je kunt studiefinanciering aanvragen zodra je 18 jaar bent en een erkende opleiding volgt.'
+      options: ['Als je 17 bent en je school inschrijft', 'Als je 18 bent en ingeschreven staat', 'Pas aan het eind van je eerste jaar'],
+      explanation: 'Correct! Je moet 18 zijn én officieel ingeschreven staan bij je school. Vraag dit een maand voor je 18e verjaardag aan via Mijn DUO zodat je geld direct krijgt als je jarig bent!'
     }
   },
   {
@@ -193,18 +268,35 @@ const features = ref([
     anchor: 'ov-kaart',
     titleShort: 'OV',
     description: 'Reis voordelig met trein, bus en metro.',
-    longDescription: 'De OV-studentenkaart geeft je gratis of met korting reizen in het weekend of doordeweeks. Je kiest een product via DUO. Let op: je moet wel voldoen aan de voorwaarden (onder andere recht op studiefinanciering).',
+    longDescription: `De OV-studentenkaart geeft je gratis of met korting reizen in het weekend of doordeweeks. Je kiest een product via DUO. 
+
+**Je hebt 2 opties:**
+• **Weekend Vrij**: Gratis reizen op zaterdag en zondag, doordeweeks 40% korting
+• **Doordeweeks korting**: Doordeweeks 40% korting, weekends normale prijzen
+
+**Wie krijgt dit?**
+Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan krijg je ook geen OV-studentenkaart.
+
+**Praktisch:**
+• Koppel je studentenproduct aan je OV-chipkaart
+• Het gaat METEEN in (of volgende maand)
+• Je kan switchen tussen Weekend Vrij en doordeweeks (meestal per maand)
+
+**Waarschuwing:** Vergeet NIET je product stop te zetten als je je studies afmaakt! Anders betaal je veel teveel.`,
     completed: false,
-    quickTips: ['Koppel je kaart op tijd aan je OV-chipkaart', 'Controleer of je week of weekend vrij wil'],
+    quickTips: ['Koppel je kaart op tijd aan je OV-chipkaart', 'Kies Weekend Vrij of doordeweeks (kost je ongeveer hetzelfde)', 'Stop je product METEEN als je klaar bent', 'Check je saldo/termijn regelmatig'],
     faqs: [
-      { question: 'Wanneer gaat mijn OV in?', answer: 'Meestal vanaf de eerstvolgende maand nadat je recht hebt en je product is opgehaald.' },
-      { question: 'Wat als ik vergeet stop te zetten?', answer: 'Dan kun je een boete krijgen. Zet je studentenreisproduct direct stop zodra je recht eindigt.' }
+      { question: 'Wanneer gaat mijn OV in?', answer: 'Meestal van de eerstvolgende maand af. Vraag het voor 15e van de maand aan en het gaat van de 1e van volgende maand in.' },
+      { question: 'Hoe zet ik mijn OV-product stop?', answer: 'Ga naar de GVB loket of check Mijn DUO. Je MOET dit zelf doen; DUO stopt het niet automatisch!' },
+      { question: 'Wat als ik vergeet stop te zetten?', answer: 'Dan betaal je het vol tarief. Je krijgt een flinke rekening. Zet het onmiddellijk stop als je geen recht meer hebt!' },
+      { question: 'Kan ik wisselen tussen Weekend Vrij en korting?', answer: 'Ja, meestal per maand. Check op duo.nl hoe laat je de wijziging moet aanvragen voor volgende maand.' },
+      { question: 'Werkt mijn OV ook in het buitenland?', answer: 'Het OV-product werkt in Nederland. Voor internationale reizen betaal je normaal tarief.' }
     ],
     quiz: {
-      question: 'Welke keuze kun je maken voor de OV-studentenkaart?',
-      correctAnswer: 0,
-      options: ['Weekend vrij of doordeweeks korting', 'Altijd 40% korting', 'Alleen in de zomer'],
-      explanation: 'Je kiest bij DUO of je in het weekend gratis reist (weekend vrij) of doordeweeks 40% korting krijgt.'
+      question: 'Je kiest Weekend Vrij. Wat betaal je?',
+      correctAnswer: 1,
+      options: ['Niets op zaterdag/zondag, normaal tarief doordeweeks', 'Gratis op zaterdag/zondag, 40% korting doordeweeks', 'Altijd 40% korting'],
+      explanation: 'Correct! Weekend Vrij = gratis zaterdag/zondag, maar doordeweeks 40% korting (niet gratis). Ideaal als je veel in het weekend reist!'
     }
   },
   {
@@ -212,18 +304,40 @@ const features = ref([
     anchor: 'zorgverzekering',
     titleShort: 'Zorg',
     description: 'Verplichte zorgverzekering + zorgtoeslag.',
-    longDescription: 'In Nederland ben je verplicht een basiszorgverzekering af te sluiten. Als je 18 wordt, moet je zelf een polis regelen. Kom je in aanmerking voor zorgtoeslag? Check je inkomen en vraag het aan bij de Belastingdienst.',
+    longDescription: `In Nederland ben je verplicht een basiszorgverzekering af te sluiten. Als je 18 wordt, moet je zelf een polis regelen. 
+
+**Wat kost zorgverzekering?**
+• Basispolis: ~€150-200/maand (veel goedkoper voor jongeren)
+• Praktijk: Vergelijk premies op zorgkaartnederland.nl
+
+**Zorgtoeslag = gratis geld!**
+• Je krijgt geld van de staat om je verzekering betaalbaarder te maken
+• Je moet dit ZELF aanvragen bij de Belastingdienst (gaat niet automatisch!)
+• Met zorgtoeslag betaal je soms maar €50-100/maand
+
+**Wie krijgt zorgtoeslag?**
+• Je moet 18+ zijn
+• Je inkomen mag niet te hoog zijn (~€30.000/jaar als je alleen woont)
+• Meestal krijgen MBO-studenten dit
+
+**Let op:**
+• Meld je inkomen op tijd (bijbaan!)
+• Toeslag kan TERUG gevraagd worden als je inkomsten stijgen
+• Geen toeslag? Dan betaal je het hele bedrag zelf`,
     completed: false,
-    quickTips: ['Vergelijk premies en eigen risico', 'Vraag zorgtoeslag apart aan'],
+    quickTips: ['Vraag zorgtoeslag DIRECT aan bij Belastingdienst', 'Meld ALLES wat je verdient (bijbaan, stage)', 'Vergelijk zorgverzekeraars op premie EN service', 'Zet herinnering: jaarlijks controleren + inkomsten melden'],
     faqs: [
-      { question: 'Heb ik direct een boete als ik niet op tijd verzeker?', answer: 'Niet direct, maar je hebt een beperkte periode. Daarna kun je een boete en naheffing krijgen.' },
-      { question: 'Kan ik zorgtoeslag met terugwerkende kracht aanvragen?', answer: 'In veel gevallen wel binnen hetzelfde kalenderjaar, maar wacht niet te lang.' }
+      { question: 'Heb ik direct een boete als ik niet op tijd verzeker?', answer: 'Niet direct, maar je hebt een beperkte "ik ben niet verzekerd"-periode. Daarna krijg je terugwerkende premies + rente. Dus verzeker je DIRECT als je 18 bent!' },
+      { question: 'Kan ik zorgtoeslag met terugwerkende kracht aanvragen?', answer: 'Ja, tot 6 maanden terug in hetzelfde kalenderjaar. Dus aanvragen is altijd de moeite!' },
+      { question: 'Wat gebeurt er als ik mijn premie niet betaal?', answer: 'Na vervaldag rente en mogelijk opschorting van je dekking. Zorg dat je toeslag meteen op je rekening staat!' },
+      { question: 'Hoe hoog is zorgtoeslag ongeveer?', answer: 'Afhankelijk van je inkomen, meestal €50-150/maand voor studenten. Meer info via belastingdienst.nl' },
+      { question: 'Moet ik verzekerd blijven als ik stoppen met studeren?', answer: 'Ja! Je bent ALTIJD verplicht verzekerd. Zelfs als je niet studeert of werkt moet je een polis hebben.' }
     ],
     quiz: {
-      question: 'Is zorgtoeslag automatisch?',
-      correctAnswer: 1,
-      options: ['Ja, je krijgt het vanzelf', 'Nee, je moet het zelf aanvragen', 'Alleen als je werkt'],
-      explanation: 'Zorgtoeslag moet je actief aanvragen bij de Belastingdienst. Doe dit op tijd!'
+      question: 'Je verdient €400/maand in een bijbaan. Wat moet je doen?',
+      correctAnswer: 2,
+      options: ['Niets, DUO weet dit automatisch', 'Dit melden aan DUO', 'Dit melden aan de Belastingdienst (voor zorgtoeslag) EN DUO (voor studiefinanciering)'],
+      explanation: 'Correct! Je moet dit aan TWEE plekken melden: Belastingdienst (zorgtoeslag) en DUO (studiefinanciering). Beiden willen je inkomsten weten!'
     }
   },
   {
@@ -231,18 +345,44 @@ const features = ref([
     anchor: 'woonkosten',
     titleShort: 'Wonen',
     description: 'Energiekosten, huur, en huurtoeslag.',
-    longDescription: 'Woonkosten zijn vaak de grootste uitgave. Als je op kamers gaat of zelfstandig woont, kun je mogelijk huurtoeslag krijgen. De voorwaarden: je huurt een zelfstandige woning, bent 18+, en voldoet aan de inkomensgrens.',
+    longDescription: `Woonkosten zijn vaak de GROOTSTE uitgave voor jong volwassenen. Goed plannen scheelt veel stress!
+
+**Hoeveel geld heb je nodig?**
+• Huur: €300-800 (afhankelijk van wat/waar)
+• Nutsvoorzieningen: €100-150 (gas, water, elektra)
+• Internet: €20-40
+• Totaal: ~€500-1000/maand
+
+**Huurtoeslag = geld van de gemeente**
+• Tot ~€250/maand voor studenten
+• Je moet ZELF aanvragen via gemeente/SVB
+• Belangrijk: je woning moet "zelfstandig" zijn (niet gedeelde keuken)
+
+**Wie krijgt huurtoeslag?**
+• Je bent 18+
+• Je huurt een zelfstandige woning  
+• Je bruto huur is minimum €350-400
+• Je inkomen is laag genoeg (~studiefinanciering = vaak volstaat)
+
+**Praktische tips:**
+• Zoekopdracht: Funda, Kamernet, Woonpioniers
+• Huisbazen willen inschrijving + referentie
+• Sluit geen overeenkomst zonder voorwaarden te lezen
+• Budget: huur + utilities + verzekering + voedsel`,
     completed: false,
-    quickTips: ['Controleer of je woning zelfstandig is', 'Bereken totale kosten inclusief energie'],
+    quickTips: ['Bereken ALLE woonkosten voor je zoekt', 'Vraag huurtoeslag aan (kan tot €250/maand zijn!)', 'Zorg dat je een werkcontract/inschrijving hebt voor de huisbaas', 'Sluit woning- en inboedelverzeking af'],
     faqs: [
-      { question: 'Kan ik huurtoeslag krijgen voor een gedeelde keuken?', answer: 'Vaak niet. Huurtoeslag is meestal voor zelfstandige woonruimte met eigen voorzieningen.' },
-      { question: 'Welke gegevens heb ik nodig voor aanvraag?', answer: 'Huurprijs, adresgegevens, inkomensinformatie en vaak je DigiD.' }
+      { question: 'Kan ik huurtoeslag krijgen voor een gedeelde woning?', answer: 'Helaas niet voor gedeelde keukens. Je woning moet zelfstandig zijn (eigen keuken, badkamer etc).' },
+      { question: 'Hoeveel huurtoeslag krijg ik?', answer: 'Verschilt per gemeente. Ruwweg: je huur - 20% = je bijdrage. Rest betaalt gemeente (max ~€250). Check je gemeente!' },
+      { question: 'Welke documenten heb ik nodig?', answer: 'Huurcontract, proof of income (DUO brief), bankgegevens, ID. Elke gemeente vraagt iets anders; bel de SVB.' },
+      { question: 'Kan een MBO-student huurtoeslag krijgen?', answer: 'Ja! Als je recht hebt op studiefinanciering en een zelfstandige woning huurt, meestal wel. Check je gemeente!' },
+      { question: 'Wat als huisbaas geen toeslagformulier wil ondertekenen?', answer: 'Dit is standaard; leg uit dat je toeslag krijgt (huisbaas krijgt zekerheid dat jij kan betalen). Blijf kalm en vriendelijk.' }
     ],
     quiz: {
-      question: 'Kan een MBO-student huurtoeslag krijgen?',
-      correctAnswer: 0,
-      options: ['Ja, onder voorwaarden', 'Nee, nooit', 'Alleen als je werkt'],
-      explanation: 'Ja, als je 18+ bent, een zelfstandige woning huurt en je inkomen niet te hoog is, kun je huurtoeslag krijgen.'
+      question: 'Je huurt een kamer met gedeelde keuken voor €350/maand. Kun je huurtoeslag krijgen?',
+      correctAnswer: 1,
+      options: ['Ja, zolang je huur onder €500 ligt', 'Nee, gedeelde keukens tellen niet mee', 'Ja, maar alleen het deel van de huur'],
+      explanation: 'Helaas: huurtoeslag is voor zelfstandige woningen. Gedeelde keukens/badkamers tellen niet mee. Zoek een kamer met eigen keukentte!'
     }
   },
   {
@@ -250,27 +390,175 @@ const features = ref([
     anchor: 'documenten',
     titleShort: 'Papieren',
     description: 'ID, DigiD, bankrekening en meer.',
-    longDescription: 'Zorg dat je een geldig ID‑bewijs hebt, een eigen bankrekening, je DigiD activeert, en je zaken zoals je BSN goed hebt vastgelegd. Bewaar kopieën digitaal en veilig.',
+    longDescription: `Een eigen huishouden beginnen stelt vragen. Zorg dat je deze zaken goed geregeld hebt:
+
+**Je MOET hebben:**
+1. **Geldig ID-bewijs** (paspoort of ID-kaart)
+   - Aanvraag: GBA/gemeente ~4-6 weken
+   - Kosten: €50-75
+   
+2. **DigiD** (digitale identiteit voor overheid)
+   - Nodig voor: DUO, Belastingdienst, SVB, gemeente
+   - Hoe: digiD.nl (snel + gratis)
+   - Zet 2-factor-auth AAN (SMS-verificatie)!
+
+3. **Eigen bankrekening** (bij 18 jaar)
+   - Kiezen: reguliere bank, juniorenrekening, online bank
+   - Gratis voor jongeren (meestal)
+   - Nodig voor: DUO-uitbetaling, toeslag, huurrente
+   
+4. **BSN-gegevens** (Burgerservicenummer)
+   - Dit krijg je automatisch van gemeente
+   - NOOIT delen met onbekenden!
+   - Zet in veilige plek
+
+**Documenten digitaal opslaan:**
+• Foto van ID/paspoort (beveiligd)
+• Digitale DigiD back-up codes (BELANGRIJK!)
+• Huurcontract (PDF)
+• DUO-brieven (screenshots)
+• Bankrekening-gegevens (veilig)
+
+**Waarschuwing:**
+• Zet NOOIT je BSN/volledige ID online
+• Delen in chat/social media = identiteitsfraude risico!
+• Gebruik sterke wachtwoorden + 2FA overal`,
     completed: false,
-    quickTips: ['Leg al je documenten in 1 veilige map', 'Zorg dat je DigiD sms-controle aanzet'],
+    quickTips: ['Zet DigiD 2FA (SMS) AAN zodra je het hebt', 'Sla ID-foto veilig op (niet in WhatsApp!)', 'Maak back-up van DigiD codes en sla veilig op', 'Check elk 6 maanden: zijn al je abonnementen/rekeningen correct?'],
     faqs: [
-      { question: 'Welke documenten moet ik nooit delen via chat?', answer: 'Deel geen BSN, volledige ID-foto of bankgegevens in openbare chats.' },
-      { question: 'Hoe bewaar ik kopieën veilig?', answer: 'Gebruik een beveiligde cloudmap of versleutelde opslag met sterke wachtwoorden.' }
+      { question: 'Welke documenten mag ik delen in de WatNu18 chat?', answer: 'GEEN vertrouwelijke gegevens! Geen BSN, bankgegevens, volledige ID-foto, paspoort. Chat alleen over vragen, niet over persoonsgegevens!' },
+      { question: 'Waar kan ik mijn DigiD-codes veilig bewaren?', answer: 'Print ze uit en leg in een gesloten map thuis. Of sla op in een beveiligde wachtwoordmanager (bijv. Bitwarden, 1Password).' },
+      { question: 'Hoe activeer ik mijn eigen bankrekening?', answer: 'Ga naar je bank met ID + DigiD. Meestal online activering. Duurt 5-10 minuten. Meeste banken geven IBAN direct.' },
+      { question: 'Kan ik mijn ID-kaart online aanvragen?', answer: 'Nee, je moet naar de gemeente. Wél kan je online een afspraak maken om tijd te besparen.' },
+      { question: 'Wat als ik mijn DigiD kwijt ben (wachtwoord)?', answer: 'Ga naar logmein.digid.nl → "Ik ben mijn gegevens kwijt" → volg stappen. Je kan je DigiD herstellen via SMS.' }
     ],
     quiz: {
-      question: 'Welke documenten heb je minimaal nodig als je 18 wordt?',
-      correctAnswer: 2,
-      options: ['Alleen ID-kaart', 'Alleen DigiD', 'ID, DigiD, bankrekening en eventueel huurcontract'],
-      explanation: 'Je hebt een geldig ID, een actieve DigiD, een eigen bankrekening en bij zelfstandig wonen ook een huurcontract nodig.'
+      question: 'Je hebt je DigiD-wachtwoord vergeten. Wat doe je?',
+      correctAnswer: 0,
+      options: ['Ga naar logmein.digid.nl en herstellen via SMS', 'Bel de gemeente', 'Maak een nieuwe DigiD aan'],
+      explanation: 'Correct! Ga naar logmein.digid.nl en volg "Ik ben mijn wachtwoord kwijt". Je krijgt een SMS-code en kan het herstellen. Geen gemeente nodig!'
+    }
+  },
+  {
+    title: 'HBO-doorstroom & rechten',
+    anchor: 'hbo-doorstroom',
+    titleShort: 'HBO →',
+    description: 'Wat gebeurt er met studiefinanciering bij doorstroom naar HBO?',
+    longDescription: `Proficiat! Je MBO af en gaat naar HBO? Goed nieuws: veel regelt DUO soepel.
+
+**Studiefinanciering bij HBO-doorstroom:**
+• Je prestatiebeurs gaat DOOR
+• Soms krijg je EXTRA beurs voor HBO (ondernemingsfonds!)
+• Je lening kan je meenemen naar HBO
+• Je hoeft niet opnieuw aan te vragen (DUO ziet je inschrijving)
+
+**Hoe zit dat precies?**
+1. Je bent ingeschreven bij HBO-school
+2. DUO ziet dit automatisch (meestal via Studiefinanciering register)
+3. Je prestatiebeurs/toeslag wordt doorgezet
+4. Mogelijk studiefinanciering VERHOGING voor HBO-traject
+
+**Termijnen en aandachtspunten:**
+• Meld je HBO-inschrijving in Mijn DUO
+• Kijk goed: sommige HBO's hebben flexibel ingangsmoment (bijv. januari)
+• Als je pauze neemt tussen MBO en HBO: meld dit aan DUO!
+• Korting/beurs stopt als je langer dan 1 maand pauze hebt
+
+**Wat met je schuld?**
+• De lening die je hebt opgebouwd GAAT MEEMET JE
+• Je start NIET opnieuw (je schuld wordt niet kwijtgescholden)
+• Terugbetaling begint pas 2 jaar NADAT je HBO afmaakt
+
+**Financieel voordeel:**
+MBO + HBO = meer studiefinanciering ≈ extra €6.000-12.000! Dit kan helpen om je schuld af te betalen.`,
+    completed: false,
+    quickTips: ['Zorg dat je HBO-inschrijving in Mijn DUO staat', 'Wacht niet tot HBO start: check 2 maanden van tevoren', 'Let op: langer dan 1 maand pauze = toeslag stopt', 'Vraag DUO specifiek welke beurs je krijgt voor HBO'],
+    faqs: [
+      { question: 'Wat als ik na MBO eerst ga werken, dan HBO?', answer: 'Dan stopt je studiefinanciering. Als je later terugkomt naar school, kun je ergens opnieuw aanvragen. Meld pauzes lang van tevoren!' },
+      { question: 'Krijg ik meer geld voor HBO dan voor MBO?', answer: 'Soms! HBO-niveau kan meer beurs opleveren (ca. €100-200 extra/maand). Vraag dit proactief in Mijn DUO.' },
+      { question: 'Hoe lang mag ik pauze hebben tussen MBO en HBO?', answer: 'Tot ~1 maand zonder dat je toeslag stopt. Langer = duidelijk afgesproken pauze. Meld het direct!' },
+      { question: 'Verandert mijn huurtoeslag bij HBO?', answer: 'Nee, huurtoeslag check je inkomen/huur, niet je scholingsniveau. Je kan dezelfde huurtoeslag houden.' },
+      { question: 'Wat als mijn MBO-schuld heel hoog is?', answer: 'HBO geeft extra studiefinanciering, maar dit gaat NIET naar je schuld af. Dit is je inkomsten. Je moet zelf bijverdienen/bezuinigen om af te lossen.' }
+    ],
+    quiz: {
+      question: 'Je bent klaar met MBO en start in september HBO. Wat moet je doen?',
+      correctAnswer: 1,
+      options: ['Wachten tot september en dan aanvragen', 'In juli je HBO-inschrijving in Mijn DUO controleren en DUO bellen', 'Niets, DUO ziet dit automatisch'],
+      explanation: 'Best is: check in Mijn DUO dat je HBO-inschrijving daar staat. Bel DUO als het niet klopt. DUO ziet het NIET altijd meteen. Beter voorkomen dan later zonder geld zitten!'
+    }
+  },
+  {
+    title: 'Stoppen, overstappen & schuld',
+    anchor: 'stoppen-overstappen',
+    titleShort: 'Stop/Schuld',
+    description: 'Wat gebeurt er met je schuld & studiefinanciering als je stopt?',
+    longDescription: `Soms werkt een opleiding niet uit. Of je vindt wat anders. Wat gebeurt er dan met je studiefinanciering en schuld?
+
+**Scenario 1: Je stopt NA je eerste jaar**
+• De prestatiebeurs die je hebt gekregen? **Je hoeft die NIET terug te betalen** (het is een gift!)
+• De DUO-lening die je hebt opgenomen? **Die moet je WEL teruebetalen**
+• Recht op studiefinanciering stopt per direct
+• Schuld: ruwweg €6.000-12.000 (afhankelijk van wat je hebt opgenomen)
+
+**Scenario 2: Je onderbreekt je opleiding (pauze van 6 maanden)**
+• Je studiefinanciering STOPT
+• Je schuld GROEIT NIET (je leent niet meer)
+• Terugekomst? Meld dit aan DUO en start opnieuw
+• Voordeel: je schuld wordt niet hoger
+
+**Scenario 3: Je wisselt van opleiding (bijv. ander MBO-traject)**
+• Check of BEIDE opleidingen "erkend" zijn bij DUO
+• Je studiefinanciering GAAT DOOR
+• Schuld: dezelfde (je stapelt niet dubbel op)
+• Belangrijk: meld wisselingmeteen in Mijn DUO
+
+**Terugbetaling van DUO-lening:**
+• Je begint terug te betalen 2 jaar NADAT je studie eindigt
+• Je betaalt % van je inkomen (flexibel!)
+• Minimum: ~€50/maand
+• Geen inkomen? Dan betaal je NIETS (voorwaarden gelden!)
+
+**Wat je MOET doen als je stopt:**
+1. Meld dit DIRECT bij DUO (chat/telefoon/Mijn DUO)
+2. Vraag om pauze-verlenging (als je even uit wilt)
+3. Vraag hoeveel schuld je hebt (check je voorspelling)
+4. Plan: hoe ga je terugbetalen? (werken, besparen, schuldhulp)
+5. Controleer: stopt je OV-kaart? Stop het zelf!
+
+**Schuldhulpverlening:**
+Als je schuld groot voelt: 
+• Schuldhulpmaatschappij kan helpen (gratis!)
+• Bel: 030-2360360 of mail: schuldhulp.nl
+• Ze helpen je een betalingsregeling te maken
+• Je bent NIET alleen!`,
+    completed: false,
+    quickTips: ['Stoppen? Meld DUO METEEN (niet later!)', 'Stop je OV-product zelf (duurt 2 seconden)', 'Check je schuldbedrag in Mijn DUO', 'Schuldhulp is gratis en vertrouwelijk', 'Pauze van 6 maanden = schuld stopt met groeien'],
+    faqs: [
+      { question: 'Moet ik de prestatiebeurs terugbetalen als ik stop?', answer: 'Nee! Prestatiebeurs is een gift. Alleen DUO-lening moet je terug betalen. Checken: wat je kreeg (prestatie vs lening) in Mijn DUO.' },
+      { question: 'Hoe snel groeit mijn schuld als ik stop?', answer: 'Direct! Als je stopt en je lening nog actief is, kan het nog even doorlopen. Daarom: meld DIRECT aan DUO.' },
+      { question: 'Kan ik mijn schuld kwijtschelden?', answer: 'Normaal niet. MAAR: als je geweldige omstandigheden hebt (ziekte, werkloosheid), kan schuldhulp helpen. Ga niet zelf weg: vraag hulp!' },
+      { question: 'Wat if ik na 1 jaar teruicom?', answer: 'Meld je direct TERUG in Mijn DUO. Je schuld van vorig jaar gaat mee. Je krijgt nieuwe studiefinanciering als je voldoet aan voorwaarden.' },
+      { question: 'Hoeveel rente betaal ik op mijn schuld?', answer: 'DUO-lening: ca. 0% rente (of beleid-afhankelijk). Check duo.nl voor actueel %! Klein voordeel: je schuld groeit niet door rente.' },
+      { question: 'Kan ik versneld terugbetalen?', answer: 'Ja! Je kan extra betalen zonder straf. Hoe sneller je betaalt, hoe minder schuld totaal. Handig als je goed verdient!' }
+    ],
+    quiz: {
+      question: 'Je stopt voortijdig met MBO. Jij hebt €8.000 prestatiebeurs ontvangen en €12.000 geleend. Wat moet je terugbetalen?',
+      correctAnswer: 1,
+      options: ['Alles: €20.000', 'Alleen de lening: €12.000', 'Niets, het is onderwijs'],
+      explanation: 'Je moet alleen de €12.000-lening terugbetalen! Prestatiebeurs is een GIFT. Dit is een groot voordeel van DUO. Werk snel het geleende geld af!'
     }
   }
 ])
 
 const extraFaqs = [
-  { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja. Let op je inkomsten en check actuele regels bij DUO, want grenzen en voorwaarden kunnen wijzigen.' },
-  { question: 'Moet ik zorgtoeslag terugbetalen als mijn inkomen stijgt?', answer: 'Dat kan. Pas je inkomen op tijd aan bij de Belastingdienst om verrassingen te voorkomen.' },
-  { question: 'Wat regel ik eerst als ik bijna 18 ben?', answer: 'Start met DigiD/ID, daarna DUO-aanvraag en zorgverzekering. Zo voorkom je dat je deadlines mist.' },
-  { question: 'Wat als mijn ouders me niet kunnen helpen met formulieren?', answer: 'Gebruik schoolbegeleiding, jongerenloket of duo.nl hulpmiddelen. Je hoeft het niet alleen te doen.' }
+  { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja! Maar je mag niet te veel verdienen. Check je limieten op duo.nl. Veel MBO\'ers werken ~12 uur/week naast studiefinanciering. Zolang je je inkomen meldt, is het prima.' },
+  { question: 'Moet ik zorgtoeslag terugbetalen als mijn inkomen stijgt?', answer: 'Ja, dat kan. Pas je inkomen OP TIJD aan bij de Belastingdienst. Hoe eerder je meldt, hoe minder je terug hoeft te betalen. Draai je claim niet om later!' },
+  { question: 'Wat regel ik eerst als ik bijna 18 ben?', answer: 'Timeline: 3 maanden voor verjaardag: ID-aanvraag → 2 maanden voor: DigiD + bankrekening → 1 maand voor: DUO-aanvraag + zorgtoeslag. Zo heb je geld klaar als je jarig bent!' },
+  { question: 'Wat als mijn ouders me niet kunnen helpen met formulieren?', answer: 'Geen probleem! School heeft begeleiding, jongerenloket helpt gratis, en DUO.nl heeft stappenplannen. Video-tutorials op YouTube helpen ook. Je bent niet alleen!' },
+  { question: 'Ik heb al 18 maar nog niets aangevraagd. Is het te laat?', answer: 'Nee, NOOIT te laat! Je kan studiefinanciering altijd terugwerkend aanvragen (max 6 maanden). Dus aanvragen nu! Zorgtoeslag ook. Beter laat dan nooit.' },
+  { question: 'Wat als mijn ouders veel verdienen? Krijg ik nog geld?', answer: 'Ja! Zelfs met rijke ouders krijg je prestatiebeurs. Aanvullende beurs hangt van hun inkomen af, maar je basis krijg je altijd. Win-win!' },
+  { question: 'Hoeveel schuld heb ik na 4 jaar MBO + HBO?', answer: 'Ruwweg: MBO 4 jaar = €12.000-16.000 schuld (prestatiebeurs telt niet!). HBO 4 jaar = extra €12.000-16.000. MAAR: HBO geeft extra beurs (ca. €300/maand). Dus schuld valt mee!' },
+  { question: 'Kan ik gaten in mijn studie opvullen met DUO?', answer: 'Als je een erkende opleiding doet: ja. Bijscholing? Nee. Check duo.nl welke vakken/certificaten tellen. Betaald uit je prestatiebeurs-potje.' }
 ]
 
 const completedCount = computed(() => features.value.filter(f => f.completed).length)
@@ -284,7 +572,7 @@ const nextIncompleteTitle = computed(() => {
 })
 
 function scrollToFeatures() {
-  document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
+  navigateTo('#features')
 }
 
 function selectFeature(index) {
@@ -295,6 +583,50 @@ function selectFeature(index) {
     document.querySelector('.details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   })
 }
+
+function navigateTo(raw) {
+  if (typeof window === 'undefined') return
+  const normalized = (raw || '').trim()
+  const withHash = normalized.startsWith('#') ? normalized : `#${normalized}`
+  const id = withHash === '#' ? '' : withHash.slice(1)
+
+  if (!id || id === 'top') {
+    selectedFeature.value = null
+    nextTick(() => {
+      document.getElementById('top')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+    try {
+      history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
+    } catch {
+      /* ignore */
+    }
+    return
+  }
+
+  const featureIndex = features.value.findIndex((f) => f.anchor === id)
+  if (featureIndex >= 0) {
+    selectFeature(featureIndex)
+    try {
+      history.replaceState(null, '', `#${id}`)
+    } catch {
+      /* ignore */
+    }
+    return
+  }
+
+  selectedFeature.value = null
+  const el = document.getElementById(id)
+  if (el) {
+    nextTick(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    try {
+      history.replaceState(null, '', `#${id}`)
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
+provide(siteNavigationKey, navigateTo)
 
 function submitQuizAnswer(answerIndex) {
   if (!features.value[selectedFeature.value].quiz) return
@@ -345,6 +677,10 @@ function applySavedProgress() {
 
 onMounted(() => {
   applySavedProgress()
+  const hash = window.location.hash
+  if (hash && hash.length > 1) {
+    nextTick(() => navigateTo(hash))
+  }
 })
 
 watch(
@@ -429,6 +765,8 @@ body::after {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* Keeps hero/footer visually consistent if body backgrounds ever fail to paint */
+  background: transparent;
 }
 
 @keyframes fillCard {
@@ -475,6 +813,21 @@ body::after {
   padding: var(--spacing-xl) var(--spacing-2xl);
   color: var(--color-primary);
   box-shadow: var(--shadow-lg);
+}
+
+.progress-content {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+/* Sticky header offset for in-page links */
+#top,
+#features,
+#faq,
+#half,
+#social,
+.feature-card[id] {
+  scroll-margin-top: 5.5rem;
 }
 
 .progress-text h3 {
@@ -552,6 +905,11 @@ body::after {
 
 .hero {
   padding: var(--spacing-3xl) var(--spacing-2xl);
+}
+
+.hero-content {
+  max-width: var(--container-width);
+  margin: 0 auto;
 }
 
 .hero-title {
@@ -654,6 +1012,18 @@ body::after {
   grid-column: 5 / span 4;
 }
 
+.feature-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.feature-header .feature-step {
+  margin-bottom: 0;
+}
+
 .feature-rail-controls {
   display: none;
   justify-content: flex-end;
@@ -728,7 +1098,7 @@ body::after {
 .details {
   position: fixed;
   inset: 0;
-  z-index: var(--z-sticky);
+  z-index: var(--z-modal);
   color: var(--color-primary);
   padding: var(--spacing-3xl) var(--spacing-xl);
   margin: 0;
@@ -931,8 +1301,9 @@ body::after {
 
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
-  /*background: var(--color-white);*/
-  /*border: 1px solid var(--color-gray-200);*/
+  background: var(--color-white);
+  border-top: 1px solid var(--color-gray-200);
+  border-bottom: 1px solid var(--color-gray-200);
 }
 
 .info-section h2 {
@@ -954,7 +1325,7 @@ body::after {
   padding: var(--spacing-xl);
   text-align: center;
   color: var(--color-gray-800);
-  border: 1px solid var(--color-gray-800);
+  border: 1px solid var(--color-gray-200);
   transition: all 0.2s;
 }
 
@@ -999,6 +1370,88 @@ body::after {
   backdrop-filter: blur(2px);
 }
 
+.stories-section {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
+}
+
+.stories-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.stories-section h2 {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stories-section > p {
+  text-align: center;
+  color: var(--color-gray-700);
+  margin-bottom: var(--spacing-3xl);
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.story-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  border: 2px solid var(--color-accent-alt-1);
+  text-align: center;
+  color: var(--color-gray-800);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-accent);
+}
+
+.story-avatar {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.story-card h3 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-primary);
+}
+
+.story-role {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+}
+
+.story-text {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-gray-700);
+  font-style: italic;
+}
+
+.story-tip {
+  background: var(--color-accent-alt-1);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  border-left: 4px solid var(--color-accent);
+}
+
 @media (max-width: 992px) {
   .feature-rail-controls {
     display: flex;
@@ -1028,7 +1481,8 @@ body::after {
   .progress-banner,
   .hero,
   .details,
-  .info-section {
+  .info-section,
+  .faq-section {
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
   }

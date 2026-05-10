@@ -9,12 +9,12 @@
         <div class="footer-links-group">
           <h4>Informatie</h4>
           <ul>
-            <li><a href="#features">Jouw 5-stappen plan</a></li>
-            <li><a href="#studiefinanciering">Studiefinanciering</a></li>
-            <li><a href="#ov-kaart">OV-studentenkaart</a></li>
-            <li><a href="#woonkosten">Woonkosten & huurtoeslag</a></li>
-            <li><a href="#zorgverzekering">Zorgverzekering</a></li>
-            <li><a href="#documenten">Documenten checklist</a></li>
+            <li><a href="#features" @click.prevent="go('#features')">Jouw 5-stappen plan</a></li>
+            <li><a href="#studiefinanciering" @click.prevent="go('#studiefinanciering')">Studiefinanciering</a></li>
+            <li><a href="#ov-kaart" @click.prevent="go('#ov-kaart')">OV-studentenkaart</a></li>
+            <li><a href="#woonkosten" @click.prevent="go('#woonkosten')">Woonkosten & huurtoeslag</a></li>
+            <li><a href="#zorgverzekering" @click.prevent="go('#zorgverzekering')">Zorgverzekering</a></li>
+            <li><a href="#documenten" @click.prevent="go('#documenten')">Documenten checklist</a></li>
           </ul>
         </div>
         <div class="footer-links-group">
@@ -22,33 +22,39 @@
           <ul>
             <li><a href="mailto:info@watnu.nl">info@watnu.nl</a></li>
             <li><a href="tel:+31612345678">+31 6 12 345 678</a></li>
-            <li><a href="#faq">Veelgestelde vragen</a></li>
-            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#faq" @click.prevent="go('#faq')">Veelgestelde vragen</a></li>
+            <li><a href="#privacy" @click.prevent="go('#privacy')">Privacy</a></li>
           </ul>
         </div>
-        <div class="footer-social">
+        <div class="footer-social" id="social">
           <h4>Volg ons</h4>
           <div class="social-icons">
-            <a href="#" aria-label="Instagram"><span>📷</span></a>
-            <a href="#" aria-label="LinkedIn"><span>in</span></a>
-            <a href="#" aria-label="X"><span>𝕏</span></a>
-            <a href="#" aria-label="TikTok"><span>♫</span></a>
+            <a href="#social" aria-label="Instagram" @click.prevent="go('#social')"><span>📷</span></a>
+            <a href="#social" aria-label="LinkedIn" @click.prevent="go('#social')"><span>in</span></a>
+            <a href="#social" aria-label="X" @click.prevent="go('#social')"><span>𝕏</span></a>
+            <a href="#social" aria-label="TikTok" @click.prevent="go('#social')"><span>♫</span></a>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; 2026 WatNu18 — gemaakt voor MBO'ers, door MBO'ers</p>
         <div class="legal-links">
-          <a href="#privacy">Privacybeleid</a>
+          <a href="#privacy" @click.prevent="go('#privacy')">Privacybeleid</a>
           <span>•</span>
-          <a href="#terms">Gebruiksvoorwaarden</a>
+          <a href="#terms" @click.prevent="go('#terms')">Gebruiksvoorwaarden</a>
           <span>•</span>
-          <a href="#cookies">Cookievoorkeuren</a>
+          <a href="#cookies" @click.prevent="go('#cookies')">Cookievoorkeuren</a>
         </div>
       </div>
     </div>
   </footer>
 </template>
+
+<script setup>
+import { useSiteNavigation } from '../composables/siteNavigation.js'
+
+const go = useSiteNavigation()
+</script>
 
 <style scoped>
 @import '../styles/variables.css';
@@ -70,7 +76,7 @@
   left: 0;
   right: 0;
   height: 300px;
-  background: radial-gradient(ellipse at 20% top, rgba(43, 103, 199, 0.08), transparent 60%);
+  background: radial-gradient(ellipse at 20% top, rgba(74, 181, 142, 0.12), transparent 60%);
   pointer-events: none;
 }
 

@@ -4,10 +4,11 @@
   --color-primary-dark: #0a170f;
   --color-primary-light: #355643;
   --color-primary-lighter: #698977;
-  --color-bg: #b3b4e7;
-  --color-bg-light:#c3c4e6;
-  --color-bg-lighter: #cbcbe2;
-  --color-bg-lightest: #f7f7ff;
+  /* Warm off-whites / subtle green tint — avoids the old lavender “blue” look */
+  --color-bg: #e6ebe7;
+  --color-bg-light: #eef2ee;
+  --color-bg-lighter: #f3f6f3;
+  --color-bg-lightest: #fafcf9;
   --color-accent: #ffcf5a;
   --color-accent-dark: #dcae3d;
   --color-accent-light: #fff7e4;
@@ -20,6 +21,7 @@
   --color-success: #378a66;
   --color-success-dark: #376957;
   --color-success-light: #a4cebf;
+  --color-warning: #e68134;
   --color-warning-dark: #e68134;
   --color-warning-light: #e6b996;
   --color-error: #DC2626;
@@ -75,6 +77,7 @@
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-focus: 0 0 0 0.25rem rgb(5 150 105 / 0.5);
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
