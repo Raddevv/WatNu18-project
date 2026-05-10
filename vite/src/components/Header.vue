@@ -26,10 +26,11 @@
             </svg>
           </button>
           <div class="features-dropdown">
+            <a href="#features">🗺️ Jouw stappenplan</a>
             <a href="#studiefinanciering">📘 Studiefinanciering</a>
             <a href="#ov-kaart">🚆 OV-studentenkaart</a>
+            <a href="#zorgverzekering">🛡️ Zorgverzekering</a>
             <a href="#woonkosten">🏠 Woonkosten & toeslagen</a>
-            <a href="#verzekeringen">🛡️ Zorgverzekering</a>
             <a href="#documenten">📄 Belangrijke documenten</a>
             <a href="#faq">❓ Veelgestelde vragen</a>
           </div>
@@ -52,12 +53,11 @@
 @import '../styles/variables.css';
 
 .header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  background-color: var(--color-primary);
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
-  border-bottom: 3px solid var(--color-accent);
 }
 
 .header-container {

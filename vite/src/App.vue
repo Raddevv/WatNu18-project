@@ -9,6 +9,11 @@
             <h3>Jouw 18e jaar checklist</h3>
             <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
           </div>
+          <div class="journey-meta">
+            <div class="journey-pill">XP: {{ journeyPoints }}</div>
+            <div class="journey-pill">Badges: {{ completedCount }}/{{ features.length }}</div>
+            <div class="journey-pill">Volgende stap: {{ nextIncompleteTitle }}</div>
+          </div>
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
           </div>
@@ -29,20 +34,28 @@
         </div>
       </section>
 
+    <section class="lower-half" id="half">
       <section class="features" id="features">
         <div class="features-wrapper">
           <div class="section-header">
             <h2>Jouw 5‑stappen plan</h2>
             <p>Voltooi elke missie, verdien badges en word helemaal klaar voor je 18e</p>
           </div>
-          <div class="features-grid">
-            <div class="feature-card" v-for="(feature, index) in features" :key="index" :class="{ completed: feature.completed }">
+          <div class="feature-rail-controls" aria-hidden="true">
+            <button class="rail-btn" @click="scrollFeatureRail(-1)">←</button>
+            <button class="rail-btn" @click="scrollFeatureRail(1)">→</button>
+          </div>
+          <div class="features-grid" ref="featureRail">
+            <div class="feature-card" v-for="(feature, index) in features" :key="index" :id="feature.anchor" :class="{ completed: feature.completed }">
               <div class="feature-header">
                 <span class="feature-step">{{ index + 1 }}</span>
                 <span class="feature-badge" v-if="feature.completed">✓ Voltooid</span>
               </div>
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
+              <ul class="feature-highlights">
+                <li v-for="(tip, tipIndex) in feature.quickTips" :key="`${index}-${tipIndex}`">{{ tip }}</li>
+              </ul>
               <button class="feature-btn" @click="selectFeature(index)">
                 {{ feature.completed ? 'Herbekijk' : 'Start missie' }}
               </button>
@@ -50,15 +63,28 @@
           </div>
         </div>
       </section>
+    </section>
 
-      <section class="details" v-if="selectedFeature !== null">
+      <section class="details" v-if="selectedFeature !== null" @click.self="selectedFeature = null">
         <div class="details-container">
           <button class="close-btn" @click="selectedFeature = null">← Terug naar overzicht</button>
           <div class="details-content">
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
+            <div class="detail-faq">
+              <button class="faq-toggle-btn" @click="expandedFaqs = !expandedFaqs">
+                <h3>Veelgestelde vragen over deze stap</h3>
+                <span class="toggle-arrow" :class="{ expanded: expandedFaqs }">▼</span>
+              </button>
+              <div class="faq-list" v-if="expandedFaqs">
+                <div class="faq-item" v-for="(faq, faqIndex) in features[selectedFeature].faqs" :key="faqIndex">
+                  <h4>{{ faq.question }}</h4>
+                  <p>{{ faq.answer }}</p>
+                </div>
+              </div>
+            </div>
             <div class="details-quiz" v-if="features[selectedFeature].quiz">
-              <h3>🧠 Check je kennis</h3>
+              <h3>Check je kennis</h3>
               <div class="quiz-question">
                 <p>{{ features[selectedFeature].quiz.question }}</p>
                 <div class="quiz-options" v-if="!quizAttempted || !quizResult.isCorrect">
@@ -70,14 +96,14 @@
                 </div>
                 <div class="quiz-result" v-if="quizAttempted && quizResult">
                   <div class="quiz-feedback" :class="quizResult.isCorrect ? 'correct' : 'incorrect'">
-                    <div class="feedback-icon">{{ quizResult.isCorrect ? '🎉' : '🔄' }}</div>
+                    <div class="feedback-icon">{{ quizResult.isCorrect ? '' : '' }}</div>
                     <div class="feedback-text">
                       <h4>{{ quizResult.isCorrect ? 'Goed gedaan!' : 'Niet helemaal' }}</h4>
                       <p>{{ quizResult.explanation }}</p>
                     </div>
                   </div>
                   <button v-if="quizResult.isCorrect" class="quiz-action-btn completed" disabled>
-                    ✨ Badge verdiend
+                    Badge verdiend
                   </button>
                   <button v-else class="quiz-action-btn retry" @click="retryQuiz">
                     Opnieuw proberen
@@ -110,6 +136,18 @@
           </div>
         </div>
       </section>
+      <section class="faq-section" id="faq">
+        <div class="faq-section-inner">
+          <h2>Extra veelgestelde vragen</h2>
+          <p>Snelle antwoorden op vragen die je als eerstejaars vaak meteen wilt weten.</p>
+          <div class="faq-overview-grid">
+            <article class="faq-overview-card" v-for="(item, idx) in extraFaqs" :key="idx">
+              <h3>{{ item.question }}</h3>
+              <p>{{ item.answer }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
     <Footer />
     <ChatWidget />
@@ -120,20 +158,29 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import ChatWidget from './components/ChatWidget.vue'
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick, onMounted } from 'vue'
 
 const selectedFeature = ref(null)
 const currentQuizAnswer = ref(null)
 const quizResult = ref(null)
 const quizAttempted = ref(false)
+const featureRail = ref(null)
+const expandedFaqs = ref(false)
+const PROGRESS_STORAGE_KEY = 'watnu18_feature_progress_v1'
 
 const features = ref([
   {
     title: 'Studiefinanciering',
+    anchor: 'studiefinanciering',
     titleShort: 'DUO',
     description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
     longDescription: 'Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt. Het bestaat uit een prestatiebeurs (gift) en eventueel een aanvullende beurs. Vul op tijd je aanvraag in via Mijn DUO.',
     completed: true,
+    quickTips: ['Vraag op tijd aan via Mijn DUO', 'Check of je recht hebt op aanvullende beurs'],
+    faqs: [
+      { question: 'Hoe lang duurt een aanvraag bij DUO?', answer: 'Vaak enkele werkdagen, maar rond piekperiodes kan het langer duren. Vraag zo vroeg mogelijk aan.' },
+      { question: 'Moet ik elk jaar opnieuw aanvragen?', answer: 'Controleer je situatie elk schooljaar in Mijn DUO; wijzigingen in opleiding of woonstatus kunnen impact hebben.' }
+    ],
     quiz: {
       question: 'Wanneer kun je studiefinanciering aanvragen?',
       correctAnswer: 1,
@@ -143,10 +190,16 @@ const features = ref([
   },
   {
     title: 'OV-studentenkaart',
+    anchor: 'ov-kaart',
     titleShort: 'OV',
     description: 'Reis voordelig met trein, bus en metro.',
     longDescription: 'De OV-studentenkaart geeft je gratis of met korting reizen in het weekend of doordeweeks. Je kiest een product via DUO. Let op: je moet wel voldoen aan de voorwaarden (onder andere recht op studiefinanciering).',
     completed: false,
+    quickTips: ['Koppel je kaart op tijd aan je OV-chipkaart', 'Controleer of je week of weekend vrij wil'],
+    faqs: [
+      { question: 'Wanneer gaat mijn OV in?', answer: 'Meestal vanaf de eerstvolgende maand nadat je recht hebt en je product is opgehaald.' },
+      { question: 'Wat als ik vergeet stop te zetten?', answer: 'Dan kun je een boete krijgen. Zet je studentenreisproduct direct stop zodra je recht eindigt.' }
+    ],
     quiz: {
       question: 'Welke keuze kun je maken voor de OV-studentenkaart?',
       correctAnswer: 0,
@@ -156,10 +209,16 @@ const features = ref([
   },
   {
     title: 'Zorgverzekering & toeslagen',
+    anchor: 'zorgverzekering',
     titleShort: 'Zorg',
     description: 'Verplichte zorgverzekering + zorgtoeslag.',
     longDescription: 'In Nederland ben je verplicht een basiszorgverzekering af te sluiten. Als je 18 wordt, moet je zelf een polis regelen. Kom je in aanmerking voor zorgtoeslag? Check je inkomen en vraag het aan bij de Belastingdienst.',
     completed: false,
+    quickTips: ['Vergelijk premies en eigen risico', 'Vraag zorgtoeslag apart aan'],
+    faqs: [
+      { question: 'Heb ik direct een boete als ik niet op tijd verzeker?', answer: 'Niet direct, maar je hebt een beperkte periode. Daarna kun je een boete en naheffing krijgen.' },
+      { question: 'Kan ik zorgtoeslag met terugwerkende kracht aanvragen?', answer: 'In veel gevallen wel binnen hetzelfde kalenderjaar, maar wacht niet te lang.' }
+    ],
     quiz: {
       question: 'Is zorgtoeslag automatisch?',
       correctAnswer: 1,
@@ -169,10 +228,16 @@ const features = ref([
   },
   {
     title: 'Woonkosten & huurtoeslag',
+    anchor: 'woonkosten',
     titleShort: 'Wonen',
     description: 'Energiekosten, huur, en huurtoeslag.',
     longDescription: 'Woonkosten zijn vaak de grootste uitgave. Als je op kamers gaat of zelfstandig woont, kun je mogelijk huurtoeslag krijgen. De voorwaarden: je huurt een zelfstandige woning, bent 18+, en voldoet aan de inkomensgrens.',
     completed: false,
+    quickTips: ['Controleer of je woning zelfstandig is', 'Bereken totale kosten inclusief energie'],
+    faqs: [
+      { question: 'Kan ik huurtoeslag krijgen voor een gedeelde keuken?', answer: 'Vaak niet. Huurtoeslag is meestal voor zelfstandige woonruimte met eigen voorzieningen.' },
+      { question: 'Welke gegevens heb ik nodig voor aanvraag?', answer: 'Huurprijs, adresgegevens, inkomensinformatie en vaak je DigiD.' }
+    ],
     quiz: {
       question: 'Kan een MBO-student huurtoeslag krijgen?',
       correctAnswer: 0,
@@ -182,10 +247,16 @@ const features = ref([
   },
   {
     title: 'Belangrijke documenten',
+    anchor: 'documenten',
     titleShort: 'Papieren',
     description: 'ID, DigiD, bankrekening en meer.',
     longDescription: 'Zorg dat je een geldig ID‑bewijs hebt, een eigen bankrekening, je DigiD activeert, en je zaken zoals je BSN goed hebt vastgelegd. Bewaar kopieën digitaal en veilig.',
     completed: false,
+    quickTips: ['Leg al je documenten in 1 veilige map', 'Zorg dat je DigiD sms-controle aanzet'],
+    faqs: [
+      { question: 'Welke documenten moet ik nooit delen via chat?', answer: 'Deel geen BSN, volledige ID-foto of bankgegevens in openbare chats.' },
+      { question: 'Hoe bewaar ik kopieën veilig?', answer: 'Gebruik een beveiligde cloudmap of versleutelde opslag met sterke wachtwoorden.' }
+    ],
     quiz: {
       question: 'Welke documenten heb je minimaal nodig als je 18 wordt?',
       correctAnswer: 2,
@@ -195,9 +266,21 @@ const features = ref([
   }
 ])
 
+const extraFaqs = [
+  { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja. Let op je inkomsten en check actuele regels bij DUO, want grenzen en voorwaarden kunnen wijzigen.' },
+  { question: 'Moet ik zorgtoeslag terugbetalen als mijn inkomen stijgt?', answer: 'Dat kan. Pas je inkomen op tijd aan bij de Belastingdienst om verrassingen te voorkomen.' },
+  { question: 'Wat regel ik eerst als ik bijna 18 ben?', answer: 'Start met DigiD/ID, daarna DUO-aanvraag en zorgverzekering. Zo voorkom je dat je deadlines mist.' },
+  { question: 'Wat als mijn ouders me niet kunnen helpen met formulieren?', answer: 'Gebruik schoolbegeleiding, jongerenloket of duo.nl hulpmiddelen. Je hoeft het niet alleen te doen.' }
+]
+
+const completedCount = computed(() => features.value.filter(f => f.completed).length)
 const overallProgress = computed(() => {
-  const completedCount = features.value.filter(f => f.completed).length
-  return Math.round((completedCount / features.value.length) * 100)
+  return Math.round((completedCount.value / features.value.length) * 100)
+})
+const journeyPoints = computed(() => completedCount.value * 120)
+const nextIncompleteTitle = computed(() => {
+  const next = features.value.find(f => !f.completed)
+  return next ? next.titleShort : 'Alles afgerond'
 })
 
 function scrollToFeatures() {
@@ -206,7 +289,11 @@ function scrollToFeatures() {
 
 function selectFeature(index) {
   selectedFeature.value = index
+  expandedFaqs.value = false
   resetQuiz()
+  nextTick(() => {
+    document.querySelector('.details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
 }
 
 function submitQuizAnswer(answerIndex) {
@@ -218,6 +305,9 @@ function submitQuizAnswer(answerIndex) {
   quizResult.value = { isCorrect, explanation: quiz.explanation }
   if (isCorrect) {
     features.value[selectedFeature.value].completed = true
+    setTimeout(() => {
+      selectedFeature.value = null
+    }, 5000)
   }
 }
 
@@ -230,6 +320,42 @@ function resetQuiz() {
 function retryQuiz() {
   resetQuiz()
 }
+
+function scrollFeatureRail(direction) {
+  if (!featureRail.value) return
+  const amount = Math.max(320, featureRail.value.clientWidth * 0.85)
+  featureRail.value.scrollBy({ left: direction * amount, behavior: 'smooth' })
+}
+
+function applySavedProgress() {
+  if (typeof window === 'undefined') return
+  const raw = window.localStorage.getItem(PROGRESS_STORAGE_KEY)
+  if (!raw) return
+  try {
+    const parsed = JSON.parse(raw)
+    if (!Array.isArray(parsed)) return
+    features.value = features.value.map((feature, idx) => ({
+      ...feature,
+      completed: Boolean(parsed[idx]),
+    }))
+  } catch {
+    // Ignore invalid localStorage payloads.
+  }
+}
+
+onMounted(() => {
+  applySavedProgress()
+})
+
+watch(
+  () => features.value.map(f => f.completed),
+  (progressState) => {
+    if (typeof window === 'undefined') return
+    window.localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progressState))
+  },
+  { deep: true }
+)
+
 </script>
 
 <style>
@@ -249,8 +375,54 @@ body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
-  color: var(--color-gray-900);
-  background: var(--color-bg-lighter);
+  color: var(--color-gray-100);
+  background-color: var(--color-black);
+  background-image:
+    radial-gradient(120% 90% at 8% 4%, rgba(25, 68, 49, 0.5) 0%, transparent 48%),
+    radial-gradient(70% 65% at 88% 14%, rgba(96, 113, 101, 0.8) 0%, transparent 52%),
+    radial-gradient(90% 80% at 50% 100%, rgba(20, 39, 24, 0.7) 0%, transparent 55%),
+    radial-gradient(50% 70% at 50% 50%, rgba(44, 78, 58, 0.7) 0%, transparent 55%),
+    linear-gradient(180deg, #0f2d0b 0%, #0f290f 45%, #152a1a 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(34, 255, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / 6%) 0 1px, transparent 1px);
+  background-size: 56px 56px, 56px 56px, 112px 112px;
+  background-position: center, center, 28px 28px;
+  opacity: 0.35;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 14% 24%, rgb(81, 109, 90) 0 150px, transparent 170px),
+    radial-gradient(circle at 70% 84%, #3b653f 0 180px, transparent 205px),
+    radial-gradient(circle at 22% 28%, rgba(40, 92, 68, 0.28) 0%, transparent 34%),
+    radial-gradient(circle at 78% 72%, rgba(50, 91, 62, 0.22) 0%, transparent 32%);
+  opacity: 0.5;
+  animation: ambientGlow 155s ease-in-out infinite alternate;
+}
+
+.lower-half {
+  background: var(--color-gray-100);
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  height: 100%;
+  width: 100%;
 }
 
 #app {
@@ -259,20 +431,49 @@ body {
   min-height: 100vh;
 }
 
+@keyframes fillCard {
+  from {
+    background: white;
+  }
+  to {
+    background: var(--color-accent-alt-1);
+  }
+}
+
+@keyframes fillCardB {
+  from {
+    background: var(--color-bg-lightest);
+  }
+  to {
+    background: var(--color-accent-alt-1);
+  }
+}
+
+@keyframes ambientGlow {
+  0% {
+    transform: translate3d(-0.15%, -0.345%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0.15%, 0.345%, 0) scale(1.06);
+  }
+}
+
 .main-content {
   flex: 1;
-  max-width: var(--container-width);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 var(--spacing-xl);
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 }
 
 .progress-banner {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--color-white);
   padding: var(--spacing-xl) var(--spacing-2xl);
-  margin: var(--spacing-2xl) 0;
-  color: white;
+  color: var(--color-primary);
   box-shadow: var(--shadow-lg);
 }
 
@@ -286,9 +487,24 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
+.journey-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.journey-pill {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
 .progress-bar {
   height: 8px;
-  background: rgba(255,255,255,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: var(--radius-full);
   overflow: hidden;
   margin-bottom: var(--spacing-lg);
@@ -296,7 +512,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: var(--color-accent);
+  background: var(--color-accent-alt);
   border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }
@@ -312,7 +528,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  background: rgba(255,255,255,0.1);
+  background: rgba(0, 0, 0, 0.1);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
@@ -335,13 +551,13 @@ body {
 }
 
 .hero {
-  padding: var(--spacing-3xl) 0 var(--spacing-4xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl);
 }
 
 .hero-title {
   font-size: var(--font-size-5xl);
   font-weight: 800;
-  color: var(--color-primary);
+  color: var(--color-white);
   line-height: 1.2;
   margin-bottom: var(--spacing-lg);
 }
@@ -352,8 +568,8 @@ body {
 
 .hero-subtitle {
   font-size: var(--font-size-lg);
-  color: var(--color-gray-600);
-  max-width: 600px;
+  color: var(--color-gray-300);
+  max-width: 640px;
   margin-bottom: var(--spacing-2xl);
 }
 
@@ -370,15 +586,20 @@ body {
 }
 
 .cta-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(1px);
   box-shadow: var(--shadow-lg);
 }
 
+.features-wrapper {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
 .features {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg-lighter);
-  border-radius: var(--radius-xl);
-  margin: var(--spacing-2xl) 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
 }
 
 .section-header {
@@ -388,33 +609,65 @@ body {
 
 .section-header h2 {
   font-size: var(--font-size-3xl);
-  color: var(--color-primary);
+  color: var(--color-black);
   margin-bottom: var(--spacing-sm);
+  font-weight: bolder;
+}
+
+.section-header p {
+  color: var(--color-gray-800);
+  max-width: 740px;
+  margin: 0 auto;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--spacing-xl);
 }
 
 .feature-card {
-  background: var(--color-bg-lightest);
-  border-radius: var(--radius-lg);
+  grid-column: span 4;
+  background: var(--color-white);
+  color: var(--color-gray-800);
+  border-radius: var(--radius-sm);
   padding: var(--spacing-xl);
-  border: 0.5px inset var(--color-bg);
+  border: 1px solid #000000;
   transition: all 0.25s;
+  box-shadow: var(--shadow-sm);
 }
 
 .feature-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
   border-color: var(--color-accent);
+  animation: fillCardB 0.4s ease both;
 }
 
 .feature-card.completed {
-  border-left: 4px solid var(--color-success);
-  background: linear-gradient(145deg, white, var(--color-success-light));
+  border-left: 10px solid var(--color-success);
+}
+
+.feature-card:last-child:nth-child(odd) {
+  grid-column: 5 / span 4;
+}
+
+.feature-rail-controls {
+  display: none;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.rail-btn {
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-white);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }
 
 .feature-step {
@@ -434,7 +687,8 @@ body {
   background: var(--color-success);
   font-size: var(--font-size-xs);
   padding: 2px 8px;
-  border-radius: var(--radius-full);
+  border-top-right-radius: var(--radius-full);
+  border-bottom-right-radius: var(--radius-full);
   color: white;
 }
 
@@ -457,56 +711,176 @@ body {
 }
 
 .feature-btn:hover {
-  background: var(--color-primary-light);
+  background: var(--color-primary-dark);
+}
+
+.feature-highlights {
+  margin: var(--spacing-sm) 0 0 var(--spacing-lg);
+  display: grid;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.feature-highlights li {
+  color: var(--color-gray-700);
 }
 
 .details {
-  background: var(--color-bg-lighter);
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-sticky);
+  color: var(--color-primary);
   padding: var(--spacing-3xl) var(--spacing-xl);
-  border-radius: var(--radius-xl);
-  margin: var(--spacing-2xl) 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .details-container {
   max-width: 800px;
   margin: 0 auto;
-  background: white;
-  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
   padding: var(--spacing-2xl);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-2xl);
+  animation: slideUp 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: var(--color-accent);
+  color: var(--color-black);
   font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-lg);
   cursor: pointer;
 }
 
 .details-quiz {
-  background: var(--color-gray-200);
+  background: var(--color-gray-100);
   padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
+  color: var(--color-primary);
+  border-radius: var(--radius-xs);
   margin-top: var(--spacing-xl);
+}
+
+.detail-faq {
+  margin-top: var(--spacing-xl);
+}
+
+.faq-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: var(--spacing-md);
+  transition: color 0.2s;
+}
+
+.faq-toggle-btn:hover {
+  color: var(--color-accent);
+}
+
+.faq-toggle-btn h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  text-align: left;
+}
+
+.toggle-arrow {
+  display: inline-flex;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  color: var(--color-primary);
+  margin-left: var(--spacing-md);
+  flex-shrink: 0;
+}
+
+.toggle-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.toggle-arrow:hover {
+  color: var(--color-accent);
+}
+
+.faq-list {
+  display: grid;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  animation: expandCollapse 0.3s ease forwards;
+}
+
+@keyframes expandCollapse {
+  from {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+    overflow: visible;
+  }
+}
+
+.faq-item {
+  background: var(--color-bg-lightest);
+  border: 1px solid var(--color-gray-200);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.faq-item h4 {
+  margin-bottom: var(--spacing-xs);
 }
 
 .quiz-option {
   display: block;
   width: 100%;
   text-align: left;
-  background: white;
-  border: 1px solid var(--color-gray-300);
+  background: var(--color-gray-200);
   padding: var(--spacing-sm) var(--spacing-md);
   margin-bottom: var(--spacing-sm);
+  border: solid 0.5px;
+  border-color: var(--color-gray-300);
   border-radius: var(--radius-md);
   cursor: pointer;
+  color: var(--color-primary);
   transition: all 0.2s;
 }
 
 .quiz-option:hover:not(:disabled) {
-  border-color: var(--color-accent);
   background: var(--color-accent-light);
 }
 
@@ -520,12 +894,14 @@ body {
 
 .quiz-feedback.correct {
   background: var(--color-success-light);
+  color: var(--color-primary);
   border-left: 4px solid var(--color-success);
 }
 
 .quiz-feedback.incorrect {
   background: var(--color-warning-light);
-  border-left: 4px solid var(--color-warning);
+  color: var(--color-primary);
+  border-left: 4px solid var(--color-warning-dark);
 }
 
 .feedback-icon {
@@ -535,6 +911,7 @@ body {
 .quiz-action-btn {
   width: 100%;
   padding: var(--spacing-sm);
+  color: var(--color-primary);
   border: none;
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-semibold);
@@ -543,24 +920,26 @@ body {
 
 .quiz-action-btn.retry {
   background: var(--color-warning);
-  color: white;
+  color: var(--color-primary);
 }
 
 .quiz-action-btn.completed {
   background: var(--color-success);
-  color: white;
+  color: var(--color-primary);
   cursor: default;
 }
 
 .info-section {
-  padding: var(--spacing-3xl) 0;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  /*background: var(--color-white);*/
+  /*border: 1px solid var(--color-gray-200);*/
 }
 
 .info-section h2 {
   text-align: center;
   font-size: var(--font-size-3xl);
   margin-bottom: var(--spacing-3xl);
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .info-grid {
@@ -570,17 +949,20 @@ body {
 }
 
 .info-card {
-  background: white;
+  background: var(--color-white);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
   text-align: center;
-  border: 1px solid var(--color-gray-200);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-800);
   transition: all 0.2s;
 }
 
 .info-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+  background: var(--color-accent-alt-1);
+  animation: fillCard 0.4s ease both;
 }
 
 .info-icon {
@@ -588,10 +970,73 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
+.faq-section {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+}
+
+.faq-section-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  color: var(--color-white);
+}
+
+.faq-section-inner > p {
+  color: var(--color-gray-300);
+  margin: var(--spacing-sm) 0 var(--spacing-xl);
+}
+
+.faq-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.faq-overview-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 992px) {
+  .feature-rail-controls {
+    display: flex;
+  }
+
+  .features-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--spacing-sm);
+  }
+
+  .feature-card,
+  .feature-card:last-child:nth-child(odd) {
+    min-width: min(360px, 82vw);
+    scroll-snap-align: start;
+  }
+}
+
 @media (max-width: 768px) {
   .main-content {
     padding: 0 var(--spacing-md);
+    gap: var(--spacing-lg);
   }
+
+  .progress-banner,
+  .hero,
+  .details,
+  .info-section {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+  }
+
+  .features-wrapper {
+    padding: var(--spacing-3xl) var(--spacing-md);
+  }
+
   .hero-title {
     font-size: var(--font-size-3xl);
   }
@@ -600,7 +1045,15 @@ body {
     align-items: stretch;
   }
   .features-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    gap: var(--spacing-md);
+    scroll-snap-type: x mandatory;
+  }
+
+  .feature-card,
+  .feature-card:last-child:nth-child(odd) {
+    min-width: 88vw;
   }
 }
 </style>
