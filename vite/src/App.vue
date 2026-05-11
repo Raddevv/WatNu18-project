@@ -53,7 +53,11 @@
               </div>
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
-              <ul class="feature-highlights">
+              <button class="tips-toggle-btn" @click.stop="toggleFeatureTips(index)">
+                <span class="tips-arrow" :class="{ expanded: expandedTips[index] }">▼</span>
+                <span>Snelle tips</span>
+              </button>
+              <ul class="feature-highlights" v-if="expandedTips[index]">
                 <li v-for="(tip, tipIndex) in feature.quickTips" :key="`${index}-${tipIndex}`">{{ tip }}</li>
               </ul>
               <button class="feature-btn" @click="selectFeature(index)">
@@ -222,6 +226,7 @@ const quizResult = ref(null)
 const quizAttempted = ref(false)
 const featureRail = ref(null)
 const expandedFaqs = ref(false)
+const expandedTips = ref({})
 const PROGRESS_STORAGE_KEY = 'watnu18_feature_progress_v1'
 
 const features = ref([
@@ -658,6 +663,10 @@ function scrollFeatureRail(direction) {
   featureRail.value.scrollBy({ left: direction * amount, behavior: 'smooth' })
 }
 
+function toggleFeatureTips(index) {
+  expandedTips.value[index] = !expandedTips.value[index]
+}
+
 function applySavedProgress() {
   if (typeof window === 'undefined') return
   const raw = window.localStorage.getItem(PROGRESS_STORAGE_KEY)
@@ -754,17 +763,18 @@ body::after {
 }
 
 .lower-half {
-  background: var(--color-gray-100);
+  background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
   padding: var(--spacing-3xl) var(--spacing-xl);
   height: 100%;
   width: 100%;
+  margin: 0;
+  margin-top: -1px;
 }
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* Keeps hero/footer visually consistent if body backgrounds ever fail to paint */
   background: transparent;
 }
 
@@ -802,7 +812,11 @@ body::after {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: 0;
+}
+
+.main-content > section:nth-of-type(n+3) {
+  margin-top: 0;
 }
 
 .progress-banner {
@@ -812,6 +826,32 @@ body::after {
   padding: var(--spacing-xl) var(--spacing-2xl);
   color: var(--color-primary);
   box-shadow: var(--shadow-lg);
+  margin: 0;
+}
+
+.hero {
+  margin: 0;
+  margin-top: -1px;
+}
+
+.lower-half {
+  margin: 0;
+  margin-top: -1px;
+}
+
+.info-section {
+  margin: 0;
+  margin-top: -1px;
+}
+
+.stories-section {
+  margin: 0;
+  margin-top: -1px;
+}
+
+.faq-section {
+  margin: 0;
+  margin-top: -1px;
 }
 
 .progress-content {
@@ -904,6 +944,8 @@ body::after {
 
 .hero {
   padding: var(--spacing-3xl) var(--spacing-2xl);
+  margin: 0;
+  margin-top: -1px;
 }
 
 .hero-content {
@@ -1063,9 +1105,55 @@ body::after {
   font-size: var(--font-size-xl);
 }
 
+.feature-card p {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+  margin-bottom: 0;
+}
+
+.tips-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  padding: var(--spacing-sm) 0;
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+  transition: color 0.2s;
+}
+
+.tips-arrow {
+  display: inline-flex;
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  color: var(--color-primary);
+}
+
+.tips-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.feature-highlights {
+  margin: var(--spacing-md) 0 0 var(--spacing-lg);
+  display: grid;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  animation: expandCollapse 0.3s ease forwards;
+}
+
+.feature-highlights li {
+  color: var(--color-gray-700);
+  line-height: var(--line-height-normal);
+}
+
 .feature-btn {
   width: 100%;
-  margin-top: var(--spacing-md);
+  margin-top: auto;
   background: var(--color-primary);
   color: white;
   border: none;
@@ -1078,19 +1166,6 @@ body::after {
 
 .feature-btn:hover {
   background: var(--color-primary-dark);
-}
-
-.feature-highlights {
-  margin: var(--spacing-md) 0 0 var(--spacing-lg);
-  display: grid;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  flex-grow: 1;
-}
-
-.feature-highlights li {
-  color: var(--color-gray-700);
-  line-height: var(--line-height-normal);
 }
 
 .details {
@@ -1349,16 +1424,14 @@ body::after {
 
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
-  background: var(--color-white);
-  border-top: 1px solid var(--color-gray-200);
-  border-bottom: 1px solid var(--color-gray-200);
+  background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
 }
 
 .info-section h2 {
   text-align: center;
   font-size: var(--font-size-3xl);
   margin-bottom: var(--spacing-3xl);
-  color: var(--color-white);
+  color: var(--color-gray-900);
 }
 
 .info-grid {
