@@ -231,18 +231,17 @@ const features = ref([
     titleShort: 'DUO',
     description: 'Begrijp hoe DUO werkt en wat je kunt aanvragen.',
     longDescription: `Studiefinanciering van DUO is financiële ondersteuning voor studenten. Je kunt aanvragen zodra je 18 bent en een erkende opleiding volgt.
+Hoe werkt het?
+• Prestatiebeurs: Dit is een gift die je NIET terug hoeft te betalen (ca. €1.000-1.300/maand afhankelijk van woonsituatie)
+• Aanvullende beurs: Extra geld als je ouders weinig verdienen (niet iedereen krijgt dit)
+• DUO-lening: Eventueel lenen tegen lage rente; je begint terug te betalen na je studies
 
-**Hoe werkt het?**
-• **Prestatiebeurs**: Dit is een gift die je NIET terug hoeft te betalen (ca. €1.000-1.300/maand afhankelijk van woonsituatie)
-• **Aanvullende beurs**: Extra geld als je ouders weinig verdienen (niet iedereen krijgt dit)
-• **DUO-lening**: Eventueel lenen tegen lage rente; je begint terug te betalen na je studies
-
-**Praktische voorbeelden:**
+Praktische voorbeelden:
 • Thuiswonend MBO'er: ~€1.000/maand prestatiebeurs
 • Uitwonend MBO'er: ~€1.300/maand prestatiebeurs
 • Met bijbaan en hoog inkomen: misschien minder of niets (DUO kijkt naar je verdiensten!)
 
-**Belangrijke deadlines:**
+Belangrijke deadlines:
 • Vraag VOOR 1 juli aan voor augustus uitbetaling
 • Check je aanvraag regelmatig in Mijn DUO
 • Meld wijzigingen direct (bijbaan, verhuizing, enz.)`,
@@ -270,19 +269,19 @@ const features = ref([
     description: 'Reis voordelig met trein, bus en metro.',
     longDescription: `De OV-studentenkaart geeft je gratis of met korting reizen in het weekend of doordeweeks. Je kiest een product via DUO. 
 
-**Je hebt 2 opties:**
-• **Weekend Vrij**: Gratis reizen op zaterdag en zondag, doordeweeks 40% korting
-• **Doordeweeks korting**: Doordeweeks 40% korting, weekends normale prijzen
+Je hebt 2 opties:
+• Weekend Vrij: Gratis reizen op zaterdag en zondag, doordeweeks 40% korting
+• Doordeweeks korting: Doordeweeks 40% korting, weekends normale prijzen
 
-**Wie krijgt dit?**
+Wie krijgt dit?
 Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan krijg je ook geen OV-studentenkaart.
 
-**Praktisch:**
+Praktisch:
 • Koppel je studentenproduct aan je OV-chipkaart
 • Het gaat METEEN in (of volgende maand)
 • Je kan switchen tussen Weekend Vrij en doordeweeks (meestal per maand)
 
-**Waarschuwing:** Vergeet NIET je product stop te zetten als je je studies afmaakt! Anders betaal je veel teveel.`,
+Waarschuwing: Vergeet NIET je product stop te zetten als je je studies afmaakt! Anders betaal je veel teveel.`,
     completed: false,
     quickTips: ['Koppel je kaart op tijd aan je OV-chipkaart', 'Kies Weekend Vrij of doordeweeks (kost je ongeveer hetzelfde)', 'Stop je product METEEN als je klaar bent', 'Check je saldo/termijn regelmatig'],
     faqs: [
@@ -306,21 +305,21 @@ Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan
     description: 'Verplichte zorgverzekering + zorgtoeslag.',
     longDescription: `In Nederland ben je verplicht een basiszorgverzekering af te sluiten. Als je 18 wordt, moet je zelf een polis regelen. 
 
-**Wat kost zorgverzekering?**
+Wat kost zorgverzekering?
 • Basispolis: ~€150-200/maand (veel goedkoper voor jongeren)
 • Praktijk: Vergelijk premies op zorgkaartnederland.nl
 
-**Zorgtoeslag = gratis geld!**
+Zorgtoeslag = gratis geld!
 • Je krijgt geld van de staat om je verzekering betaalbaarder te maken
 • Je moet dit ZELF aanvragen bij de Belastingdienst (gaat niet automatisch!)
 • Met zorgtoeslag betaal je soms maar €50-100/maand
 
-**Wie krijgt zorgtoeslag?**
+Wie krijgt zorgtoeslag?
 • Je moet 18+ zijn
 • Je inkomen mag niet te hoog zijn (~€30.000/jaar als je alleen woont)
 • Meestal krijgen MBO-studenten dit
 
-**Let op:**
+Let op:
 • Meld je inkomen op tijd (bijbaan!)
 • Toeslag kan TERUG gevraagd worden als je inkomsten stijgen
 • Geen toeslag? Dan betaal je het hele bedrag zelf`,
@@ -347,24 +346,24 @@ Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan
     description: 'Energiekosten, huur, en huurtoeslag.',
     longDescription: `Woonkosten zijn vaak de GROOTSTE uitgave voor jong volwassenen. Goed plannen scheelt veel stress!
 
-**Hoeveel geld heb je nodig?**
+Hoeveel geld heb je nodig?
 • Huur: €300-800 (afhankelijk van wat/waar)
 • Nutsvoorzieningen: €100-150 (gas, water, elektra)
 • Internet: €20-40
 • Totaal: ~€500-1000/maand
 
-**Huurtoeslag = geld van de gemeente**
+Huurtoeslag = geld van de gemeente
 • Tot ~€250/maand voor studenten
 • Je moet ZELF aanvragen via gemeente/SVB
 • Belangrijk: je woning moet "zelfstandig" zijn (niet gedeelde keuken)
 
-**Wie krijgt huurtoeslag?**
+Wie krijgt huurtoeslag?
 • Je bent 18+
 • Je huurt een zelfstandige woning  
 • Je bruto huur is minimum €350-400
 • Je inkomen is laag genoeg (~studiefinanciering = vaak volstaat)
 
-**Praktische tips:**
+Praktische tips:
 • Zoekopdracht: Funda, Kamernet, Woonpioniers
 • Huisbazen willen inschrijving + referentie
 • Sluit geen overeenkomst zonder voorwaarden te lezen
@@ -392,34 +391,34 @@ Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan
     description: 'ID, DigiD, bankrekening en meer.',
     longDescription: `Een eigen huishouden beginnen stelt vragen. Zorg dat je deze zaken goed geregeld hebt:
 
-**Je MOET hebben:**
-1. **Geldig ID-bewijs** (paspoort of ID-kaart)
+Je MOET hebben:
+1. Geldig ID-bewijs (paspoort of ID-kaart)
    - Aanvraag: GBA/gemeente ~4-6 weken
    - Kosten: €50-75
    
-2. **DigiD** (digitale identiteit voor overheid)
+2. DigiD (digitale identiteit voor overheid)
    - Nodig voor: DUO, Belastingdienst, SVB, gemeente
    - Hoe: digiD.nl (snel + gratis)
    - Zet 2-factor-auth AAN (SMS-verificatie)!
 
-3. **Eigen bankrekening** (bij 18 jaar)
+3. Eigen bankrekening (bij 18 jaar)
    - Kiezen: reguliere bank, juniorenrekening, online bank
    - Gratis voor jongeren (meestal)
    - Nodig voor: DUO-uitbetaling, toeslag, huurrente
    
-4. **BSN-gegevens** (Burgerservicenummer)
+4. BSN-gegevens (Burgerservicenummer)
    - Dit krijg je automatisch van gemeente
    - NOOIT delen met onbekenden!
    - Zet in veilige plek
 
-**Documenten digitaal opslaan:**
+Documenten digitaal opslaan:
 • Foto van ID/paspoort (beveiligd)
 • Digitale DigiD back-up codes (BELANGRIJK!)
 • Huurcontract (PDF)
 • DUO-brieven (screenshots)
 • Bankrekening-gegevens (veilig)
 
-**Waarschuwing:**
+Waarschuwing:
 • Zet NOOIT je BSN/volledige ID online
 • Delen in chat/social media = identiteitsfraude risico!
 • Gebruik sterke wachtwoorden + 2FA overal`,
@@ -446,30 +445,30 @@ Je moet recht hebben op studiefinanciering bij DUO. Geen studiefinanciering? Dan
     description: 'Wat gebeurt er met studiefinanciering bij doorstroom naar HBO?',
     longDescription: `Proficiat! Je MBO af en gaat naar HBO? Goed nieuws: veel regelt DUO soepel.
 
-**Studiefinanciering bij HBO-doorstroom:**
+Studiefinanciering bij HBO-doorstroom:
 • Je prestatiebeurs gaat DOOR
 • Soms krijg je EXTRA beurs voor HBO (ondernemingsfonds!)
 • Je lening kan je meenemen naar HBO
 • Je hoeft niet opnieuw aan te vragen (DUO ziet je inschrijving)
 
-**Hoe zit dat precies?**
+Hoe zit dat precies?
 1. Je bent ingeschreven bij HBO-school
 2. DUO ziet dit automatisch (meestal via Studiefinanciering register)
 3. Je prestatiebeurs/toeslag wordt doorgezet
 4. Mogelijk studiefinanciering VERHOGING voor HBO-traject
 
-**Termijnen en aandachtspunten:**
+Termijnen en aandachtspunten:
 • Meld je HBO-inschrijving in Mijn DUO
 • Kijk goed: sommige HBO's hebben flexibel ingangsmoment (bijv. januari)
 • Als je pauze neemt tussen MBO en HBO: meld dit aan DUO!
 • Korting/beurs stopt als je langer dan 1 maand pauze hebt
 
-**Wat met je schuld?**
+Wat met je schuld?
 • De lening die je hebt opgebouwd GAAT MEEMET JE
 • Je start NIET opnieuw (je schuld wordt niet kwijtgescholden)
 • Terugbetaling begint pas 2 jaar NADAT je HBO afmaakt
 
-**Financieel voordeel:**
+Financieel voordeel:
 MBO + HBO = meer studiefinanciering ≈ extra €6.000-12.000! Dit kan helpen om je schuld af te betalen.`,
     completed: false,
     quickTips: ['Zorg dat je HBO-inschrijving in Mijn DUO staat', 'Wacht niet tot HBO start: check 2 maanden van tevoren', 'Let op: langer dan 1 maand pauze = toeslag stopt', 'Vraag DUO specifiek welke beurs je krijgt voor HBO'],
@@ -494,38 +493,38 @@ MBO + HBO = meer studiefinanciering ≈ extra €6.000-12.000! Dit kan helpen om
     description: 'Wat gebeurt er met je schuld & studiefinanciering als je stopt?',
     longDescription: `Soms werkt een opleiding niet uit. Of je vindt wat anders. Wat gebeurt er dan met je studiefinanciering en schuld?
 
-**Scenario 1: Je stopt NA je eerste jaar**
-• De prestatiebeurs die je hebt gekregen? **Je hoeft die NIET terug te betalen** (het is een gift!)
-• De DUO-lening die je hebt opgenomen? **Die moet je WEL teruebetalen**
+Scenario 1: Je stopt NA je eerste jaar
+• De prestatiebeurs die je hebt gekregen? **Je hoeft die NIET terug te betalen (het is een gift!)
+• De DUO-lening die je hebt opgenomen? **Die moet je WEL teruebetalen
 • Recht op studiefinanciering stopt per direct
 • Schuld: ruwweg €6.000-12.000 (afhankelijk van wat je hebt opgenomen)
 
-**Scenario 2: Je onderbreekt je opleiding (pauze van 6 maanden)**
+Scenario 2: Je onderbreekt je opleiding (pauze van 6 maanden)
 • Je studiefinanciering STOPT
 • Je schuld GROEIT NIET (je leent niet meer)
 • Terugekomst? Meld dit aan DUO en start opnieuw
 • Voordeel: je schuld wordt niet hoger
 
-**Scenario 3: Je wisselt van opleiding (bijv. ander MBO-traject)**
+Scenario 3: Je wisselt van opleiding (bijv. ander MBO-traject)
 • Check of BEIDE opleidingen "erkend" zijn bij DUO
 • Je studiefinanciering GAAT DOOR
 • Schuld: dezelfde (je stapelt niet dubbel op)
 • Belangrijk: meld wisselingmeteen in Mijn DUO
 
-**Terugbetaling van DUO-lening:**
+Terugbetaling van DUO-lening:
 • Je begint terug te betalen 2 jaar NADAT je studie eindigt
 • Je betaalt % van je inkomen (flexibel!)
 • Minimum: ~€50/maand
 • Geen inkomen? Dan betaal je NIETS (voorwaarden gelden!)
 
-**Wat je MOET doen als je stopt:**
+Wat je MOET doen als je stopt:
 1. Meld dit DIRECT bij DUO (chat/telefoon/Mijn DUO)
 2. Vraag om pauze-verlenging (als je even uit wilt)
 3. Vraag hoeveel schuld je hebt (check je voorspelling)
 4. Plan: hoe ga je terugbetalen? (werken, besparen, schuldhulp)
 5. Controleer: stopt je OV-kaart? Stop het zelf!
 
-**Schuldhulpverlening:**
+Schuldhulpverlening:
 Als je schuld groot voelt: 
 • Schuldhulpmaatschappij kan helpen (gratis!)
 • Bel: 030-2360360 of mail: schuldhulp.nl
@@ -982,12 +981,11 @@ body::after {
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--spacing-xl);
 }
 
 .feature-card {
-  grid-column: span 4;
   background: var(--color-white);
   color: var(--color-gray-800);
   border-radius: var(--radius-sm);
@@ -995,6 +993,8 @@ body::after {
   border: 1px solid #000000;
   transition: all 0.25s;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
 }
 
 .feature-card:hover {
@@ -1006,10 +1006,6 @@ body::after {
 
 .feature-card.completed {
   border-left: 10px solid var(--color-success);
-}
-
-.feature-card:last-child:nth-child(odd) {
-  grid-column: 5 / span 4;
 }
 
 .feature-header {
@@ -1085,14 +1081,16 @@ body::after {
 }
 
 .feature-highlights {
-  margin: var(--spacing-sm) 0 0 var(--spacing-lg);
+  margin: var(--spacing-md) 0 0 var(--spacing-lg);
   display: grid;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
   font-size: var(--font-size-sm);
+  flex-grow: 1;
 }
 
 .feature-highlights li {
   color: var(--color-gray-700);
+  line-height: var(--line-height-normal);
 }
 
 .details {
@@ -1125,7 +1123,7 @@ body::after {
   background: var(--color-white);
   border-radius: var(--radius-md);
   color: var(--color-primary);
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-3xl);
   box-shadow: var(--shadow-2xl);
   animation: slideUp 0.3s ease;
   max-height: 90vh;
@@ -1148,20 +1146,46 @@ body::after {
   border: none;
   color: var(--color-black);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
   cursor: pointer;
+  padding: 0;
+  font-size: var(--font-size-base);
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.details-content h2 {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-md);
+}
+
+.details-content p {
+  line-height: var(--line-height-relaxed);
+  white-space: pre-line;
 }
 
 .details-quiz {
   background: var(--color-gray-100);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl);
   color: var(--color-primary);
   border-radius: var(--radius-xs);
-  margin-top: var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+  border-top: 2px solid var(--color-gray-200);
+  padding-top: var(--spacing-2xl);
+}
+
+.details-quiz h3 {
+  margin-bottom: var(--spacing-lg);
 }
 
 .detail-faq {
-  margin-top: var(--spacing-xl);
+  margin-top: var(--spacing-2xl);
+  border-top: 2px solid var(--color-gray-200);
+  padding-top: var(--spacing-xl);
 }
 
 .faq-toggle-btn {
@@ -1172,7 +1196,7 @@ body::after {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: var(--spacing-md) 0;
   margin-bottom: var(--spacing-md);
   transition: color 0.2s;
 }
@@ -1206,8 +1230,8 @@ body::after {
 
 .faq-list {
   display: grid;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-sm);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
   animation: expandCollapse 0.3s ease forwards;
 }
 
@@ -1227,12 +1251,35 @@ body::after {
 .faq-item {
   background: var(--color-bg-lightest);
   border: 1px solid var(--color-gray-200);
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   border-radius: var(--radius-md);
 }
 
 .faq-item h4 {
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-base);
+}
+
+.faq-item p {
+  line-height: var(--line-height-relaxed);
+  font-size: var(--font-size-sm);
+}
+
+.quiz-question {
+  margin-bottom: var(--spacing-lg);
+}
+
+.quiz-question p {
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-base);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .quiz-option {
@@ -1240,26 +1287,27 @@ body::after {
   width: 100%;
   text-align: left;
   background: var(--color-gray-200);
-  padding: var(--spacing-sm) var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
-  border: solid 0.5px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: solid 1px;
   border-color: var(--color-gray-300);
   border-radius: var(--radius-md);
   cursor: pointer;
   color: var(--color-primary);
   transition: all 0.2s;
+  font-size: var(--font-size-sm);
 }
 
 .quiz-option:hover:not(:disabled) {
   background: var(--color-accent-light);
+  border-color: var(--color-accent);
 }
 
 .quiz-feedback {
   display: flex;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
-  margin: var(--spacing-md) 0;
+  margin: var(--spacing-lg) 0;
 }
 
 .quiz-feedback.correct {
