@@ -425,6 +425,7 @@ function formatMessage(content) {
 
 .topq-title {
   font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-900);
   margin-bottom: var(--spacing-sm);
   font-size: var(--font-size-sm);
 }
