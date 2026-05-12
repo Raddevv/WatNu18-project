@@ -1,22 +1,29 @@
 <template>
+  <!-- Hoofd container van de app -->
   <div id="app">
+    <!-- Bovenste navigatie header -->
     <Header />
+    <!-- Hoofd content area -->
     <main class="main-content">
-      <!-- Progress banner -->
+      <!-- Progress banner met voortgang en badges -->
       <div id="top" class="progress-banner">
         <div class="progress-content">
+          <!-- Titel en voortgangstekst -->
           <div class="progress-text">
             <h3>Jouw 18e jaar checklist</h3>
             <p>Je bent <strong>{{ overallProgress }}% voorbereid</strong> blijf zo doorgaan!</p>
           </div>
+          <!-- Stats: XP punten, badges en volgende taak -->
           <div class="journey-meta">
             <div class="journey-pill">XP: {{ journeyPoints }}</div>
             <div class="journey-pill">Badges: {{ completedCount }}/{{ features.length }}</div>
             <div class="journey-pill">Volgende stap: {{ nextIncompleteTitle }}</div>
           </div>
+          <!-- Voortgangsbar visueel -->
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: overallProgress + '%' }"></div>
           </div>
+          <!-- Individuele stap indicators -->
           <div class="progress-items">
             <div v-for="(feat, idx) in features" :key="idx" class="progress-item" :class="{ done: feat.completed }">
               <span class="icon">{{ feat.completed ? '✓' : idx+1 }}</span>
@@ -26,40 +33,53 @@
         </div>
       </div>
 
+      <!-- Hero banner met introductie -->
       <section class="hero">
         <div class="hero-content">
           <h1 class="hero-title">Van 17 naar 18<br><span>Alles geregeld?</span></h1>
           <p class="hero-subtitle">Studiefinanciering, OV, zorgtoeslag, huurtoeslag, WatNu18 geeft je stap voor stap duidelijkheid. Gemaakt door MBO'ers, voor MBO'ers.</p>
+          <!-- Call to action button om naar features te scrollen -->
           <button class="cta-btn" @click="scrollToFeatures">Start je journey →</button>
         </div>
       </section>
 
+    <!-- Onderste helft met lichte achtergrond -->
     <section class="lower-half" id="half">
+      <!-- Features/stappen sectie -->
       <section class="features" id="features">
         <div class="features-wrapper">
+          <!-- Sectie header met titel -->
           <div class="section-header">
             <h2>Jouw 7‑stappen plan</h2>
             <p>Voltooi elke stap, verdien badges en word volledig voorbereid voor je 18e en daarna</p>
           </div>
+          <!-- Scroll knoppen voor feature rail op mobile -->
           <div class="feature-rail-controls" aria-hidden="true">
             <button class="rail-btn" @click="scrollFeatureRail(-1)">←</button>
             <button class="rail-btn" @click="scrollFeatureRail(1)">→</button>
           </div>
+          <!-- Grid/rail met feature cards -->
           <div class="features-grid" ref="featureRail">
+            <!-- Loop door alle features en show als kaart -->
             <div class="feature-card" v-for="(feature, index) in features" :key="index" :id="feature.anchor" :class="{ completed: feature.completed }">
+              <!-- Kaart header met stap nummer en completion badge -->
               <div class="feature-header">
                 <span class="feature-step">{{ index + 1 }}</span>
                 <span class="feature-badge" v-if="feature.completed">✓ Voltooid</span>
               </div>
+              <!-- Kaart titel en beschrijving -->
               <h3>{{ feature.title }}</h3>
               <p>{{ feature.description }}</p>
+              <!-- Knop om tips uit/in te klappen -->
               <button class="tips-toggle-btn" @click.stop="toggleFeatureTips(index)">
                 <span class="tips-arrow" :class="{ expanded: expandedTips[index] }">▼</span>
                 <span>Snelle tips</span>
               </button>
+              <!-- Lijst met tips (toon als uitgebreid) -->
               <ul class="feature-highlights" v-if="expandedTips[index]">
                 <li v-for="(tip, tipIndex) in feature.quickTips" :key="`${index}-${tipIndex}`">{{ tip }}</li>
               </ul>
+              <!-- Knop om feature details te openen -->
               <button class="feature-btn" @click="selectFeature(index)">
                 {{ feature.completed ? 'Herbekijk' : 'Start missie' }}
               </button>
@@ -69,36 +89,49 @@
       </section>
     </section>
 
+      <!-- Modaal voor feature details (toon als feature is geselecteerd) -->
       <section class="details" v-if="selectedFeature !== null" @click.self="selectedFeature = null">
         <div class="details-container">
+          <!-- Knop om modaal te sluiten -->
           <button class="close-btn" @click="selectedFeature = null">← Terug naar overzicht</button>
+          <!-- Hoofd content van de geselecteerde feature -->
           <div class="details-content">
             <h2>{{ features[selectedFeature].title }}</h2>
             <p>{{ features[selectedFeature].longDescription }}</p>
+            <!-- FAQ sectie voor feature -->
             <div class="detail-faq">
+              <!-- FAQ toggle knop -->
               <button class="faq-toggle-btn" @click="expandedFaqs = !expandedFaqs">
                 <h3>Veelgestelde vragen over deze stap</h3>
                 <span class="toggle-arrow" :class="{ expanded: expandedFaqs }">▼</span>
               </button>
+              <!-- FAQ items (toon als uitgebreid) -->
               <div class="faq-list" v-if="expandedFaqs">
+                <!-- Loop door FAQs -->
                 <div class="faq-item" v-for="(faq, faqIndex) in features[selectedFeature].faqs" :key="faqIndex">
                   <h4>{{ faq.question }}</h4>
                   <p>{{ faq.answer }}</p>
                 </div>
               </div>
             </div>
+            <!-- Quiz sectie (toon als quiz bestaat) -->
             <div class="details-quiz" v-if="features[selectedFeature].quiz">
               <h3>Check je kennis</h3>
+              <!-- Quiz vraag container -->
               <div class="quiz-question">
                 <p>{{ features[selectedFeature].quiz.question }}</p>
+                <!-- Quiz antwoord opties (toon als nog niet goed beantwoord) -->
                 <div class="quiz-options" v-if="!quizAttempted || !quizResult.isCorrect">
+                  <!-- Loop door quiz opties -->
                   <button class="quiz-option" v-for="(option, i) in features[selectedFeature].quiz.options" :key="i"
                     @click="submitQuizAnswer(i)" :class="{ selected: currentQuizAnswer === i }"
                     :disabled="quizAttempted && !quizResult.isCorrect">
                     {{ option }}
                   </button>
                 </div>
+                <!-- Quiz feedback (toon na poging) -->
                 <div class="quiz-result" v-if="quizAttempted && quizResult">
+                  <!-- Feedback bericht goed/fout met uitleg -->
                   <div class="quiz-feedback" :class="quizResult.isCorrect ? 'correct' : 'incorrect'">
                     <div class="feedback-icon">{{ quizResult.isCorrect ? '' : '' }}</div>
                     <div class="feedback-text">
@@ -106,6 +139,7 @@
                       <p>{{ quizResult.explanation }}</p>
                     </div>
                   </div>
+                  <!-- Badge knop als correct, retry knop als fout -->
                   <button v-if="quizResult.isCorrect" class="quiz-action-btn completed" disabled>
                     Badge verdiend
                   </button>
@@ -118,11 +152,12 @@
           </div>
         </div>
       </section>
-
-      <!-- Why WatNu18 -->
+      <!-- Info sectie met voordelen -->
       <section class="info-section">
         <h2>Waarom WatNu18?</h2>
+        <!-- Grid met info kaarten -->
         <div class="info-grid">
+          <!-- Info kaart 1 -->
           <div class="info-card">
             <div class="info-icon">🎯</div>
             <h3>Speciaal voor MBO</h3>
@@ -155,12 +190,12 @@
           </div>
         </div>
       </section>
-      
-      <!-- Student Stories -->
+      <!-- Stories/testimonials sectie -->
       <section class="stories-section" id="stories">
         <div class="stories-inner">
           <h2>Echte verhalen van MBO'ers</h2>
           <p>Inspiratie en tips van jongeren die net als jij 18 werden en hun zaakjes regelden.</p>
+          <!-- Grid met student verhalen -->
           <div class="stories-grid">
             <article class="story-card">
               <div class="story-avatar">👩‍🎓</div>
@@ -193,11 +228,14 @@
           </div>
         </div>
       </section>
+      <!-- Extra FAQ sectie -->
       <section class="faq-section" id="faq">
         <div class="faq-section-inner">
           <h2>Extra veelgestelde vragen</h2>
           <p>Snelle antwoorden op vragen die je als eerstejaars vaak meteen wilt weten.</p>
+          <!-- Grid met FAQ kaarten -->
           <div class="faq-overview-grid">
+            <!-- Loop door extra FAQs -->
             <article class="faq-overview-card" v-for="(item, idx) in extraFaqs" :key="idx">
               <h3>{{ item.question }}</h3>
               <p>{{ item.answer }}</p>
@@ -206,13 +244,17 @@
         </div>
       </section>
     </main>
+    <!-- Juridische secties -->
     <LegalSections />
+    <!-- Footer -->
     <Footer />
+    <!-- Chat widget voor vragen -->
     <ChatWidget />
   </div>
 </template>
 
 <script setup>
+// vue imports
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import LegalSections from './components/LegalSections.vue'
@@ -220,17 +262,23 @@ import ChatWidget from './components/ChatWidget.vue'
 import { ref, computed, watch, nextTick, onMounted, provide } from 'vue'
 import { siteNavigationKey } from './composables/siteNavigation.js'
 
+//welke feature is geselecteerd
 const selectedFeature = ref(null)
+//huidige geselecteerde quiz antwoord
 const currentQuizAnswer = ref(null)
+//resultaat van quiz (correct/incorrect + uitleg)
 const quizResult = ref(null)
 const quizAttempted = ref(false)
+// ref naar de feature rail
 const featureRail = ref(null)
-const expandedFaqs = ref(false)
-const expandedTips = ref({})
+const expandedFaqs = ref(false) // zijn deze uitgebreid?
+const expandedTips = ref({}) // en deze?
+// localStorage opslag
 const PROGRESS_STORAGE_KEY = 'watnu18_feature_progress_v1'
 
 const features = ref([
   {
+    // Stap 1: Studiefinanciering
     title: 'Studiefinanciering',
     anchor: 'studiefinanciering',
     titleShort: 'DUO',
@@ -268,6 +316,7 @@ Belangrijke deadlines:
     }
   },
   {
+    // Stap 2: OV-studentenkaart
     title: 'OV-studentenkaart',
     anchor: 'ov-kaart',
     titleShort: 'OV',
@@ -304,6 +353,7 @@ Waarschuwing: Vergeet NIET je product stop te zetten als je je studies afmaakt! 
     }
   },
   {
+    // Stap 3: Zorgverzekering & toeslagen
     title: 'Zorgverzekering & toeslagen',
     anchor: 'zorgverzekering',
     titleShort: 'Zorg',
@@ -345,6 +395,7 @@ Let op:
     }
   },
   {
+    // Stap 4: Woonkosten & huurtoeslag
     title: 'Woonkosten & huurtoeslag',
     anchor: 'woonkosten',
     titleShort: 'Wonen',
@@ -390,6 +441,7 @@ Praktische tips:
     }
   },
   {
+    // Stap 5: Belangrijke documenten
     title: 'Belangrijke documenten',
     anchor: 'documenten',
     titleShort: 'Papieren',
@@ -444,6 +496,7 @@ Waarschuwing:
     }
   },
   {
+    // Stap 6: HBO-doorstroom & rechten
     title: 'HBO-doorstroom & rechten',
     anchor: 'hbo-doorstroom',
     titleShort: 'HBO →',
@@ -492,6 +545,7 @@ MBO + HBO = meer studiefinanciering ≈ extra €6.000-12.000! Dit kan helpen om
     }
   },
   {
+    // Stap 7: Stoppen, overstappen & schuld
     title: 'Stoppen, overstappen & schuld',
     anchor: 'stoppen-overstappen',
     titleShort: 'Stop/Schuld',
@@ -554,6 +608,7 @@ Als je schuld groot voelt:
   }
 ])
 
+// FAQ items onder aan de pagina
 const extraFaqs = [
   { question: 'Kan ik studiefinanciering en bijbaan combineren?', answer: 'Ja! Maar je mag niet te veel verdienen. Check je limieten op duo.nl. Veel MBO\'ers werken ~12 uur/week naast studiefinanciering. Zolang je je inkomen meldt, is het prima.' },
   { question: 'Moet ik zorgtoeslag terugbetalen als mijn inkomen stijgt?', answer: 'Ja, dat kan. Pas je inkomen OP TIJD aan bij de Belastingdienst. Hoe eerder je meldt, hoe minder je terug hoeft te betalen. Draai je claim niet om later!' },
@@ -565,11 +620,15 @@ const extraFaqs = [
   { question: 'Kan ik gaten in mijn studie opvullen met DUO?', answer: 'Als je een erkende opleiding doet: ja. Bijscholing? Nee. Check duo.nl welke vakken/certificaten tellen. Betaald uit je prestatiebeurs-potje.' }
 ]
 
+// berekening van hoeveel van de stappen voltooid zijn
 const completedCount = computed(() => features.value.filter(f => f.completed).length)
+// percentage bijhouden
 const overallProgress = computed(() => {
   return Math.round((completedCount.value / features.value.length) * 100)
 })
+// momenteel 120 per, maar misschien in de toekomst uitbreiden
 const journeyPoints = computed(() => completedCount.value * 120)
+//hier wordt gezocht naar het volgende onvoltooide stap
 const nextIncompleteTitle = computed(() => {
   const next = features.value.find(f => !f.completed)
   return next ? next.titleShort : 'Alles afgerond'
@@ -579,26 +638,31 @@ function scrollToFeatures() {
   navigateTo('#features')
 }
 
+//select feature en open details, sluit FAQ en resete quiz
 function selectFeature(index) {
   selectedFeature.value = index
   expandedFaqs.value = false
   resetQuiz()
+  //wacht op DOM en scroll naar details
   nextTick(() => {
     document.querySelector('.details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   })
 }
 
+// site navigation naar een sectie of feature, gebaseerd op URL hash of links
 function navigateTo(raw) {
   if (typeof window === 'undefined') return
+  // dit wordt gebruikt om de input naar een hashtag formaat te "normaliseren"
   const normalized = (raw || '').trim()
   const withHash = normalized.startsWith('#') ? normalized : `#${normalized}`
   const id = withHash === '#' ? '' : withHash.slice(1)
 
-  if (!id || id === 'top') {
+  if (!id || id === 'top') { // terug naar top
     selectedFeature.value = null
     nextTick(() => {
       document.getElementById('top')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
+    //url refresh zonder hash
     try {
       history.replaceState(null, '', `${window.location.pathname}${window.location.search}`)
     } catch {
@@ -607,7 +671,9 @@ function navigateTo(raw) {
     return
   }
 
+  //komt de hash overeen met een feature? open de feature
   const featureIndex = features.value.findIndex((f) => f.anchor === id)
+  //zoeken naar feature met de anchor, dan selecteren en scrollen naar details
   if (featureIndex >= 0) {
     selectFeature(featureIndex)
     try {
@@ -618,6 +684,7 @@ function navigateTo(raw) {
     return
   }
 
+  // Anders sluit modaal en scroll naar element
   selectedFeature.value = null
   const el = document.getElementById(id)
   if (el) {
@@ -630,15 +697,21 @@ function navigateTo(raw) {
   }
 }
 
+// Provide navigatie functie aan child components
 provide(siteNavigationKey, navigateTo)
 
+// Verwerk quiz antwoord en check als correct
 function submitQuizAnswer(answerIndex) {
+  // Check of quiz bestaat
   if (!features.value[selectedFeature.value].quiz) return
   currentQuizAnswer.value = answerIndex
+  // Get correcte antwoord index
   const quiz = features.value[selectedFeature.value].quiz
   const isCorrect = answerIndex === quiz.correctAnswer
+  // Mark quiz as attempted
   quizAttempted.value = true
   quizResult.value = { isCorrect, explanation: quiz.explanation }
+  // Als correct, mark feature als voltooid en sluit modaal na 5 seconden
   if (isCorrect) {
     features.value[selectedFeature.value].completed = true
     setTimeout(() => {
@@ -647,53 +720,66 @@ function submitQuizAnswer(answerIndex) {
   }
 }
 
+// Reset quiz state voor retry
 function resetQuiz() {
   currentQuizAnswer.value = null
   quizResult.value = null
   quizAttempted.value = false
 }
 
+// Retry de quiz
 function retryQuiz() {
   resetQuiz()
 }
 
+// Scroll feature rail (carousel) links of rechts
 function scrollFeatureRail(direction) {
   if (!featureRail.value) return
+  // Bereken scroll afstand (85% van breedte)
   const amount = Math.max(320, featureRail.value.clientWidth * 0.85)
   featureRail.value.scrollBy({ left: direction * amount, behavior: 'smooth' })
 }
 
+// Toggle tips uit/in voor een feature
 function toggleFeatureTips(index) {
   expandedTips.value[index] = !expandedTips.value[index]
 }
 
+// Laad opgeslagen voortgang van localStorage
 function applySavedProgress() {
   if (typeof window === 'undefined') return
+  // Haal voortgang uit localStorage
   const raw = window.localStorage.getItem(PROGRESS_STORAGE_KEY)
   if (!raw) return
   try {
     const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return
+    // Update feature completed status van localStorage
     features.value = features.value.map((feature, idx) => ({
       ...feature,
       completed: Boolean(parsed[idx]),
     }))
   } catch {
-    // Ignore invalid localStorage payloads.
+    // Ignore parse errors
   }
 }
 
+// Lifecycle: component mounted
 onMounted(() => {
+  // Laad opgeslagen voortgang
   applySavedProgress()
+  // Check URL hash en navigeer naar die sectie
   const hash = window.location.hash
   if (hash && hash.length > 1) {
     nextTick(() => navigateTo(hash))
   }
 })
 
+// Watch voortgang en sla op in localStorage als wijzigt
 watch(
   () => features.value.map(f => f.completed),
   (progressState) => {
+    // Sla voortgang op in localStorage
     if (typeof window === 'undefined') return
     window.localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progressState))
   },
@@ -703,24 +789,29 @@ watch(
 </script>
 
 <style>
+// Laad CSS variables uit aparte file
 @import './styles/variables.css';
 
+// Reset standaard styles
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+// Smooth scroll gedrag
 html {
   scroll-behavior: smooth;
 }
 
+// Body styling met gradient achtergrond
 body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   color: var(--color-gray-100);
   background-color: var(--color-black);
+  // Meerdere gradienten voor mooie achtergrond effect
   background-image:
     radial-gradient(120% 90% at 8% 4%, rgba(25, 68, 49, 0.5) 0%, transparent 48%),
     radial-gradient(70% 65% at 88% 14%, rgba(96, 113, 101, 0.8) 0%, transparent 52%),
@@ -732,6 +823,7 @@ body {
   overflow-x: hidden;
 }
 
+// Grid overlay effect op achtergrond
 body::before {
   content: '';
   position: fixed;
@@ -747,6 +839,7 @@ body::before {
   opacity: 0.35;
 }
 
+// Animatieve achtergrond glow effect
 body::after {
   content: '';
   position: fixed;
@@ -762,6 +855,7 @@ body::after {
   animation: ambientGlow 155s ease-in-out infinite alternate;
 }
 
+// Lagere helft van pagina met lichte achtergrond
 .lower-half {
   background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
   padding: var(--spacing-3xl) var(--spacing-xl);
@@ -771,6 +865,7 @@ body::after {
   margin-top: -1px;
 }
 
+// Hoofd app container
 #app {
   display: flex;
   flex-direction: column;
@@ -778,6 +873,7 @@ body::after {
   background: transparent;
 }
 
+// Animatie: fill card van wit naar accent kleur
 @keyframes fillCard {
   from {
     background: white;
@@ -787,6 +883,7 @@ body::after {
   }
 }
 
+// Alternatieve fill animatie
 @keyframes fillCardB {
   from {
     background: var(--color-bg-lightest);
@@ -796,6 +893,7 @@ body::after {
   }
 }
 
+// Animatie: ambient glow beweegt zachtjes
 @keyframes ambientGlow {
   0% {
     transform: translate3d(-0.15%, -0.345%, 0) scale(1);
@@ -805,6 +903,7 @@ body::after {
   }
 }
 
+// Hoofd content area
 .main-content {
   flex: 1;
   max-width: 100%;
@@ -815,10 +914,12 @@ body::after {
   gap: 0;
 }
 
+// Margin fix voor sections na nummer 3
 .main-content > section:nth-of-type(n+3) {
   margin-top: 0;
 }
 
+// Progress banner styling
 .progress-banner {
   width: 100%;
   max-width: 100%;
@@ -829,11 +930,13 @@ body::after {
   margin: 0;
 }
 
+// Hero section
 .hero {
   margin: 0;
   margin-top: -1px;
 }
 
+// Info en stories sections
 .lower-half {
   margin: 0;
   margin-top: -1px;
@@ -854,12 +957,13 @@ body::after {
   margin-top: -1px;
 }
 
+// Container voor progress content
 .progress-content {
   max-width: var(--container-width);
   margin: 0 auto;
 }
 
-/* Sticky header offset for in-page links */
+// Smooth scroll offset voor in-page links
 #top,
 #features,
 #faq,
@@ -869,6 +973,7 @@ body::after {
   scroll-margin-top: 5.5rem;
 }
 
+// Progress text styling
 .progress-text h3 {
   font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-xs);
@@ -879,6 +984,7 @@ body::after {
   margin-bottom: var(--spacing-md);
 }
 
+// Journey meta pills (XP, Badges, etc)
 .journey-meta {
   display: flex;
   flex-wrap: wrap;
@@ -894,6 +1000,7 @@ body::after {
   font-weight: var(--font-weight-semibold);
 }
 
+// Voortgangsbar (linear)
 .progress-bar {
   height: 8px;
   background: rgba(0, 0, 0, 0.3);
@@ -909,6 +1016,7 @@ body::after {
   transition: width 0.3s ease;
 }
 
+// Progress items (stap indicators)
 .progress-items {
   display: flex;
   flex-wrap: wrap;
@@ -931,6 +1039,7 @@ body::after {
   background: var(--color-success);
 }
 
+// Icoon in progress item
 .icon {
   width: 22px;
   height: 22px;
@@ -942,6 +1051,7 @@ body::after {
   font-size: 12px;
 }
 
+// Hero section styling
 .hero {
   padding: var(--spacing-3xl) var(--spacing-2xl);
   margin: 0;
@@ -953,6 +1063,7 @@ body::after {
   margin: 0 auto;
 }
 
+// Hero title (groot)
 .hero-title {
   font-size: var(--font-size-5xl);
   font-weight: 800;
@@ -965,6 +1076,7 @@ body::after {
   color: var(--color-accent);
 }
 
+// Hero subtitle
 .hero-subtitle {
   font-size: var(--font-size-lg);
   color: var(--color-gray-300);
@@ -972,6 +1084,7 @@ body::after {
   margin-bottom: var(--spacing-2xl);
 }
 
+// CTA button
 .cta-btn {
   background: linear-gradient(135deg, var(--color-cta), var(--color-cta-dark));
   border: none;
@@ -989,11 +1102,13 @@ body::after {
   box-shadow: var(--shadow-lg);
 }
 
+// Features wrapper container
 .features-wrapper {
   max-width: var(--container-width);
   margin: 0 auto;
 }
 
+// Features section
 .features {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -1001,6 +1116,7 @@ body::after {
   padding: 0;
 }
 
+// Section header styling
 .section-header {
   text-align: center;
   margin-bottom: var(--spacing-3xl);
@@ -1021,12 +1137,14 @@ body::after {
   font-weight: bold;
 }
 
+// Grid voor feature cards
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--spacing-xl);
 }
 
+// Feature card styling
 .feature-card {
   background: var(--color-white);
   color: var(--color-gray-800);
@@ -1046,10 +1164,12 @@ body::after {
   animation: fillCardB 0.4s ease both;
 }
 
+// Voltooid badge - groene lijn aan linkerkant
 .feature-card.completed {
   border-left: 10px solid var(--color-success);
 }
 
+// Feature card header met stap nummer en badge
 .feature-header {
   display: flex;
   align-items: center;
@@ -1062,6 +1182,7 @@ body::after {
   margin-bottom: 0;
 }
 
+// Scroll knoppen voor mobile
 .feature-rail-controls {
   display: none;
   justify-content: flex-end;
@@ -1078,6 +1199,7 @@ body::after {
   cursor: pointer;
 }
 
+// Feature stap nummer cirkel
 .feature-step {
   display: inline-flex;
   width: 36px;
@@ -1091,6 +1213,7 @@ body::after {
   margin-bottom: var(--spacing-md);
 }
 
+// Badge voor voltooid
 .feature-badge {
   background: var(--color-success);
   font-size: var(--font-size-xs);
@@ -1100,6 +1223,7 @@ body::after {
   color: white;
 }
 
+// Feature card title en tekst
 .feature-card h3 {
   margin: var(--spacing-md) 0 var(--spacing-sm);
   font-size: var(--font-size-xl);
@@ -1111,6 +1235,7 @@ body::after {
   margin-bottom: 0;
 }
 
+// Tips toggle knop
 .tips-toggle-btn {
   display: flex;
   align-items: center;
@@ -1127,6 +1252,7 @@ body::after {
   transition: color 0.2s;
 }
 
+// Arrow icon rotatie
 .tips-arrow {
   display: inline-flex;
   font-size: 12px;
@@ -1138,6 +1264,7 @@ body::after {
   transform: rotate(180deg);
 }
 
+// Feature highlights (tips list)
 .feature-highlights {
   margin: var(--spacing-md) 0 0 var(--spacing-lg);
   display: grid;
@@ -1151,6 +1278,7 @@ body::after {
   line-height: var(--line-height-normal);
 }
 
+// Feature action button
 .feature-btn {
   width: 100%;
   margin-top: auto;
@@ -1168,6 +1296,7 @@ body::after {
   background: var(--color-primary-dark);
 }
 
+// Details modaal (overlay)
 .details {
   position: fixed;
   inset: 0;
@@ -1183,6 +1312,7 @@ body::after {
   animation: fadeIn 0.3s ease;
 }
 
+// Fade in animatie voor modaal
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1192,6 +1322,7 @@ body::after {
   }
 }
 
+// Details container (witte kaart in modaal)
 .details-container {
   max-width: 800px;
   margin: 0 auto;
@@ -1205,6 +1336,7 @@ body::after {
   overflow-y: auto;
 }
 
+// Slide up animatie
 @keyframes slideUp {
   from {
     transform: translateY(20px);
@@ -1216,6 +1348,7 @@ body::after {
   }
 }
 
+// Close button in modaal
 .close-btn {
   background: none;
   border: none;
@@ -1227,6 +1360,7 @@ body::after {
   font-size: var(--font-size-base);
 }
 
+// Details content layout
 .details-content {
   display: flex;
   flex-direction: column;
@@ -1243,6 +1377,7 @@ body::after {
   white-space: pre-line;
 }
 
+// Quiz sectie styling
 .details-quiz {
   background: var(--color-gray-100);
   padding: var(--spacing-2xl);
@@ -1257,12 +1392,14 @@ body::after {
   margin-bottom: var(--spacing-lg);
 }
 
+// FAQ detail sectie
 .detail-faq {
   margin-top: var(--spacing-2xl);
   border-top: 2px solid var(--color-gray-200);
   padding-top: var(--spacing-xl);
 }
 
+// FAQ toggle knop
 .faq-toggle-btn {
   display: flex;
   align-items: center;
@@ -1286,6 +1423,7 @@ body::after {
   text-align: left;
 }
 
+// Toggle arrow icoon
 .toggle-arrow {
   display: inline-flex;
   font-size: 14px;
@@ -1303,6 +1441,7 @@ body::after {
   color: var(--color-accent);
 }
 
+// FAQ item list
 .faq-list {
   display: grid;
   gap: var(--spacing-lg);
@@ -1310,6 +1449,7 @@ body::after {
   animation: expandCollapse 0.3s ease forwards;
 }
 
+// Expand/collapse animatie
 @keyframes expandCollapse {
   from {
     opacity: 0;
@@ -1323,6 +1463,7 @@ body::after {
   }
 }
 
+// Individueel FAQ item
 .faq-item {
   background: var(--color-bg-lightest);
   border: 1px solid var(--color-gray-200);
@@ -1340,6 +1481,7 @@ body::after {
   font-size: var(--font-size-sm);
 }
 
+// Quiz vraag container
 .quiz-question {
   margin-bottom: var(--spacing-lg);
 }
@@ -1350,6 +1492,7 @@ body::after {
   font-size: var(--font-size-base);
 }
 
+// Quiz antwoord opties
 .quiz-options {
   display: flex;
   flex-direction: column;
@@ -1357,6 +1500,7 @@ body::after {
   margin-bottom: var(--spacing-lg);
 }
 
+// Quiz option button
 .quiz-option {
   display: block;
   width: 100%;
@@ -1377,6 +1521,7 @@ body::after {
   border-color: var(--color-accent);
 }
 
+// Quiz feedback/resultaat
 .quiz-feedback {
   display: flex;
   gap: var(--spacing-lg);
@@ -1401,6 +1546,7 @@ body::after {
   font-size: 2rem;
 }
 
+// Quiz action buttons (verdiend badge of retry)
 .quiz-action-btn {
   width: 100%;
   padding: var(--spacing-sm);
@@ -1422,6 +1568,7 @@ body::after {
   cursor: default;
 }
 
+// Info sectie (voordelen van platform)
 .info-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
   background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
@@ -1434,12 +1581,14 @@ body::after {
   color: var(--color-gray-900);
 }
 
+// Grid met info kaarten
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--spacing-xl);
 }
 
+// Info kaart styling
 .info-card {
   background: var(--color-white);
   border-radius: var(--radius-lg);
@@ -1457,11 +1606,13 @@ body::after {
   animation: fillCard 0.4s ease both;
 }
 
+// Info icoon
 .info-icon {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-md);
 }
 
+// FAQ overview sectie
 .faq-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
 }
@@ -1477,12 +1628,14 @@ body::after {
   margin: var(--spacing-sm) 0 var(--spacing-xl);
 }
 
+// Grid met FAQ overview kaarten
 .faq-overview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: var(--spacing-lg);
 }
 
+// FAQ overview kaart
 .faq-overview-card {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1491,6 +1644,7 @@ body::after {
   backdrop-filter: blur(2px);
 }
 
+// Stories/testimonials sectie
 .stories-section {
   padding: var(--spacing-3xl) var(--spacing-xl);
   background: linear-gradient(135deg, #f0f9f4 0%, #e8f5f0 100%);
@@ -1514,12 +1668,14 @@ body::after {
   margin-bottom: var(--spacing-3xl);
 }
 
+// Grid met story cards
 .stories-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: var(--spacing-xl);
 }
 
+// Story kaart styling
 .story-card {
   background: var(--color-white);
   border-radius: var(--radius-lg);
@@ -1537,6 +1693,7 @@ body::after {
   border-color: var(--color-accent);
 }
 
+// Story avatar emoji
 .story-avatar {
   font-size: 3rem;
   margin-bottom: var(--spacing-md);
@@ -1548,6 +1705,7 @@ body::after {
   color: var(--color-primary);
 }
 
+// Story role label
 .story-role {
   font-size: var(--font-size-sm);
   color: var(--color-accent);
@@ -1555,6 +1713,7 @@ body::after {
   margin-bottom: var(--spacing-md);
 }
 
+// Story tekst
 .story-text {
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
@@ -1563,6 +1722,7 @@ body::after {
   font-style: italic;
 }
 
+// Story tip box
 .story-tip {
   background: var(--color-accent-alt-1);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -1573,11 +1733,14 @@ body::after {
   border-left: 4px solid var(--color-accent);
 }
 
+// Responsive: tablet en groter (991px+)
 @media (max-width: 992px) {
+  // Toon scroll knoppen voor feature rail
   .feature-rail-controls {
     display: flex;
   }
 
+  // Features als horizontaal scrollable carousel
   .features-grid {
     display: flex;
     overflow-x: auto;
@@ -1586,6 +1749,7 @@ body::after {
     padding-bottom: var(--spacing-sm);
   }
 
+  // Feature cards min-width voor carousel
   .feature-card,
   .feature-card:last-child:nth-child(odd) {
     min-width: min(360px, 82vw);
@@ -1593,7 +1757,9 @@ body::after {
   }
 }
 
+// Responsive: mobile en kleine tablets (768px)
 @media (max-width: 768px) {
+  // Minder padding op mobile
   .main-content {
     padding: 0 var(--spacing-md);
     gap: var(--spacing-lg);
@@ -1612,13 +1778,18 @@ body::after {
     padding: var(--spacing-3xl) var(--spacing-md);
   }
 
+  // Kleiner hero title op mobile
   .hero-title {
     font-size: var(--font-size-3xl);
   }
+
+  // Stack progress items op mobile
   .progress-items {
     flex-direction: column;
     align-items: stretch;
   }
+
+  // Carousel voor features
   .features-grid {
     display: flex;
     overflow-x: auto;
